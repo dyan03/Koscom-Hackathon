@@ -35,14 +35,15 @@ return(
             login
             ?
             <div style ={{display:'flex'}}>
-                <Nav.Link href="signIn">로그인</Nav.Link>
-                <Nav.Link href="signUp">회원가입</Nav.Link>
+                <Nav.Link href="fundInfo">나의 펀드목록</Nav.Link>
             </div>
             :
+            <div style ={{display:'flex'}}>
+            <Nav.Link href="signUp">로그인</Nav.Link>
             <Nav.Link href="signUp">회원가입</Nav.Link>
-
+            </div>
             }
-        <button type="submit" style={{width:100, height:30}} onClick={handleSubmit}>check</button>
+        <button type="submit" style={{width:100, height:30}} onClick={handleSubmit}>로그인뷰</button>
         </Nav>
     </Navbar.Collapse>
     </Navbar>
