@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Popup from './popup'
 
 function FundInfo() {
   const [name, setName] = useState('아무개');
@@ -11,6 +12,14 @@ function FundInfo() {
   const fundIng = {}
   const fundEnd = {}
   const fundCanceled = {}
+
+  const clickhandler=()=>{
+    {console.log('popup!!!')}
+
+    return(
+      <Popup/>
+    )
+  }
 
   return (
 
@@ -27,7 +36,7 @@ function FundInfo() {
             대기중인 펀드<span class="badge badge-primary badge-pill" style={{ textAlign: 'right', backgroundColor:'white', color: 'black' }}>6</span>
           </button>
           <div style={{ overflowY: 'scroll', height: 200 }}>
-            <button type="button" class="list-group-item list-group-item-action">펀드 1호 </button>
+            <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target='#Popup'>펀드 1호 </button>
             <button type="button" class="list-group-item list-group-item-action">펀드 2호</button>
             <button type="button" class="list-group-item list-group-item-action">펀드 3호</button>
             <button type="button" class="list-group-item list-group-item-action">펀드 4호</button>
