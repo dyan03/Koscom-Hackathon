@@ -58,8 +58,10 @@ function Main(props){
     return(
 
         <div>
-        <div style={{margin: '10px',}}>
+        <div style={{margin: '0px',}}>
         <Banner/>
+        <div style={{marginLeft: 250,overflowY: 'scroll', height: 200}}>
+
         {Item.map(I => {
           return (
               <div style={{margin: '20px'}}>
@@ -67,7 +69,7 @@ function Main(props){
               </div>
           )
           })}
-          
+          </div>
           </div>
         
       </div>
