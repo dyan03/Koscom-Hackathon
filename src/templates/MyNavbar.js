@@ -39,7 +39,7 @@ return(
             </div>
             :
             <div style ={{display:'flex'}}>
-            <Nav.Link href="signUp">로그인</Nav.Link>
+            <Nav.Link href="signin">로그인</Nav.Link>
             <Nav.Link href="signUp">회원가입</Nav.Link>
             </div>
             }
