@@ -133,14 +133,6 @@ app.post('/userInsert', function(req, res){
 });
 
 /*
-    my fund list
-*/
-app.post('/myFund', isAuthenticated, function(req, res){
-    var userEmail = req.body.userEmail;
-    const fundsSql = "select pwd from user where email = (?)";
-})
-
-/*
     회원가입시 email 중복 확인
 */
 
@@ -163,5 +155,29 @@ app.post('/userCheck', function(req, res){
         }
     })
 });
+
+/*
+    내 펀드 리스트 가져오기
+*/
+app.post('/myFund', function(req, res){
+    var userEmail = req.body.userEmail;
+    console.log('userEmail : ', userEmail);
+    
+    var sql = "SELECT * FROM funds_ongoing WHERE invest_email = (?)";
+    connection.query(sql, [userEmail],
+        function(err, result){
+        if(err){
+            console.error(err);
+            throw err;
+        }
+        else {
+            console.log(result);
+            res.json({
+                fundList : result
+            });
+        }
+    })
+})
+
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
