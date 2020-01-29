@@ -64,20 +64,20 @@ function SignUp(props) {
 
 
         const body_ = {
-            userEmail: email,
-            userName: name,
-            userbalance: 0,
-            userType: 0,
-            userPassword: password,
-            userAccount: '01020',
-            userCi: 30012,
-            userBank: bank,
+            'userEmail': email,
+            'userName': name,
+            'userbalance': 0,
+            'userType': 0,
+            'userPassword': password,
+            'userAccount': '01020',
+            'userCi': 30012,
         }
 
-        const obj = {
+        const obj = JSON.stringify({
             method: 'POST',
             body: body_,
-        }
+            headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
+        })
 
         const URL = 'http://localhost:8551/userInsert';
 
@@ -113,24 +113,6 @@ function SignUp(props) {
                     </select>
                 </div>
 
-<<<<<<< HEAD
-        <div className="form-group">
-            <label>Confirm password</label>
-            <input type="password" className="form-control" placeholder="Enter password" required/>
-        </div>
-        <p className="forgot-password text-right">
-            <a href="#"> 약관 확인</a>
-        </p>
-        <p className="forgot-password text-right">
-            <input type="checkbox" className="custom-control-input" id="customCheck1" checked={agree} onChange={handleCheckBox}/>
-            <label className="custom-control-label" htmlFor="customCheck1">약관 동의</label>
-        </p>                
-        <button type="submit" className="btn btn-primary btn-block" style={{backgroundColor: 'skyblue', borderColor: 'white'}}>계좌등록</button>
-        <button type="submit" className="btn btn-primary btn-block" onClick={handleSubmitForm}>Submit</button>
-
-        </form>
-    </div>
-=======
                 <div className="form-group">
                     <label>Email address</label>
                     <input type="email" className="form-control" placeholder="Enter email" onChange={handleSubmitEmail} />             
@@ -160,7 +142,7 @@ function SignUp(props) {
                     <a href="#"> 약관 확인</a>
                 </p>
                 <p className="forgot-password text-right">
-                    <input type="checkbox" className="custom-control-input" id="customCheck1" checked={agree} onChange={handleCheckBox} />
+                    <input type="checkbox" className="custom-control-input" id="customCheck1" checked={agree}/>
                     <label className="custom-control-label" htmlFor="customCheck1">약관 동의</label>
                 </p>
 
@@ -169,7 +151,6 @@ function SignUp(props) {
 
             </form>
         </div>
->>>>>>> b1dc2b43f1545074c965c397436cc60e24c5c81d
     );
 }
 

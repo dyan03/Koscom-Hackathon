@@ -27,7 +27,6 @@ app.use(session({
   store : new FileStore()
 }));
 
-<<<<<<< HEAD
 /*
     DB Connection 처리
 */
@@ -38,15 +37,6 @@ var connection = mysql.createConnection({
     password: '8551',
     database: 'db'
 });
-=======
-// var con = mysql.createConnection({
-//     host: 'localhost',
-//     port: 3306,
-//     user: 'root',
-//     password: '8551',
-//     database: 'new_schema'
-// })
->>>>>>> b1dc2b43f1545074c965c397436cc60e24c5c81d
 
 connection.connect(function (error) {
     if(error){
@@ -108,6 +98,7 @@ app.post("/login", async function(req,res,next){
     회원가입
 */
 app.post('/userInsert', function(req, res){
+    console.log("server post user insert");
     var userEmail = req.body.userEmail;
     var userPassword = req.body.userPassword;
     var userName = req.body.userName;
@@ -139,15 +130,6 @@ app.post('/userInsert', function(req, res){
     })
 });
 
-<<<<<<< HEAD
-/*
-    my fund list
-*/
-app.post('/myFund', isAuthenticated, function(req, res){
-    var userEmail = req.body.userEmail;
-    const fundsSql = "select pwd from user where email = (?)";
-})
-=======
 app.post('/userCheck', function(req, res){
     var userEmail = req.body.userEmail;
     var sql = "SELECT * FROM USER WHERE email = (?)";
@@ -167,6 +149,19 @@ app.post('/userCheck', function(req, res){
         }
     })
 });
->>>>>>> b1dc2b43f1545074c965c397436cc60e24c5c81d
+
+/*
+    my fund list
+*/
+app.post('/myAdminFund', isAuthenticated, function(req, res){
+    var registerEmail = req.body.userEmail;
+    const fundsSql = "select * from funds where register_email = (?)";
+
+    connection.query(fundsSql, [registerEmail], function(err, results, field){
+    }
+);
+
+
+})
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
