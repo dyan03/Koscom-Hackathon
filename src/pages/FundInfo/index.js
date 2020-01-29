@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Popup from './popup'
 
 function FundInfo() {
@@ -12,6 +12,25 @@ function FundInfo() {
   const fundIng = {}
   const fundEnd = {}
   const fundCanceled = {}
+
+const email="th@gmail.com";
+
+useEffect(()=>{
+  fetch("http://localhost:8551/myFund", {
+    method: 'POST',
+    body: JSON.stringify({
+        'userEmail': email,
+    }),
+    headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},         
+})
+.then((res)=>(console.dir(res.json().then(data=>{
+  console.dir(data.fundList);
+}
+))))
+// .then(resJson => console.log(resJson.status));
+})
+
+
 
   const clickhandler = () => {
     { console.log('popup!!!') }
