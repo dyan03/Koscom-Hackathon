@@ -119,22 +119,24 @@ app.post('/userInsert', function(req, res){
     var userPassword = req.body.userPassword;
     var userName = req.body.userName;
     var userAccount = req.body.userAccount;
-    var userType = '0';
-    var userbalance = '0';
-    var userCi = '';
+    var userType = req.body.userType;
+    var userBalance = req.body.userBalance;
+    var userCi = req.body.userCi;
+    var userBank = req.body.userbank;
 
-    console.log(userEmail, userPassword, userName, userAccount, userType);
+    //console.log(userEmail, userPassword, userName, userAccount, userType, userBalance, userCi, userbank);
 
-    var sql = "INSERT INTO USER VALUES (?,?,?,?,?,?,?)";
+    var sql = "INSERT INTO USER VALUES (?,?,?,?,?,?,?,?)";
 
     connection.query(sql,[
         userEmail,
         userName,
-        userbalance,
+        userBalance,
         userType,
         userPassword,
         userAccount,
         userCi,
+        userBank
         ], function(err, result){
         if(err){
             console.dir(result)
