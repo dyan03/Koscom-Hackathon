@@ -31,7 +31,6 @@ function FundInfo() {
         })
         .then((res) => (console.dir(res.json().then(data => {
           fundListResult.push(data.fundList)            
-          // console.dir(data.fundList[0]);
         }))))
 
     })
