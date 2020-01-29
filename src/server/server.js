@@ -127,7 +127,7 @@ app.post('/userInsert', function(req, res){
 
     var sql = "INSERT INTO USER VALUES (?,?,?,?,?,?,?)";
 
-    connection.query(sql,[userEmail,
+    connection.query(sql,[
         userEmail,
         userName,
         userbalance,
