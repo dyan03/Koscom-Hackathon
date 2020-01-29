@@ -97,11 +97,6 @@ function SignUp(props) {
             }).then(res => res.json())
           .then(resJson => console.log(resJson.status));
 
-            // .then(res => res.json())
-            // .then(json => console.log("result is ", json))
-            // .catch(err => console.log(err));
-
-
     }
 
 
@@ -113,19 +108,7 @@ function SignUp(props) {
                     <div className="form-group">
                         <label>Your name</label>
                         <input type="name" className="form-control" placeholder="Enter name" onChange={handleSubmitName} />
-
                     </div>
- 
-                </div>
-
-                <div style={{marginBottom: 15}} >
-                    <label>Bank</label>
-                    <select class="form-control" onChange={handleSelectBank} >
-                        <option>신한은행</option>
-                        <option>국민은행</option>
-                        <option>하나은행</option>
-                        <option>우리은행</option>
-                    </select>
                 </div>
 
                 <div className="form-group">
@@ -141,6 +124,15 @@ function SignUp(props) {
                 <div className="form-group">
                     <label>Confirm password</label>
                     <input type="password" className="form-control" placeholder="Enter password" onChange={handleSubmitPwd_} />
+                </div>
+
+                <div style={{marginBottom: 15}} >
+                    <label>증권사</label>
+                    <select class="form-control" onChange={handleSelectBank} >
+                        <option>다이아몬드 증권</option>
+                        <option>사이버 증권</option>
+                        <option>스타 증권</option>
+                    </select>
                 </div>
 
                 <div className="form-group">
