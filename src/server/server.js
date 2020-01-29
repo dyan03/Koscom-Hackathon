@@ -162,8 +162,8 @@ app.post('/userCheck', function(req, res){
 app.post('/myFund', function(req, res){
     var userEmail = req.body.userEmail;
     console.log('userEmail : ', userEmail);
-    
-    var sql = "SELECT * FROM funds_ongoing WHERE invest_email = (?)";
+
+    var sql = "SELECT * FROM funds WHERE fund_id in (SELECT fund_id FROM funds_ongoing WHERE invest_email = (?))";
     connection.query(sql, [userEmail],
         function(err, result){
         if(err){
