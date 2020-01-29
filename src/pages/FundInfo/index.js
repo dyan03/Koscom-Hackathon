@@ -73,9 +73,13 @@ function FundInfo() {
             {fund.fund_id}
             {fund.map(obj=>{
               return (
-                <div>
-                  {obj.fund_id} {obj.register_email} {obj.stage} {obj.total_amount} {obj.current_amount}
+                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">{obj.fund_id} </h5>
+                  <small class="text-muted">3 days ago</small>
                 </div>
+                <p class="mb-1">{obj.register_email} {obj.stage} {obj.total_amount} {obj.current_amount}</p>
+              </a>
                 )
             })}
             </div>
