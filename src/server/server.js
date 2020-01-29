@@ -114,7 +114,7 @@ connection.connect(function (error) {
 /*
     회원가입
 */
-app.post('/signUp', function(req, res){
+app.post('/UserInsert', function(req, res){
     var userEmail = req.body.userEmail;
     var userPassword = req.body.userPassword;
     var userName = req.body.userName;
