@@ -95,7 +95,7 @@ app.post("/login", async function(req,res,next){
 });
 
 /*
-    회원가입
+    회원가입시 사용자 정보 등록
 */
 app.post('/userInsert', function(req, res){
     var userEmail = req.body.userEmail;
@@ -139,6 +139,11 @@ app.post('/myFund', isAuthenticated, function(req, res){
     var userEmail = req.body.userEmail;
     const fundsSql = "select pwd from user where email = (?)";
 })
+
+/*
+    회원가입시 email 중복 확인
+*/
+
 app.post('/userCheck', function(req, res){
     var userEmail = req.body.userEmail;
     var sql = "SELECT * FROM USER WHERE email = (?)";
