@@ -4,18 +4,21 @@ import './style.css'
 // import 'bootstrap/dist/js/bootstrap.min.css'
 
 function SignUp(props) {
+    const [name, setName] = useState();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
+    const [password_, setPassword_] = useState();
     const [agree, setAgree]=useState(false);
 
 
     function validateForm() {
     //   return email.length > 0 && password.length > 0;
     }
-    function handleSubmitPwd(e){
-        setPassword(e.target.value)
-        console.log(password)
+    function handleSubmitName(e){
+        setName(e.target.value)
+        console.log(name)
     }
+
     function handleSubmitEmail(e) {
         setEmail(e.target.value);
         console.log(email)
@@ -26,6 +29,12 @@ function SignUp(props) {
         console.log(password)
     }
 
+    function handleSubmitPwd_(e){
+        setPassword_(e.target.value)
+        console.log(password_)
+    }
+
+
     function handleSubmitForm(event) {
         console.log("제출결과")
         console.log(email)
@@ -34,6 +43,11 @@ function SignUp(props) {
 
     function handleCheckBox(e){
         setAgree(!agree)
+
+        if(password!=password_){
+            alert('패스워드를 확인하세요')
+        }
+
         console.dir(agree)
     }
 
@@ -44,8 +58,8 @@ function SignUp(props) {
         <h3>Sign Up</h3>
         <div style={{display: 'flex'}}>
         <div className="form-group">
-            <label>First name</label>
-            <input type="name" className="form-control" placeholder="Enter name" onChange={handleCheckBox}/>
+            <label>Your name</label>
+            <input type="name" className="form-control" placeholder="Enter name" onChange={handleSubmitName}/>
         </div>
         </div>
 
@@ -56,12 +70,12 @@ function SignUp(props) {
 
         <div className="form-group">
             <label>Password</label>
-            <input type="password" className="form-control" placeholder="Enter password"onChange={handleSubmitPwd} />
+            <input type="password" className="form-control" placeholder="Enter password" onChange={handleSubmitPwd} />
         </div>
 
         <div className="form-group">
             <label>Confirm password</label>
-            <input type="password" className="form-control" placeholder="Enter password" required/>
+            <input type="password" className="form-control" placeholder="Enter password" />
         </div>
         <p className="forgot-password text-right">
             <a href="#"> 약관 확인</a>
