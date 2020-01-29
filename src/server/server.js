@@ -135,7 +135,6 @@ app.post('/userInsert', function(req, res){
 /*
     회원가입시 email 중복 확인
 */
-
 app.post('/userCheck', function(req, res){
     var userEmail = req.body.userEmail;
     var sql = "SELECT * FROM USER WHERE email = (?)";
