@@ -13,22 +13,35 @@ function FundInfo() {
   const fundEnd = {}
   const fundCanceled = {}
 
-const email="th@gmail.com";
+  const email = "123@123";
+  const fundStage = [0, 1, 2, 3];
+  var fundList = [];
+  var stage=1;
 
-useEffect(()=>{
-  fetch("http://localhost:8551/myFund", {
-    method: 'POST',
-    body: JSON.stringify({
-        'userEmail': email,
-    }),
-    headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},         
-})
-.then((res)=>(console.dir(res.json().then(data=>{
-  console.dir(data.fundList);
-}
-))))
-// .then(resJson => console.log(resJson.status));
-})
+  useEffect(() => {
+
+    fundStage.map(stage => {
+
+      fetch("http://localhost:8551/myFund", {
+        method: 'POST',
+        body: JSON.stringify({
+          'userEmail': email,
+          'fundStage': stage,
+        }),
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        })
+        .then((res) => (console.dir(res.json().then(data => {
+          console.dir(data.fundList);
+
+        }))))
+
+    })
+
+
+
+
+    // .then(resJson => console.log(resJson.status));
+  })
 
 
 
@@ -55,7 +68,7 @@ useEffect(()=>{
             대기중인 펀드<span class="badge badge-primary badge-pill" style={{ textAlign: 'right', backgroundColor: 'white', color: 'black' }}>6</span>
           </button>
           <div style={{ overflowY: 'scroll', height: 200 }}>
-            <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target='#Popup'>펀드 1호 </button>
+            <button type="button" class="list-group-item list-group-item-action">펀드 1호 </button>
             <button type="button" class="list-group-item list-group-item-action">펀드 2호</button>
             <button type="button" class="list-group-item list-group-item-action">펀드 3호</button>
             <button type="button" class="list-group-item list-group-item-action">펀드 4호</button>
