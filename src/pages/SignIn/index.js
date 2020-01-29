@@ -10,10 +10,16 @@ function SignIn(props) {
       return email.length > 0 && password.length > 0;
     }
   
-    function handleSubmit(event) {
-      event.preventDefault();
+    function handleSubmitPwd(e) {
+      setPassword(e.target.value);
+      console.log(password)
     }
   
+    function handleSubmitEmail(e) {
+        setEmail(e.target.value);
+        console.log(email)
+    }    
+
     return (
         <div className="layout">
         <form>
@@ -21,12 +27,12 @@ function SignIn(props) {
 
         <div className="form-group">
             <label>Email address</label>
-            <input type="email" className="form-control" placeholder="Enter email" />
+            <input type="email" className="form-control" placeholder="Enter email" onChange={handleSubmitEmail}/>
         </div>
 
         <div className="form-group">
             <label>Password</label>
-            <input type="password" className="form-control" placeholder="Enter password" />
+            <input type="password" className="form-control" placeholder="Enter password" onChange={handleSubmitPwd}/>
         </div>
 
         <div className="form-group">

@@ -27,13 +27,13 @@ app.use(session({
   store : new FileStore()
 }));
 
-var con = mysql.createConnection({
-    host: 'localhost',
-    port: 3306,
-    user: 'root',
-    password: '8551',
-    database: 'new_schema'
-})
+// var con = mysql.createConnection({
+//     host: 'localhost',
+//     port: 3306,
+//     user: 'root',
+//     password: '8551',
+//     database: 'new_schema'
+// })
 
 // con.connect(function(err){
 //     if(err){
@@ -137,6 +137,7 @@ app.post('/userInsert', function(req, res){
         userCi,
         ], function(err, result){
         if(err){
+            console.dir(result)
             console.error(err);
             throw err;
         }
