@@ -10,9 +10,36 @@ function SignIn(props) {
       return email.length > 0 && password.length > 0;
     }
   
+<<<<<<< HEAD
+    function handleSubmit(event) {
+        console.log("submit email", email);
+        fetch("http://localhost:8551/login", {
+            method: 'POST',
+            body: JSON.stringify({
+                'userEmail':email,
+                'userPassword':password
+            }),
+            headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},         
+        })
+        .then(res => res.json())
+        .then(resJson => console.log(resJson.status));
+       
+      event.preventDefault();
+=======
     function handleSubmitPwd(e) {
       setPassword(e.target.value);
       console.log(password)
+>>>>>>> b1dc2b43f1545074c965c397436cc60e24c5c81d
+    }
+
+    function handleEmailEdit(e) {
+        setEmail(e.target.value);
+        console.log(email)
+    }
+
+    function handlePasswdEdit(e) {
+        setPassword(e.target.value);
+        console.log(password)
     }
   
     function handleSubmitEmail(e) {
@@ -24,15 +51,23 @@ function SignIn(props) {
         <div className="layout">
         <form>
         <h3>Sign In</h3>
-
+        
         <div className="form-group">
             <label>Email address</label>
+<<<<<<< HEAD
+            <input type="email" className="form-control" placeholder="Enter email" onChange={handleEmailEdit} />
+=======
             <input type="email" className="form-control" placeholder="Enter email" onChange={handleSubmitEmail}/>
+>>>>>>> b1dc2b43f1545074c965c397436cc60e24c5c81d
         </div>
 
         <div className="form-group">
             <label>Password</label>
+<<<<<<< HEAD
+            <input type="password" className="form-control" placeholder="Enter password" onChange={handlePasswdEdit} />
+=======
             <input type="password" className="form-control" placeholder="Enter password" onChange={handleSubmitPwd}/>
+>>>>>>> b1dc2b43f1545074c965c397436cc60e24c5c81d
         </div>
 
         <div className="form-group">
@@ -42,7 +77,7 @@ function SignIn(props) {
             </div>
         </div>
 
-        <button type="submit" className="btn btn-primary btn-block">Submit</button>
+        <button type="submit" className="btn btn-primary btn-block" onClick={handleSubmit}>Submit</button>
         <p className="forgot-password text-right">
             Forgot <a href="#">password?</a>
         </p>
