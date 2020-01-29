@@ -32,18 +32,10 @@ function FundInfo() {
         })
         .then((res) => (console.dir(res.json().then(data => {
           console.dir(data.fundList);
-
         }))))
 
     })
-
-
-
-
-    // .then(resJson => console.log(resJson.status));
   })
-
-
 
   const clickhandler = () => {
     { console.log('popup!!!') }
@@ -61,7 +53,6 @@ function FundInfo() {
           {userType} {name}님의 펀드 목록입니다.
             </h4>
       </div>
-
       <div style={{ margin: 'auto', marginTop: 30, width: 700 }}>
         <div class="list-group" >
           <button type="button" class="list-group-item list-group-item-action active">
