@@ -11,7 +11,29 @@ function SignIn(props) {
     }
   
     function handleSubmit(event) {
+        console.log("submit email", email);
+        fetch("http://localhost:8551/login", {
+            method: 'POST',
+            body: JSON.stringify({
+                'userEmail':email,
+                'userPassword':password
+            }),
+            headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},         
+        })
+        .then(res => res.json())
+        .then(resJson => console.log(resJson.status));
+       
       event.preventDefault();
+    }
+
+    function handleEmailEdit(e) {
+        setEmail(e.target.value);
+        console.log(email)
+    }
+
+    function handlePasswdEdit(e) {
+        setPassword(e.target.value);
+        console.log(password)
     }
   
     return (
@@ -21,12 +43,12 @@ function SignIn(props) {
 
         <div className="form-group">
             <label>Email address</label>
-            <input type="email" className="form-control" placeholder="Enter email" />
+            <input type="email" className="form-control" placeholder="Enter email" onChange={handleEmailEdit} />
         </div>
 
         <div className="form-group">
             <label>Password</label>
-            <input type="password" className="form-control" placeholder="Enter password" />
+            <input type="password" className="form-control" placeholder="Enter password" onChange={handlePasswdEdit} />
         </div>
 
         <div className="form-group">
@@ -36,7 +58,7 @@ function SignIn(props) {
             </div>
         </div>
 
-        <button type="submit" className="btn btn-primary btn-block">Submit</button>
+        <button type="submit" className="btn btn-primary btn-block" onClick={handleSubmit}>Submit</button>
         <p className="forgot-password text-right">
             Forgot <a href="#">password?</a>
         </p>

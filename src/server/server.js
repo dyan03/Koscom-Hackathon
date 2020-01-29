@@ -5,6 +5,7 @@ const port = 8551
 var router = express.Router();
 var bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const mysql = require('mysql');
 
 const session = require('express-session');
 const FileStore = require('session-file-store')(session)
@@ -21,67 +22,10 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   cookie: {
-    maxAge: 240 * 60 * 60 // 쿠키 유효기간 24/100 시간
+    maxAge: 1 * 60 * 1000// 쿠키 유효기간 min
   },
   store : new FileStore()
 }));
-
-// var con = mysql.createConnection({
-//     host: 'localhost',
-//     port: 3306,
-//     user: 'root',
-//     password: '8551',
-//     database: 'new_schema'
-// })
-// con.connect(function(err){
-//     if(err){
-//         console.error('error db connection', err.stack);
-//         return;
-//     }
-//     console.log('[DB Connection success] connected as id', con.threadId);
-// })
-
-app.get('/', (req, res) => {
-    console.log('get/')
-})
-
-app.get('/pages/myFundList/selectfund', (req, res)=>{
-    var sql = 'SELECT * FROM funds'; //펀드리스트
-    con.query(sql, function(err, results, field){
-        console.log('path : /pages...', results)
-        res.json(results)
-    });
-})
-
-app.post("/login", async function(req,res,next){
-    let body = req.body;
-    console.log(body);
-    if(!body) return;
-
-    let dbPassword = "1234";
-    let inputPassword = body.passwd;
-
-    if(req.session.islogin===true){
-        console.log("session alive");
-        res.send("done");
-        return;
-    }
-    else{
-        if(dbPassword === inputPassword){
-        console.log("비밀번호 일치");
-        // 세션 설정
-        req.session.email = body.email;
-        console.log(body.email);
-        req.session.islogin = true;
-        
-        res.send("you're logged In");
-        }
-        else{
-        console.log("비밀번호 불일치");
-        res.send("you're logged Out")
-        }
-    }
-});
 
 /*
     DB Connection 처리
@@ -90,7 +34,7 @@ var connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: 'root',
+    password: '8551',
     database: 'db'
 });
 
@@ -104,6 +48,52 @@ connection.connect(function (error) {
     console.log('[DB Connection Success] connected as id ' +   connection.threadId);
 });
 
+function isAuthenticated(req, res, next) {
+    // do any checks you want to in here
+  
+    // CHECK THE USER STORED IN SESSION FOR A CUSTOM VARIABLE
+    // you can do this however you want with whatever variables you set up
+    if (req.user.islogin)
+        return next();
+  
+    // IF A USER ISN'T LOGGED IN, THEN REDIRECT THEM SOMEWHERE
+    res.json({status:"session_out"});
+}
+
+/*
+    로그인 처리
+*/
+app.post("/login", async function(req,res,next){
+    let body = req.body;
+    console.log('body', body);
+    if(!body) return;
+
+    if(req.session.islogin===true){
+        console.log("session alive");
+        res.send("done");
+        return;
+    }
+    else{
+        const userEmail = body.userEmail;
+        const inputPassword = body.userPassword;
+        const passwdSql = "select pwd from user where email = (?)";
+        
+        connection.query(passwdSql, [userEmail], function(err, results, field){
+            if(results[0].pwd === inputPassword){
+                console.log("비밀번호 일치");
+                // 세션 설정
+                req.session.userEmail = body.userEmail;
+                req.session.islogin = true;
+                res.json({status:'success'});
+            }
+            else{
+                console.log("비밀번호 불일치");
+                res.json({status:'fail'});
+            }
+        });        
+    }
+});
+
 /*
     회원가입
 */
@@ -115,7 +105,6 @@ app.post('/UserInsert', function(req, res){
     var userType = '0';
     var userbalance = '0';
     var userCi = '';
-
     console.log(userEmail, userPassword, userName, userAccount, userType);
 
     var sql = "INSERT INTO USER VALUES (?,?,?,?,?,?,?)";
@@ -138,5 +127,13 @@ app.post('/UserInsert', function(req, res){
         }
     })
 });
+
+/*
+    my fund list
+*/
+app.post('/myFund', isAuthenticated, function(req, res){
+    var userEmail = req.body.userEmail;
+    const fundsSql = "select pwd from user where email = (?)";
+})
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

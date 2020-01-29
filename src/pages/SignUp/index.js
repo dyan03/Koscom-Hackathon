@@ -71,9 +71,7 @@ function SignUp(props) {
             <label className="custom-control-label" htmlFor="customCheck1">약관 동의</label>
         </p>                
         <button type="submit" className="btn btn-primary btn-block" style={{backgroundColor: 'skyblue', borderColor: 'white'}}>계좌등록</button>
-
         <button type="submit" className="btn btn-primary btn-block" onClick={handleSubmitForm}>Submit</button>
-
 
         </form>
     </div>
