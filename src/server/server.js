@@ -127,7 +127,7 @@ app.post('/UserInsert', function(req, res){
 
     var sql = "INSERT INTO USER VALUES (?,?,?,?,?,?,?)";
 
-    connection.query(sql,[userEmail,
+    connection.query(sql,[
         userEmail,
         userName,
         userbalance,
@@ -137,6 +137,7 @@ app.post('/UserInsert', function(req, res){
         userCi,
         ], function(err, result){
         if(err){
+            console.dir(result)
             console.error(err);
             throw err;
         }

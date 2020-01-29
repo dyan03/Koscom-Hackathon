@@ -1,4 +1,4 @@
-import React, {useState}from 'react'
+import React, {useState, useEffect}from 'react'
 // import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import './style.css'
 // import 'bootstrap/dist/js/bootstrap.min.css'
@@ -34,13 +34,6 @@ function SignUp(props) {
         console.log(password_)
     }
 
-
-    function handleSubmitForm(event) {
-        console.log("제출결과")
-        console.log(email)
-        console.log(password)
-    }
-
     function handleCheckBox(e){
         setAgree(!agree)
 
@@ -52,20 +45,20 @@ function SignUp(props) {
         const body_={
             userEmail: email,
             userName: name,
-            userPassword: password,
             userbalance: 0,
             userType: 0,
+            userPassword: password,
             userAccount: '01020',
             userCi: 30012,
         }
 
         const obj = {
-            body: body_,
             headers: {},
+            body: body_,
             method: 'POST'
           }
 
-          const URL='localhost:8551/UserInsert'
+          const URL='http://localhost:8551/UserInsert';
           
           fetch(URL, obj)
           .then(res => res => res.json())
@@ -82,7 +75,14 @@ function SignUp(props) {
         //   });
         console.dir(obj.body)
 
-    }
+    }  
+
+    useEffect(()=>{
+        console.log(email)
+        console.log(name)
+        console.log(password)
+        console.log(password_)
+    })
 
 
     return (
@@ -108,7 +108,7 @@ function SignUp(props) {
 
         <div className="form-group">
             <label>Confirm password</label>
-            <input type="password" className="form-control" placeholder="Enter password" />
+            <input type="password" className="form-control" placeholder="Enter password" onChange={handleSubmitPwd_}/>
         </div>
         <p className="forgot-password text-right">
             <a href="#"> 약관 확인</a>
@@ -117,9 +117,9 @@ function SignUp(props) {
             <input type="checkbox" className="custom-control-input" id="customCheck1" checked={agree} onChange={handleCheckBox}/>
             <label className="custom-control-label" htmlFor="customCheck1">약관 동의</label>
         </p>                
-        <button type="submit" className="btn btn-primary btn-block" style={{backgroundColor: 'skyblue', borderColor: 'white'}}>계좌등록</button>
+        <button type="submit" className="btn btn-primary btn-block" onClick={useEffect} style={{backgroundColor: 'skyblue', borderColor: 'white'}}>계좌등록</button>
 
-        <button type="submit" className="btn btn-primary btn-block" onClick={handleSubmitForm}>Submit</button>
+        <button type="submit" className="btn btn-primary btn-block" onClick={handleCheckBox}>Submit</button>
 
 
         </form>
