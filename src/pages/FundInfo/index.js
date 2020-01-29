@@ -13,8 +13,7 @@ function FundInfo() {
 
   const email = "123@123";
   const fundStage = [0, 1, 2, 3];
-  var fundList = [];
-  var stage=1;
+  var fundListResult = [];
 
   useEffect(() => {
 
@@ -29,10 +28,12 @@ function FundInfo() {
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         })
         .then((res) => (console.dir(res.json().then(data => {
-          console.dir(data.fundList);
+          fundListResult.push(data.fundList)            
         }))))
     })
   })
+
+  console.log("결과!!!!!!!!!!!!!!!!", fundListResult)
 
   const clickhandler = () => {
     { console.log('popup!!!') }
@@ -55,12 +56,14 @@ function FundInfo() {
             대기중인 펀드<span class="badge badge-primary badge-pill" style={{ textAlign: 'right', backgroundColor: 'white', color: 'black' }}>6</span>
           </button>
           <div style={{ overflowY: 'scroll', height: 200 }}>
-            <button type="button" class="list-group-item list-group-item-action">펀드 1호 </button>
-            <button type="button" class="list-group-item list-group-item-action">펀드 2호</button>
-            <button type="button" class="list-group-item list-group-item-action">펀드 3호</button>
-            <button type="button" class="list-group-item list-group-item-action">펀드 4호</button>
-            <button type="button" class="list-group-item list-group-item-action">펀드 5호</button>
-            <button type="button" class="list-group-item list-group-item-action">펀드 6호</button>
+
+            {/* {fundListResult[0].map(idx=>{
+              return(
+                <div></div>
+
+              )
+            })
+            } */}
             <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
               <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">List group item heading</h5>
