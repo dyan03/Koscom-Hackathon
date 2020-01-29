@@ -60,7 +60,7 @@ function Main(props){
         <div>
         <div style={{margin: '0px',}}>
         <Banner/>
-        <div style={{marginLeft: 250,overflowY: 'scroll', height: 800}}>
+        <div style={{marginLeft: 200, overflowY: 'scroll', height: 800}}>
 
         {Item.map(I => {
           return (

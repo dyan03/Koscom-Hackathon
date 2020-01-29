@@ -12,7 +12,10 @@ function SignUp(props) {
     function validateForm() {
     //   return email.length > 0 && password.length > 0;
     }
-  
+    function handleSubmitPwd(e){
+        setPassword(e.target.value)
+        console.log(password)
+    }
     function handleSubmitEmail(e) {
         setEmail(e.target.value);
         console.log(email)
@@ -42,12 +45,7 @@ function SignUp(props) {
         <div style={{display: 'flex'}}>
         <div className="form-group">
             <label>First name</label>
-            <input type="name" className="form-control" placeholder="Enter name" />
-        </div>
-
-        <div className="form-group">
-            <label>Last name</label>
-            <input type="name" className="form-control" placeholder="Enter name" />
+            <input type="name" className="form-control" placeholder="Enter name" onChange={handleCheckBox}/>
         </div>
         </div>
 
