@@ -1,5 +1,4 @@
 const express = require('express')
-const mysql = require('mysql')
 const path = require('path')
 const app = express()
 const port = 8551
@@ -10,9 +9,9 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session)
 
-app.use(express.static(path.join(__dirname, '../build')))
+app.use(express.static(path.join(__dirname, '../../build')))
 app.get('/*', function(req, res) {
-    res.sendFile(path.join(__dirname, '../build', 'index.html'));
+    res.sendFile(path.join(__dirname, '../../build', 'index.html'));
 })
 
 app.use(cookieParser());
@@ -27,14 +26,13 @@ app.use(session({
   store : new FileStore()
 }));
 
-var con = mysql.createConnection({
-    host: 'localhost',
-    port: 3306,
-    user: 'root',
-    password: '8551',
-    database: 'new_schema'
-})
-
+// var con = mysql.createConnection({
+//     host: 'localhost',
+//     port: 3306,
+//     user: 'root',
+//     password: '8551',
+//     database: 'new_schema'
+// })
 // con.connect(function(err){
 //     if(err){
 //         console.error('error db connection', err.stack);
@@ -45,11 +43,6 @@ var con = mysql.createConnection({
 
 app.get('/', (req, res) => {
     console.log('get/')
-    // var sql = 'SELECT * FROM funds'; //펀드리스트
-    // con.query(sql, function(err, results, field){
-    //     console.log('path : /')
-    //     res.json(results)
-    // });
 })
 
 app.get('/pages/myFundList/selectfund', (req, res)=>{
