@@ -162,9 +162,9 @@ app.post('/myFund', function(req, res){
     var userEmail = req.body.userEmail;
     var fundStage = req.body.fundStage;
     console.log('userEmail : ', userEmail);
-    console.log('userEmail : ', userEmail);
+    console.log('fundStage : ', fundStage);
 
-    var sql = "SELECT * FROM funds WHERE fund_id in (SELECT fund_id FROM funds_ongoing WHERE invest_email = (?)) and stage = (?)";
+    var sql = "SELECT * FROM funds WHERE fund_id in (SELECT fund_id FROM matched_funds WHERE invest_email = (?)) and stage = (?)";
     connection.query(sql, [userEmail, fundStage],
         function(err, result){
         if(err){
