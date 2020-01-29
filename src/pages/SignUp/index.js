@@ -113,24 +113,6 @@ function SignUp(props) {
                     </select>
                 </div>
 
-<<<<<<< HEAD
-        <div className="form-group">
-            <label>Confirm password</label>
-            <input type="password" className="form-control" placeholder="Enter password" required/>
-        </div>
-        <p className="forgot-password text-right">
-            <a href="#"> 약관 확인</a>
-        </p>
-        <p className="forgot-password text-right">
-            <input type="checkbox" className="custom-control-input" id="customCheck1" checked={agree} onChange={handleCheckBox}/>
-            <label className="custom-control-label" htmlFor="customCheck1">약관 동의</label>
-        </p>                
-        <button type="submit" className="btn btn-primary btn-block" style={{backgroundColor: 'skyblue', borderColor: 'white'}}>계좌등록</button>
-        <button type="submit" className="btn btn-primary btn-block" onClick={handleSubmitForm}>Submit</button>
-
-        </form>
-    </div>
-=======
                 <div className="form-group">
                     <label>Email address</label>
                     <input type="email" className="form-control" placeholder="Enter email" onChange={handleSubmitEmail} />             
@@ -169,7 +151,6 @@ function SignUp(props) {
 
             </form>
         </div>
->>>>>>> b1dc2b43f1545074c965c397436cc60e24c5c81d
     );
 }
 

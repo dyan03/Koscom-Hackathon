@@ -10,7 +10,6 @@ function SignIn(props) {
       return email.length > 0 && password.length > 0;
     }
   
-<<<<<<< HEAD
     function handleSubmit(event) {
         console.log("submit email", email);
         fetch("http://localhost:8551/login", {
@@ -25,11 +24,11 @@ function SignIn(props) {
         .then(resJson => console.log(resJson.status));
        
       event.preventDefault();
-=======
+    }
+
     function handleSubmitPwd(e) {
-      setPassword(e.target.value);
-      console.log(password)
->>>>>>> b1dc2b43f1545074c965c397436cc60e24c5c81d
+        setPassword(e.target.value);
+        console.log(password)
     }
 
     function handleEmailEdit(e) {
@@ -54,20 +53,12 @@ function SignIn(props) {
         
         <div className="form-group">
             <label>Email address</label>
-<<<<<<< HEAD
             <input type="email" className="form-control" placeholder="Enter email" onChange={handleEmailEdit} />
-=======
-            <input type="email" className="form-control" placeholder="Enter email" onChange={handleSubmitEmail}/>
->>>>>>> b1dc2b43f1545074c965c397436cc60e24c5c81d
         </div>
 
         <div className="form-group">
             <label>Password</label>
-<<<<<<< HEAD
             <input type="password" className="form-control" placeholder="Enter password" onChange={handlePasswdEdit} />
-=======
-            <input type="password" className="form-control" placeholder="Enter password" onChange={handleSubmitPwd}/>
->>>>>>> b1dc2b43f1545074c965c397436cc60e24c5c81d
         </div>
 
         <div className="form-group">
