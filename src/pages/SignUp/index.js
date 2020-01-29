@@ -56,7 +56,7 @@ function SignUp(props) {
     }
 
     function handleCheckBox(e) {
-        setAgree(!agree)
+        // setAgree(!agree)
 
         if (password != password_) {
             alert('패스워드를 확인하세요')
@@ -81,11 +81,26 @@ function SignUp(props) {
 
         const URL = 'http://localhost:8551/userInsert';
 
-        fetch("http://localhost:8551/userInsert", obj)
-            .then(res => res.json())
-            .then(json => console.log("result is ", json))
-            .catch(err => console.log(err));
-        console.dir(obj.body)
+        fetch("http://localhost:8551/userInsert",{
+            method: 'POST',
+            body: JSON.stringify({
+                'userEmail': email,
+                'userName': name,
+                'userbalance': 0,
+                'userType': 0,
+                'userPassword': password,
+                'userAccount': '01020',
+                'userCi': 30012,
+                'userBank': bank,
+            }),
+            headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},         
+            }).then(res => res.json())
+          .then(resJson => console.log(resJson.status));
+
+            // .then(res => res.json())
+            // .then(json => console.log("result is ", json))
+            // .catch(err => console.log(err));
+
 
     }
 
@@ -142,12 +157,11 @@ function SignUp(props) {
                     <a href="#"> 약관 확인</a>
                 </p>
                 <p className="forgot-password text-right">
-                    <input type="checkbox" className="custom-control-input" id="customCheck1" checked={agree} onChange={handleCheckBox} />
+                    <input type="checkbox" className="custom-control-input" id="customCheck1" checked={agree} />
                     <label className="custom-control-label" htmlFor="customCheck1">약관 동의</label>
                 </p>
 
                 <button type="submit" className="btn btn-primary btn-block" onClick={handleCheckBox}>Submit</button>
-
 
             </form>
         </div>
