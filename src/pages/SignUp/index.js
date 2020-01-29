@@ -56,7 +56,7 @@ function SignUp(props) {
     }
 
     function handleCheckBox(e) {
-        setAgree(!agree)
+        // setAgree(!agree)
 
         if (password != password_) {
             alert('패스워드를 확인하세요')
@@ -81,11 +81,21 @@ function SignUp(props) {
 
         const URL = 'http://localhost:8551/userInsert';
 
-        fetch("http://localhost:8551/userInsert", obj)
-            .then(res => res.json())
-            .then(json => console.log("result is ", json))
-            .catch(err => console.log(err));
-        console.dir(obj.body)
+        fetch("http://localhost:8551/userInsert",{
+            method: 'POST',
+            body: JSON.stringify({
+                'userEmail': email,
+                'userName': name,
+                'userbalance': 0,
+                'userType': 0,
+                'userPassword': password,
+                'userAccount': '01020',
+                'userCi': 30012,
+                'userBank': bank,
+            }),
+            headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},         
+            }).then(res => res.json())
+          .then(resJson => console.log(resJson.status));
 
     }
 
@@ -98,19 +108,7 @@ function SignUp(props) {
                     <div className="form-group">
                         <label>Your name</label>
                         <input type="name" className="form-control" placeholder="Enter name" onChange={handleSubmitName} />
-
                     </div>
- 
-                </div>
-
-                <div style={{marginBottom: 15}} >
-                    <label>Bank</label>
-                    <select class="form-control" onChange={handleSelectBank} >
-                        <option>신한은행</option>
-                        <option>국민은행</option>
-                        <option>하나은행</option>
-                        <option>우리은행</option>
-                    </select>
                 </div>
 
                 <div className="form-group">
@@ -126,6 +124,15 @@ function SignUp(props) {
                 <div className="form-group">
                     <label>Confirm password</label>
                     <input type="password" className="form-control" placeholder="Enter password" onChange={handleSubmitPwd_} />
+                </div>
+
+                <div style={{marginBottom: 15}} >
+                    <label>증권사</label>
+                    <select class="form-control" onChange={handleSelectBank} >
+                        <option>다이아몬드 증권</option>
+                        <option>사이버 증권</option>
+                        <option>스타 증권</option>
+                    </select>
                 </div>
 
                 <div className="form-group">
@@ -147,7 +154,6 @@ function SignUp(props) {
                 </p>
 
                 <button type="submit" className="btn btn-primary btn-block" onClick={handleCheckBox}>Submit</button>
-
 
             </form>
         </div>

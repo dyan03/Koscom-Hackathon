@@ -21,8 +21,13 @@
     "react-popup": "^0.10.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.0",
+<<<<<<< HEAD
     "redux": "^4.0.5",
     "session-file-store": "^1.4.0"
+=======
+    "session-file-store": "^1.4.0",
+    "redux": "^4.0.5"
+>>>>>>> c27cebb535cbbb73bfd05efc949e13b7530c6835
   },
   "scripts": {
     "start": "react-scripts start",

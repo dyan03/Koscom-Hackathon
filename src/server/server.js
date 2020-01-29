@@ -34,7 +34,7 @@ var connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: '8551',
+    password: 'root',
     database: 'db'
 });
 
@@ -95,7 +95,7 @@ app.post("/login", async function(req,res,next){
 });
 
 /*
-    회원가입
+    회원가입시 사용자 정보 등록
 */
 app.post('/userInsert', function(req, res){
     console.log("server post user insert");
@@ -103,21 +103,24 @@ app.post('/userInsert', function(req, res){
     var userPassword = req.body.userPassword;
     var userName = req.body.userName;
     var userAccount = req.body.userAccount;
-    var userType = '0';
-    var userbalance = '0';
-    var userCi = '';
-    console.log(userEmail, userPassword, userName, userAccount, userType);
+    var userType = req.body.userType;
+    var userBalance = req.body.userBalance;
+    var userCi = req.body.userCi;
+    var userBank = req.body.userbank;
 
-    var sql = "INSERT INTO USER VALUES (?,?,?,?,?,?,?)";
+    //console.log(userEmail, userPassword, userName, userAccount, userType, userBalance, userCi, userbank);
+
+    var sql = "INSERT INTO USER VALUES (?,?,?,?,?,?,?,?)";
 
     connection.query(sql,[
         userEmail,
         userName,
-        userbalance,
+        userBalance,
         userType,
         userPassword,
         userAccount,
         userCi,
+        userBank
         ], function(err, result){
         if(err){
             console.dir(result)
@@ -130,6 +133,9 @@ app.post('/userInsert', function(req, res){
     })
 });
 
+/*
+    회원가입시 email 중복 확인
+*/
 app.post('/userCheck', function(req, res){
     var userEmail = req.body.userEmail;
     var sql = "SELECT * FROM USER WHERE email = (?)";
@@ -151,17 +157,29 @@ app.post('/userCheck', function(req, res){
 });
 
 /*
-    my fund list
+    내 펀드 리스트 가져오기
 */
-app.post('/myAdminFund', isAuthenticated, function(req, res){
-    var registerEmail = req.body.userEmail;
-    const fundsSql = "select * from funds where register_email = (?)";
+app.post('/myFund', function(req, res){
+    var userEmail = req.body.userEmail;
+    var fundStage = req.body.fundStage;
+    console.log('userEmail : ', userEmail);
+    console.log('fundStage : ', fundStage);
 
-    connection.query(fundsSql, [registerEmail], function(err, results, field){
-    }
-);
-
-
+    var sql = "SELECT * FROM funds WHERE fund_id in (SELECT fund_id FROM funds_ongoing WHERE invest_email = (?) and stage = (?))";
+    connection.query(sql, [userEmail, fundStage],
+        function(err, result){
+        if(err){
+            console.error(err);
+            throw err;
+        }
+        else {
+            console.log('result',result);
+            res.json({
+                fundList : result
+            });
+        }
+    })
 })
+
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

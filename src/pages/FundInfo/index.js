@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Popup from './popup'
 
 function FundInfo() {
@@ -6,16 +6,36 @@ function FundInfo() {
   const [userType, setUserType] = useState('투자자');
 
   //로그인된 유저 id로 DB에서 보유펀드정보 불러옴
-  const fundWait = {
-
-  }
+  const fundWait = {}
   const fundIng = {}
   const fundEnd = {}
   const fundCanceled = {}
 
+  const email = "123@123";
+  const fundStage = [0, 1, 2, 3];
+  var fundList = [];
+  var stage=1;
+
+  useEffect(() => {
+
+    fundStage.map(stage => {
+
+      fetch("http://localhost:8551/myFund", {
+        method: 'POST',
+        body: JSON.stringify({
+          'userEmail': email,
+          'fundStage': stage,
+        }),
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        })
+        .then((res) => (console.dir(res.json().then(data => {
+          console.dir(data.fundList);
+        }))))
+    })
+  })
+
   const clickhandler = () => {
     { console.log('popup!!!') }
-
     return (
       <Popup />
     )
@@ -29,14 +49,13 @@ function FundInfo() {
           {userType} {name}님의 펀드 목록입니다.
             </h4>
       </div>
-
       <div style={{ margin: 'auto', marginTop: 30, width: 700 }}>
         <div class="list-group" >
           <button type="button" class="list-group-item list-group-item-action active">
             대기중인 펀드<span class="badge badge-primary badge-pill" style={{ textAlign: 'right', backgroundColor: 'white', color: 'black' }}>6</span>
           </button>
           <div style={{ overflowY: 'scroll', height: 200 }}>
-            <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target='#Popup'>펀드 1호 </button>
+            <button type="button" class="list-group-item list-group-item-action">펀드 1호 </button>
             <button type="button" class="list-group-item list-group-item-action">펀드 2호</button>
             <button type="button" class="list-group-item list-group-item-action">펀드 3호</button>
             <button type="button" class="list-group-item list-group-item-action">펀드 4호</button>

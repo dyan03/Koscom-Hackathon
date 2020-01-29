@@ -36,6 +36,11 @@ function SignIn(props) {
       event.preventDefault();
     }
 
+    function handleSubmitPwd(e) {
+        setPassword(e.target.value);
+        console.log(password)
+    }
+
     function handleEmailEdit(e) {
         setEmail(e.target.value);
         console.log(email)
