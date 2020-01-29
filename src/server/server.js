@@ -114,7 +114,7 @@ connection.connect(function (error) {
 /*
     회원가입
 */
-app.post('/UserInsert', function(req, res){
+app.post('/userInsert', function(req, res){
     var userEmail = req.body.userEmail;
     var userPassword = req.body.userPassword;
     var userName = req.body.userName;
@@ -142,6 +142,26 @@ app.post('/UserInsert', function(req, res){
         }
         else {
             res.json(1);
+        }
+    })
+});
+
+app.post('/userCheck', function(req, res){
+    var userEmail = req.body.userEmail;
+    var sql = "SELECT * FROM USER WHERE email = (?)";
+
+    console.log('userEmail : ', userEmail);
+
+    connection.query(sql,[userEmail], function(err, result){
+        if(err){
+            console.error(err);
+            throw err;
+        }
+        else {
+            console.log(result);
+            res.json({
+                data : result
+            });
         }
     })
 });
