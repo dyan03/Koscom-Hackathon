@@ -62,7 +62,6 @@ function SignUp(props) {
             alert('패스워드를 확인하세요')
         }
 
-
         const body_ = {
             userEmail: email,
             userName: name,
@@ -98,7 +97,6 @@ function SignUp(props) {
           .then(resJson => console.log(resJson.status));
 
     }
-
 
     return (
         <div className="layout">
