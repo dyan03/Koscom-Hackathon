@@ -57,6 +57,7 @@ app.get('/authResult', function (req, res) {
         else {
             var accessTokenObj = JSON.parse(body);
             console.log('accessTokenObj : ', accessTokenObj);
+            res.send(accessTokenObj);
             //res.render('resultChild', {data : accessTokenObj});
         }
     });
