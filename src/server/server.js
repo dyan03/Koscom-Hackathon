@@ -95,28 +95,31 @@ app.post("/login", async function(req,res,next){
 });
 
 /*
-    회원가입
+    회원가입시 사용자 정보 등록
 */
 app.post('/userInsert', function(req, res){
     var userEmail = req.body.userEmail;
     var userPassword = req.body.userPassword;
     var userName = req.body.userName;
     var userAccount = req.body.userAccount;
-    var userType = '0';
-    var userbalance = '0';
-    var userCi = '';
-    console.log(userEmail, userPassword, userName, userAccount, userType);
+    var userType = req.body.userType;
+    var userBalance = req.body.userBalance;
+    var userCi = req.body.userCi;
+    var userBank = req.body.userbank;
 
-    var sql = "INSERT INTO USER VALUES (?,?,?,?,?,?,?)";
+    //console.log(userEmail, userPassword, userName, userAccount, userType, userBalance, userCi, userbank);
+
+    var sql = "INSERT INTO USER VALUES (?,?,?,?,?,?,?,?)";
 
     connection.query(sql,[
         userEmail,
         userName,
-        userbalance,
+        userBalance,
         userType,
         userPassword,
         userAccount,
         userCi,
+        userBank
         ], function(err, result){
         if(err){
             console.dir(result)
@@ -129,10 +132,17 @@ app.post('/userInsert', function(req, res){
     })
 });
 
+/*
+    my fund list
+*/
 app.post('/myFund', isAuthenticated, function(req, res){
     var userEmail = req.body.userEmail;
     const fundsSql = "select pwd from user where email = (?)";
 })
+
+/*
+    회원가입시 email 중복 확인
+*/
 
 app.post('/userCheck', function(req, res){
     var userEmail = req.body.userEmail;
