@@ -64,10 +64,22 @@ function SignUp(props) {
             headers: {},
             method: 'POST'
           }
+
+          const URL='localhost:8551/UserInsert'
+          
           fetch(URL, obj)
           .then(res => res => res.json())
           .then(json => console.log(json))
           .catch(err => console.log(err));
+
+        //   fetch('localhost:8551/UserInsert', {
+        //     method: 'post',
+        //     body: JSON.stringify(opts)
+        //   }).then(function(response) {
+        //     return response.json();
+        //   }).then(function(data) {
+        //     ChromeSamples.log('Created Gist:', data.html_url);
+        //   });
         console.dir(obj.body)
 
     }
