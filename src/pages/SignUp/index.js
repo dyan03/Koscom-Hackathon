@@ -48,7 +48,28 @@ function SignUp(props) {
             alert('패스워드를 확인하세요')
         }
 
-        console.dir(agree)
+
+        const body_={
+            userEmail: email,
+            userName: name,
+            userPassword: password,
+            userbalance: 0,
+            userType: 0,
+            userAccount: '01020',
+            userCi: 30012,
+        }
+
+        const obj = {
+            body: body_,
+            headers: {},
+            method: 'POST'
+          }
+          fetch(URL, obj)
+          .then(res => res => res.json())
+          .then(json => console.log(json))
+          .catch(err => console.log(err));
+        console.dir(obj.body)
+
     }
 
 
