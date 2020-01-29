@@ -27,6 +27,7 @@ app.use(session({
   store : new FileStore()
 }));
 
+<<<<<<< HEAD
 /*
     DB Connection 처리
 */
@@ -37,6 +38,15 @@ var connection = mysql.createConnection({
     password: '8551',
     database: 'db'
 });
+=======
+// var con = mysql.createConnection({
+//     host: 'localhost',
+//     port: 3306,
+//     user: 'root',
+//     password: '8551',
+//     database: 'new_schema'
+// })
+>>>>>>> b1dc2b43f1545074c965c397436cc60e24c5c81d
 
 connection.connect(function (error) {
     if(error){
@@ -97,7 +107,7 @@ app.post("/login", async function(req,res,next){
 /*
     회원가입
 */
-app.post('/UserInsert', function(req, res){
+app.post('/userInsert', function(req, res){
     var userEmail = req.body.userEmail;
     var userPassword = req.body.userPassword;
     var userName = req.body.userName;
@@ -109,7 +119,7 @@ app.post('/UserInsert', function(req, res){
 
     var sql = "INSERT INTO USER VALUES (?,?,?,?,?,?,?)";
 
-    connection.query(sql,[userEmail,
+    connection.query(sql,[
         userEmail,
         userName,
         userbalance,
@@ -119,6 +129,7 @@ app.post('/UserInsert', function(req, res){
         userCi,
         ], function(err, result){
         if(err){
+            console.dir(result)
             console.error(err);
             throw err;
         }
@@ -128,6 +139,7 @@ app.post('/UserInsert', function(req, res){
     })
 });
 
+<<<<<<< HEAD
 /*
     my fund list
 */
@@ -135,5 +147,26 @@ app.post('/myFund', isAuthenticated, function(req, res){
     var userEmail = req.body.userEmail;
     const fundsSql = "select pwd from user where email = (?)";
 })
+=======
+app.post('/userCheck', function(req, res){
+    var userEmail = req.body.userEmail;
+    var sql = "SELECT * FROM USER WHERE email = (?)";
+
+    console.log('userEmail : ', userEmail);
+
+    connection.query(sql,[userEmail], function(err, result){
+        if(err){
+            console.error(err);
+            throw err;
+        }
+        else {
+            console.log(result);
+            res.json({
+                data : result
+            });
+        }
+    })
+});
+>>>>>>> b1dc2b43f1545074c965c397436cc60e24c5c81d
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
