@@ -81,7 +81,7 @@ function SignUp(props) {
         Access Token 얻기
     */
     function handleGetToken(){
-        var openURL = "https://sandbox-apigw.koscom.co.kr/auth/oauth/v2/authorize?response_type=code&state=authCode&client_id=l7xx2d23dc68d7364f2ba84f6a159870faae&scope=&redirect_uri=http://localhost:8551/AuthCallback";
+        var openURL = "https://sandbox-apigw.koscom.co.kr/auth/oauth/v2/authorize?response_type=code&state=authCode&client_id=l7xx2d23dc68d7364f2ba84f6a159870faae&scope=&redirect_uri=http://13.125.242.200:8551/AuthCallback";
         var option = "width=500, height=650"
         var windowName = "Access Token Popup";
         
@@ -92,7 +92,7 @@ function SignUp(props) {
         Access Token 입력폼에 저장
     */
    function handleSaveToken(){
-        fetch("http://localhost:8551/getAccessToken",{
+        fetch("http://13.125.242.200:8551/getAccessToken",{
             method: 'POST',
             body: JSON.stringify({
             }),
@@ -153,7 +153,7 @@ function SignUp(props) {
             tmpBank = '';
         }
 
-        fetch("http://localhost:8551/realBalance",{
+        fetch("http://13.125.242.200:8551/realBalance",{
             method: 'POST',
             body: JSON.stringify({
                 "bank": tmpBank,
@@ -206,9 +206,9 @@ function SignUp(props) {
             headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
         })
 
-        const URL = 'http://localhost:8551/userInsert';
+        const URL = 'http://13.125.242.200:8551/userInsert';
 
-        fetch("http://localhost:8551/userInsert",{
+        fetch("http://13.125.242.200:8551/userInsert",{
             method: 'POST',
             body: JSON.stringify(body_),
             headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},         
