@@ -22,7 +22,7 @@ class Funding extends Component {
         console.log("submit")
         this.setState({balance:event.target.value})
         console.log("금액",this.state.balance)
-        var returnValue = window.confirm('펀딩 취소하시겠습니까?')
+        var returnValue = window.confirm('펀딩 하시겠습니까?')
         if (returnValue) {
             fetch("http://localhost:8551/fundDelete", {
                 method: 'POST',
