@@ -7,10 +7,14 @@ import 'bootstrap/dist/css/bootstrap.css'
 import { createStore } from 'redux';
 import rootReducer from './store';
 import { Provider } from 'react-redux' ;
+import { loadState, saveState } from './reducers/localStorage';
 
-const devTools =
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
-const store = createStore(rootReducer, devTools);
+const persistedState = loadState();
+const store = createStore(rootReducer, persistedState);
+
+store.subscribe(() => {
+  saveState(store.getState())
+})
 
 ReactDOM.render(
 <Provider store={store}>
