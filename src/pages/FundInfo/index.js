@@ -107,7 +107,7 @@ class FundInfo extends Component{
     this.getInitialData();
     this.getInitialData_number();
   }
-
+///
   render(){
     if(this.state.loading === true) return (<div/>)
     return(
