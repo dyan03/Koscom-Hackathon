@@ -64,7 +64,7 @@ class Main extends Component{
   }
 
   getInitialData = async () => {
-    fetch("http://localhost:8551/initialFunds", {
+    fetch("http://13.125.242.200:8551/initialFunds", {
       method: 'POST',
     //   body: JSON.stringify({
     //     'userEmail': this.props.upperUserEmail,

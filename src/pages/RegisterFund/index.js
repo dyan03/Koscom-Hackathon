@@ -55,7 +55,7 @@ function RegisterFund(props) {
     function handleSubmit(event) {
 
         console.log("submit")
-        fetch("http://localhost:8551/fundInsert", {
+        fetch("http://13.125.242.200:8551/fundInsert", {
             method: 'POST',
             body: JSON.stringify({
                 'fundId':fundId,

@@ -31,7 +31,7 @@ app.use(bodyParser.json())
     DB Connection 처리
 */
 var connection = mysql.createConnection({
-    host: 'localhost',
+    host: '13.125.242.200',
     port: 3306,
     user: 'root',
     password: '8551',
@@ -247,11 +247,10 @@ app.post('/userInfo', function(req, res){
 */
 app.get('/AuthCallback', function(req,res){
     //아래주소에서 접속해서 받음
-    //https://sandbox-apigw.koscom.co.kr/auth/oauth/v2/authorize?response_type=code&state=authCode&client_id=l7xx2d23dc68d7364f2ba84f6a159870faae&scope=&redirect_uri=http://localhost:8551/AuthCallback
     console.log(req.query);
 
     res.redirect(302, url.format({
-            pathname: "http://localhost:8551/authResult",
+            pathname: "http://13.125.242.200:8551/authResult",
             query: {
                 code : req.query.code,
                 state : req.query.state,
@@ -269,7 +268,7 @@ app.get('/authResult', function (req, res) {
 
     var authCode = req.query.code;
     var clientId = 'l7xx2d23dc68d7364f2ba84f6a159870faae';
-    var clientSecret = '6740431c44414a1b928fa78c86349f73';
+    var clientSecret = '9d080c8f90234aa78fe92b4739118a7c';
     //console.log('authCode : ', req.query.code);
 
     option = {
@@ -282,7 +281,7 @@ app.get('/authResult', function (req, res) {
         form : {
             code : authCode,
             grant_type : "authorization_code",
-            redirect_uri : "http://localhost:8551/AuthCallback"
+            redirect_uri : "http://13.125.242.200:8551/AuthCallback"
         }
     }
 

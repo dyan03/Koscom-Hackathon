@@ -21,7 +21,7 @@ class FundInfo extends Component{
     console.log("submit")
     var returnValue=window.confirm('펀드를 취소하시겠습니까?')
     if(returnValue){
-    fetch("http://localhost:8551/fundDelete", {
+    fetch("http://13.125.242.200:8551/fundDelete", {
             method: 'POST',
             body: JSON.stringify({
                 'userId':this.props.upperUserEmail,
@@ -43,8 +43,12 @@ class FundInfo extends Component{
   }
 
   getInitialData = async () => {
+<<<<<<< HEAD
     console.log('uppserUserType', this.props.upperUserType)
     fetch("http://localhost:8551/myFund", {
+=======
+    fetch("http://13.125.242.200:8551/myFund", {
+>>>>>>> 8cd2f18ed78bbefb37c41f0c1577ed6494ccbb01
       method: 'POST',
       body: JSON.stringify({
         'userEmail': this.props.upperUserEmail,
@@ -66,7 +70,7 @@ class FundInfo extends Component{
 
   getInitialData_number = async () => {
     console.log('number stage')
-    fetch("http://localhost:8551/myFundStageNumber", {
+    fetch("http://13.125.242.200:8551/myFundStageNumber", {
       method: 'POST',
       body: JSON.stringify({
         'userEmail': this.props.upperUserEmail,
@@ -85,7 +89,7 @@ class FundInfo extends Component{
   }
 
   getInitialPersonalInfo = async () => {
-    fetch("http://localhost:8551/userInfo", {
+    fetch("http://13.125.242.200:8551/userInfo", {
       method: 'POST',
       body: JSON.stringify({
         'userEmail': this.props.upperUserEmail,
@@ -112,6 +116,7 @@ class FundInfo extends Component{
       <div style={{display: 'flex'}}>
         <h4 style={{ textAlign: 'center', margin:'auto', marginTop: 20 }}>
           {this.state.userType} {this.state.name}님이 투자한 펀드 목록입니다.
+<<<<<<< HEAD
           <a href="http://localhost:3000/registerFund">
           {
             this.props.upperUserType === 0
@@ -120,6 +125,10 @@ class FundInfo extends Component{
             :
             <div><button type="button" class="btn btn-dark"  style={{height: 40,width: 130, marginLeft: 20}}>새 펀드 등록</button></div>
           }
+=======
+          <a href="http://13.125.242.200:3000/registerFund">
+          <button type="button" class="btn btn-dark"  style={{height: 40,width: 130, marginLeft: 20}}>새 펀드 등록</button>
+>>>>>>> 8cd2f18ed78bbefb37c41f0c1577ed6494ccbb01
           </a>
         </h4>
       </div>
