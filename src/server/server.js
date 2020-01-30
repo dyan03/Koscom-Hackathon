@@ -10,6 +10,8 @@ const mysql = require('mysql');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session)
 
+const myFundStageNumberRouter = require('./nodeRouter/myFundStageNumber')
+
 app.use(express.static(path.join(__dirname, '../../build')))
 app.get('/*', function(req, res) {
     res.sendFile(path.join(__dirname, '../../build', 'index.html'));
@@ -34,7 +36,7 @@ var connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: 'root',
+    password: '8551',
     database: 'db'
 });
 
@@ -165,7 +167,7 @@ app.post('/myFund', function(req, res){
     console.log('userEmail : ', userEmail);
     console.log('fundStage : ', fundStage);
 
-    var sql = "SELECT * FROM funds WHERE fund_id in (SELECT fund_id FROM funds_ongoing WHERE invest_email = (?)) and stage = (?)";
+    var sql = "SELECT * FROM funds WHERE fund_id in (SELECT fund_id FROM funds_ongoing WHERE invest_email = (?))";
     connection.query(sql, [userEmail, fundStage],
         function(err, result){
         if(err){
@@ -181,5 +183,50 @@ app.post('/myFund', function(req, res){
     })
 })
 
+/*
+    내 펀드 stage number 가져오기
+*/
+app.post('/myFundStageNumber', function(req, res){
+    var userEmail = req.body.userEmail;
+    console.log('userEmail : ', userEmail);
+
+    var sql = "select stage,count(*) as count from funds_ongoing, funds where funds_ongoing.fund_id = funds.fund_id and invest_email = (?) group by stage;";
+    connection.query(sql, [userEmail],
+        function(err, result){
+        if(err){
+            console.error(err);
+            throw err;
+        }
+        else {
+            console.log('result',result);
+            res.json({
+                data : result
+            });
+        }
+    })
+})
+
+/*
+    user info 가져오기
+*/
+app.post('/userInfo', function(req, res){
+    var userEmail = req.body.userEmail;
+    console.log('userEmail : ', userEmail);
+
+    var sql = "select * from user where email = (?);";
+    connection.query(sql, [userEmail],
+        function(err, result){
+        if(err){
+            console.error(err);
+            throw err;
+        }
+        else {
+            console.log('result',result);
+            res.json({
+                data : result
+            });
+        }
+    })
+})
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

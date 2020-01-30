@@ -28,7 +28,7 @@ function SignIn(props) {
                 // go to main page
             }
             else{ // fail
-                <Popup>login fail!</Popup>
+                //<Popup>login fail!</Popup>
             }
         })
         .then(resJson => console.log(resJson.status));

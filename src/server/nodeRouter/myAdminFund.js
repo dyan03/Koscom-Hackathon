@@ -1,7 +1,7 @@
 /*
     my admin fund 리스트 가져오기
 */
-app.post('/myFund', function(req, res){
+app.post('/myAdminFund', function(req, res){
     var userEmail = req.body.userEmail;
     var fundStage = req.body.fundStage;
     console.log('userEmail : ', userEmail);
