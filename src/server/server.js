@@ -34,7 +34,7 @@ var connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: 'root',
+    password: '8551',
     database: 'db',
     multipleStatements: true
 });
@@ -502,7 +502,7 @@ app.post('/initialFunds', function(req, res){
     console.log('initialFunds');
 
     //var sql = "select * from funds, user where funds.stage = '0' and funds.register_email = user.email order by (current_amount/total_amount) desc;";
-    var sql = "select * from funds, user where funds.stage = '0' order by (current_amount/total_amount) desc;";
+    var sql = "select * from funds where funds.stage = '0' order by (current_amount/total_amount) desc;";
     connection.query(sql,
         function(err, result){
         if(err){

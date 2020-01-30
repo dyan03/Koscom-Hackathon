@@ -98,8 +98,9 @@ class Main extends Component{
               return (
                   <div style={{margin: '20px'}}>
                     {<MyCard style={{alignItems:'center',margin: '10px'}} 
-                    companyId={I.name} fundId={I.fund_id} 
-                    managerId={I.name} 
+                    companyId={I.company_id} 
+                    fundId={I.fund_id} 
+                    managerId={I.fundmanger_id} 
                     totalAmount={I.total_amount} 
                     currentAmount={I.current_amount}
                     startDate={I.start_date} 
