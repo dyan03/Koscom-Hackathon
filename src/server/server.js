@@ -160,7 +160,7 @@ app.post('/myFund', function(req, res){
     console.log('userEmail : ', userEmail);
     // console.log('fundStage : ', fundStage);
 
-    var sql = "SELECT * FROM funds WHERE fund_id in (SELECT fund_id FROM funds_ongoing WHERE invest_email = (?))";
+    var sql = "SELECT * FROM funds WHERE fund_id in (SELECT fund_id FROM matched_funds WHERE invest_email = (?))";
     connection.query(sql, [userEmail],
         function(err, result){
         if(err){
@@ -183,7 +183,7 @@ app.post('/myFundStageNumber', function(req, res){
     var userEmail = req.body.userEmail;
     console.log('userEmail : ', userEmail);
 
-    var sql = "select stage,count(*) as count from funds_ongoing, funds where funds_ongoing.fund_id = funds.fund_id and invest_email = (?) group by stage;";
+    var sql = "select stage,count(*) as count from matched_funds, funds where matched_funds.fund_id = funds.fund_id and invest_email = (?) group by stage;";
     connection.query(sql, [userEmail],
         function(err, result){
         if(err){
