@@ -30,7 +30,7 @@ class App extends Component {
 
   render() {
       return (
-      <BrowserRouter basename={process.env.REACT_APP_ROUTER_BASE || ''}>
+      <BrowserRouter>
       { 
         this.props.logedIn
         ?

@@ -71,7 +71,7 @@ app.post("/login", async function(req,res,next){
 
     const userEmail = body.userEmail;
     const inputPassword = body.userPassword;
-    const passwdSql = "select pwd from user where email = (?)";
+    const passwdSql = "select pwd, user_type from user where email = (?)";
     
     connection.query(passwdSql, [userEmail], function(err, results, field){
         if(results[0].pwd === inputPassword){
@@ -79,7 +79,7 @@ app.post("/login", async function(req,res,next){
             // 세션 설정
             //req.session.userEmail = body.userEmail;
             //req.session.islogin = true;
-            res.json({status:'success'});
+            res.json({status:'success', userType : results[0].user_type});
         }
         else{
             console.log("비밀번호 불일치");
@@ -157,24 +157,43 @@ app.post('/userCheck', function(req, res){
 */
 app.post('/myFund', function(req, res){
     var userEmail = req.body.userEmail;
-    // var fundStage = req.body.fundStage;
-    console.log('userEmail : ', userEmail);
-    // console.log('fundStage : ', fundStage);
-
-    var sql = "SELECT * FROM funds WHERE fund_id in (SELECT fund_id FROM matched_funds WHERE invest_email = (?))";
-    connection.query(sql, [userEmail],
-        function(err, result){
-        if(err){
-            console.error(err);
-            throw err;
-        }
-        else {
-            console.log('result',result);
-            res.json({
-                fundList : result
-            });
-        }
-    })
+    var userType = req.body.userType;
+    console.log('userType : ', userType);
+    
+    if(userType === 0){ // investor
+        console.log('investor userEmail : ', userEmail);
+        var sql = "SELECT * FROM funds WHERE fund_id in (SELECT fund_id FROM matched_funds WHERE invest_email = (?))";
+        connection.query(sql, [userEmail],
+            function(err, result){
+            if(err){
+                console.error(err);
+                throw err;
+            }
+            else {
+                console.log('result',result);
+                res.json({
+                    fundList : result
+                });
+            }
+        })
+    }
+    else{
+        console.log('admin userEmail : ', userEmail);
+        var sqlAdmin = "select * from funds where register_email = (?)"
+        connection.query(sql, [userEmail],
+            function(err, result){
+            if(err){
+                console.error(err);
+                throw err;
+            }
+            else {
+                console.log('result',result);
+                res.json({
+                    fundList : result
+                });
+            }
+        })
+    }
 })
 
 /*
@@ -391,10 +410,10 @@ app.post('/realBalance', function(req, res){
         var cashBalance = '';
         try{
             cashBalance = JSON.parse(body).balanceList.balance.summary.cashBalance;
-            console.log('cashBalance : ', cashBalance);
+            console.log(cashBalance);
             res.send({cashBalance : cashBalance});
         }catch(e){
-            console.log(e);
+            console.log(cashBalance);
             res.send({cashBalance : cashBalance});
         }
 
@@ -461,7 +480,7 @@ app.post('/fundDelete', function(req, res){
     var sql1, sql2 = "";
 
     //matched_funds 삭제 => funds의 current_amount 감소
-    if(type === '1'){
+    if(type === '0'){
         var curAmt = '', myAmt = '', updateAmt = '';
 
         sql1 = "UPDATE FUNDS SET CURRENT_AMOUNT = CURRENT_AMOUNT - (SELECT INVEST_AMOUNT FROM MATCHED_FUNDS WHERE FUND_ID = ? AND INVEST_EMAIL = ?) WHERE FUND_ID = ?;";
@@ -475,13 +494,14 @@ app.post('/fundDelete', function(req, res){
             else {
                 console.log("funds 테이블의 current_amount 업데이트 완료");
                 console.log("matched_funds 삭제 완료");
-                res.json(1);
+                res.json({status:'success'});
             }
         })
 
     //funds의 state 변경 [펀드 취소]
-    }else if(type === '2'){
-        
+    }
+    else
+    {
         sql1 = "UPDATE FUNDS SET STAGE = '3' WHERE FUND_ID = ?;";
         connection.query(sql1, [fundId], function(err, result){
             if(err){
@@ -522,6 +542,74 @@ app.post('/initialFunds', function(req, res){
     })
 })
 
+
+/*
+    로그인시(Sign In) 계좌잔고 API로 가져와서 DB Update함
+*/
+app.post('/balanceUpdate', function(req, res){
+    // 계좌은행 : 3개의 값만 가져와야함 {diamond, cyber, star}
+    var bank = req.body.bank;
+    // 2. 고객 CI
+    var ci = req.body.ci;
+    // 3. 고객 계좌번호
+    var vtAccNo = req.body.vtAccNo;
+    // 4. 고객 Token
+    var accessToken = req.body.accessToken;
+    // 5. 사용자 EMAIL
+    var email = req.body.email;
+
+    //고객 계좌잔고 정보 요청
+    option = {
+        url: 'https://sandbox-apigw.koscom.co.kr/v1/' + bank + '/account/balance/search',
+        body: '{"partner": {    "comId": "F9999",    "srvId": "999"  },  "commonHeader": {  "ci": "'+ ci +'",    "reqIdConsumer": "reqid-0001"  },  "devInfo": {    "ipAddr": "192168010001",    "macAddr": "1866DA0D99D6"  },  "accInfo": {	"vtAccNo": "'+ vtAccNo +'"  },  "balanceRequestBody": {	"queryType": {      "assetType": "ALL",      "count": 0,      "page": "null"    }  }}',
+        headers: { 'Content-Type':'application/json', 'Authorization':'Bearer ' + accessToken + '', 'Content-Type':'application/json'  },
+        method: 'POST'
+    }
+
+    var cashBalance = '';
+    request(option, function (error, response, body) {
+        if(error){
+            console.log(err);
+            throw new Error(error);
+        }
+
+        
+        //var notDoUpdate = 0;
+
+        cashBalance = JSON.parse(body).balanceList.balance.summary.cashBalance;
+        // try{
+        //     cashBalance = JSON.parse(body).balanceList.balance.summary.cashBalance;
+        //     console.log('성공함');
+        //     console(typeof cashBalance);
+        //     console.log('cashBalance : ', cashBalance);
+        // }catch(e){
+        //     console.log('에러 발생');
+        //     console.log(JSON.parse(body));
+        //     notDoUpdate = 1;
+        // }
+
+
+    });
+
+    var sql = "UPDATE USER SET BALANCE = ? WHERE email = ?;";
+    console.log(sql);
+    connection.query(sql, [
+            cashBalance,
+            email
+    ], function(err, result){
+    if(err){
+            console.error(err);
+            throw err;
+        }
+        else {
+                console.log("USER 계좌잔고 업데이트 완료");
+            }
+    })
+    res.json(1);
+
+});
+
+
 /*
     Investor Funding
 */
@@ -561,6 +649,5 @@ app.use(express.static(path.join(__dirname, '../build')));
 app.get('/', function(req, res){
     res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
-
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

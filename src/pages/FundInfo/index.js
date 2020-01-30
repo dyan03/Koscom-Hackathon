@@ -2,11 +2,7 @@ import React, { useState, useEffect, Component } from 'react';
 import { connect } from 'react-redux';
 import { logIn, regEmail } from '../../store/loginState';
 
-
-
-console.log("once")
-
-const userTypeName = ['Investor', 'Trust', 'Fund Manager']
+const userTypeName = ['투자자', '신탁사', '펀드매니저']
 
 class FundInfo extends Component{
   
@@ -28,8 +24,8 @@ class FundInfo extends Component{
     fetch("http://localhost:8551/fundDelete", {
             method: 'POST',
             body: JSON.stringify({
-                'userId':this.props.userId,
-                'type':1,
+                'userId':this.props.upperUserEmail,
+                'type':this.props.upperUserType,
             }),
             headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},         
         })
@@ -44,14 +40,15 @@ class FundInfo extends Component{
         .then(resJson => console.log(resJson.status));
       event.preventDefault();
     }
-
   }
 
   getInitialData = async () => {
+    console.log('uppserUserType', this.props.upperUserType)
     fetch("http://localhost:8551/myFund", {
       method: 'POST',
       body: JSON.stringify({
         'userEmail': this.props.upperUserEmail,
+        'userType' : this.props.upperUserType,
     }),
     headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
     })
@@ -116,7 +113,13 @@ class FundInfo extends Component{
         <h4 style={{ textAlign: 'center', margin:'auto', marginTop: 20 }}>
           {this.state.userType} {this.state.name}님이 투자한 펀드 목록입니다.
           <a href="http://localhost:3000/registerFund">
-          <button type="button" class="btn btn-dark"  style={{height: 40,width: 130, marginLeft: 20}}>새 펀드 등록</button>
+          {
+            this.props.upperUserType === 0
+            ?
+            <div></div>
+            :
+            <div><button type="button" class="btn btn-dark"  style={{height: 40,width: 130, marginLeft: 20}}>새 펀드 등록</button></div>
+          }
           </a>
         </h4>
       </div>
@@ -140,8 +143,8 @@ class FundInfo extends Component{
                     </div>
                     <p class="mb-1">현재 펀딩된 금액 : {fund.current_amount}</p>
                     <small class="text-muted">총 모집금액 : {fund.total_amount}</small>
-                    <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,width:60, height:30, bottom: 10, left:350}}>관리</button>
-                    <button class="btn btn-dark" onClick={this.handlefundCancle} style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:360}}>펀드취소</button>
+                    {/* <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,width:60, height:30, bottom: 10, left:350}}>관리</button> */}
+                    <button class="btn btn-dark" onClick={this.handlefundCancle} style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:425}}>펀드취소</button>
                   </a>
                 );
               })
@@ -164,8 +167,7 @@ class FundInfo extends Component{
                     </div>
                     <p class="mb-1">현재 펀딩된 금액 : {fund.current_amount}</p>
                     <small class="text-muted">총 모집금액 : {fund.total_amount}</small>
-                    <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,width:60, height:30, bottom: 10, left:350}}>관리</button>
-                    <button class="btn btn-dark" onClick={this.handlefundCancle} style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:360}}>펀드취소</button>
+                    {/* <button class="btn btn-dark" onClick={this.handlefundCancle} style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:425}}>펀드취소</button> */}
                   </a>
                 );
               })
@@ -187,8 +189,7 @@ class FundInfo extends Component{
                     </div>
                     <p class="mb-1">현재 펀딩된 금액 : {fund.current_amount}</p>
                     <small class="text-muted">총 모집금액 : {fund.total_amount}</small>
-                    <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,width:60, height:30, bottom: 10, left:350}}>관리</button>
-                    <button class="btn btn-dark" onClick={this.handlefundCancle} style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:360}}>펀드취소</button>
+                    {/* <button class="btn btn-dark" onClick={this.handlefundCancle} style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:425}}>펀드취소</button> */}
                   </a>
                 );
               })
@@ -210,8 +211,7 @@ class FundInfo extends Component{
                     </div>
                     <p class="mb-1">현재 펀딩된 금액 : {fund.current_amount}</p>
                     <small class="text-muted">총 모집금액 : {fund.total_amount}</small>
-                    <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,width:60, height:30, bottom: 10, left:350}}>관리</button>
-                    <button class="btn btn-dark" onClick={this.handlefundCancle} style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:360}}>펀드취소</button>
+                    {/* <button class="btn btn-dark" onClick={this.handlefundCancle} style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:425}}>펀드취소</button> */}
                   </a>
                 );
               })
@@ -229,6 +229,7 @@ class FundInfo extends Component{
 const mapStateToProps = state => ({  //2
   logedIn : state.loginState.logedIn,
   upperUserEmail : state.loginState.userEmail,
+  upperUserType : state.loginState.userType
 });
 
 const mapDispatchToProps = dispatch => {

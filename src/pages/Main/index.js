@@ -93,7 +93,7 @@ class Main extends Component{
         <div>
           <div>
           <Banner/>
-            <div style={{marginLeft: 200, overflowY: 'scroll', height: 800}}>
+            <div style={{marginLeft: 200}}>
             {this.state.fundList.map(I => {
               return (
                   <div style={{margin: '20px'}}>
@@ -107,7 +107,6 @@ class Main extends Component{
                     endDate={I.end_date} 
                     fundStyle={I.fund_style} 
                     morningstaType={I.moringstar_type} 
-
                     />}
                   </div>
               )

@@ -85,6 +85,8 @@ function RegisterFund(props) {
       event.preventDefault();
     }
     console.log("registerFund")
+
+
     return (
         <div className="layout" style={{width:700, marginTop:30}}>
             <form>
@@ -102,13 +104,11 @@ function RegisterFund(props) {
                 <div style={{display: 'flex'}}>
                     <div className="form-group" style={{width:300}}>
                         <label>펀드 매니저</label>
-                        <input type="email" className="form-control" placeholder="계정 이메일을 입력해주세요" onChange={handleSubmitManagerId} />
-                        
+                        <input type="name" className="form-control" placeholder="이름을 입력해주세요" onChange={handleSubmitManagerId} />
                     </div>
-                        <div className="form-group" style={{width:180, marginLeft:30}}>    
+                    <div className="form-group" style={{width:180, marginLeft:30}}>    
                         <label>운용 금액</label>
                         <input className="form-control" onChange={handleSubmitTotalAmount}/>
-
                     </div>
                     <div style={{marginTop: 40, marginLeft: 10}}>
                         원
