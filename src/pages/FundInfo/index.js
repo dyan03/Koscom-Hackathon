@@ -136,12 +136,12 @@ class FundInfo extends Component{
                   <a class="list-group-item list-group-item-action flex-column align-items-start" style={{height:106}}>
                     <div class="d-flex w-100 justify-content-between">
                       <h5 class="mb-1">{fund.fund_id}</h5>
-                      <small class="text-muted">등록자 : {fund.register_email}</small>
+                      <small class="text-muted" style={{position:'relative'}}>등록자 : {fund.register_email}</small>
                     </div>
                     <p class="mb-1">현재 펀딩된 금액 : {fund.current_amount}</p>
                     <small class="text-muted">총 모집금액 : {fund.total_amount}</small>
-                    <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,width:60, height:30, bottom: 10, left:400}}>관리</button>
-                    <button class="btn btn-dark" onClick={this.handlefundCancle} style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:410}}>펀드취소</button>
+                    <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,width:60, height:30, bottom: 10, left:350}}>관리</button>
+                    <button class="btn btn-dark" onClick={this.handlefundCancle} style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:360}}>펀드취소</button>
                   </a>
                 );
               })
@@ -164,8 +164,8 @@ class FundInfo extends Component{
                     </div>
                     <p class="mb-1">현재 펀딩된 금액 : {fund.current_amount}</p>
                     <small class="text-muted">총 모집금액 : {fund.total_amount}</small>
-                    <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,width:60, height:30, bottom: 10, left:400}}>관리</button>
-                    <button class="btn btn-dark" onClick={this.handlefundCancle} style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:410}}>펀드취소</button>
+                    <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,width:60, height:30, bottom: 10, left:350}}>관리</button>
+                    <button class="btn btn-dark" onClick={this.handlefundCancle} style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:360}}>펀드취소</button>
                   </a>
                 );
               })
@@ -187,8 +187,8 @@ class FundInfo extends Component{
                     </div>
                     <p class="mb-1">현재 펀딩된 금액 : {fund.current_amount}</p>
                     <small class="text-muted">총 모집금액 : {fund.total_amount}</small>
-                    <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,width:60, height:30, bottom: 10, left:400}}>관리</button>
-                    <button class="btn btn-dark" onClick={this.handlefundCancle} style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:410}}>펀드취소</button>
+                    <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,width:60, height:30, bottom: 10, left:350}}>관리</button>
+                    <button class="btn btn-dark" onClick={this.handlefundCancle} style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:360}}>펀드취소</button>
                   </a>
                 );
               })
@@ -201,7 +201,7 @@ class FundInfo extends Component{
           </button>
           <div style={{ overflowY: 'scroll', height: 200 }}>
           {
-              this.state.fundWaitList.filter(fund => fund.stage === 3).map(fund => {
+              this.state.fundWaitList.filter(fund => fund.stage === '3').map(fund => {
                 return(
                   <a class="list-group-item list-group-item-action flex-column align-items-start"  style={{height:106}}>
                     <div class="d-flex w-100 justify-content-between">
@@ -210,8 +210,8 @@ class FundInfo extends Component{
                     </div>
                     <p class="mb-1">현재 펀딩된 금액 : {fund.current_amount}</p>
                     <small class="text-muted">총 모집금액 : {fund.total_amount}</small>
-                    <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,width:60, height:30, bottom: 10, left:400}}>관리</button>
-                    <button class="btn btn-dark" onClick={this.handlefundCancle} style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:410}}>펀드취소</button>
+                    <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,width:60, height:30, bottom: 10, left:350}}>관리</button>
+                    <button class="btn btn-dark" onClick={this.handlefundCancle} style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:360}}>펀드취소</button>
                   </a>
                 );
               })

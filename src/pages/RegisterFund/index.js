@@ -67,6 +67,7 @@ function RegisterFund(props) {
                 'endDate':endDate,
                 'fundStyle':fundStyle,
                 'morningstarType':morningstarType,
+                'fundmagerId' : "koscommanager@koscom.co.kr",
                 'type':1,
             }),
             headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},         
@@ -74,11 +75,13 @@ function RegisterFund(props) {
         .then(res => res.json())
         .then(resJson => {
             if(resJson.status === 'success'){
+                window.alert('good')
+                window.location.href = "http://localhost:3000/fundInfo"
             }
             else{
+
             }
         })
-        .then(resJson => console.log(resJson.status));
       event.preventDefault();
     }
     console.log("registerFund")

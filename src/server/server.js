@@ -416,12 +416,13 @@ app.post('/fundInsert', function(req, res){
     var endDate = req.body.endDate;
     var fundStyle = req.body.fundStyle;
     var morningstarType = req.body.morningstarType;
+    var fundmangerId = req.body.companyId;
 
-    var sql = "INSERT INTO FUNDS VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+    var sql = "INSERT INTO FUNDS VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
     connection.query(sql,[
         fundId,
         managerId,
-        stage,
+        0,
         totalAmount,
         0, // 초기 등록이므로 current_amount는 0임
         0, // profit_rate
@@ -429,15 +430,19 @@ app.post('/fundInsert', function(req, res){
         startDate,
         endDate,
         fundStyle,
-        morningstarType
+        morningstarType,
+        fundmangerId
         ], function(err, result){
         if(err){
-            console.dir(result)
-            console.error(err);
+            res.json({
+                status : 'fail'
+            });
             throw err;
         }
         else {
-            res.json(1);
+            res.json({
+                status : 'success'
+            });
         }
     })
 });
@@ -490,7 +495,6 @@ app.post('/fundDelete', function(req, res){
             }
         })
     }
-    
 });
 
 
@@ -513,6 +517,35 @@ app.post('/initialFunds', function(req, res){
             console.log('result',result);
             res.json({
                 data : result
+            });
+        }
+    })
+})
+
+/*
+    Investor Funding
+*/
+app.post('/InvestFunding', function(req, res){
+    var userEmail = req.body.userEmail;
+    var userPriceAmount = req.body.fundingAmount;
+    var fundId = req.body.fundId;
+
+    const sql = "insert into matched_funds values((?, ?, ?));"+ 
+                "update funds set current_amount = current_amount + (?) where fund_id = (?);"+
+                "update funds set stage = IF(current_amount > total_amount = true, 1, stage) where fund_id = (?);";
+    connection.query(sql, [userEmail, fundId, userPriceAmount, userPriceAmount, fundId, fundId],
+        function(err, result){
+        if(err){
+            console.error(err);
+            res.json({
+                status : false
+            });
+            throw err;
+        }
+        else {
+            console.log('result',result);
+            res.json({
+                status : true
             });
         }
     })
