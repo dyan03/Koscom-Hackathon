@@ -82,11 +82,6 @@ function RegisterFund(props) {
       event.preventDefault();
     }
     console.log("registerFund")
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 22504d46c355c720528cf282450f2583f5b3b2b5
     return (
         <div className="layout" style={{width:700, marginTop:30}}>
             <form>

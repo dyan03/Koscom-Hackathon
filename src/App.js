@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Router } from 'react-router-dom';
 
 import './App.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
@@ -13,10 +13,10 @@ import { Provider } from 'react-redux' ;
 
 import RootRouter from './routers/RootRouter'
 import MyNavbar from './templates/MyNavbar'
-
 import { connect } from 'react-redux';
 import { logIn, regEmail } from './store/loginState';
 import Singin from './pages/SignIn'
+import Signup from './pages/SignUp'
 import Main from './pages/Main'
 import FundInfo from './pages/FundInfo'
 
@@ -37,7 +37,8 @@ class App extends Component {
             <MyNavbar/>
         :
             <Switch>
-            <Route path="/"><div className="singin"><Singin/></div></Route>
+                <Route exact path="/"><Singin/></Route>
+                <Route path="/signup"><Signup/></Route>
             </Switch>        
       }
        </BrowserRouter>
