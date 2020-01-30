@@ -9,6 +9,8 @@ function SignUp(props) {
     const [accountNumber, setAccountNumber] = useState();
     const [CI, setCI] = useState();
     const [bank, setBank] = useState(0);
+    const [balance, setBalance] = useState(0);
+
     const [agree, setAgree] = useState(false);
 
     function validateForm() {
@@ -161,8 +163,9 @@ function SignUp(props) {
             'userbalance': 0,
             'userType': 0,
             'userPassword': password,
-            'userAccount': '01020',
-            'userCi': 30012,
+            'userAccount': accountNumber,
+            'userBalance': balance,
+            'userCi': CI,
         }
 
         const obj = JSON.stringify({

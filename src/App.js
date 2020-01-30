@@ -1,5 +1,5 @@
-import React, { Component,Fragment } from 'react';
-import { BrowserRouter, Route,Router } from 'react-router-dom';
+import React, { Component } from 'react';
+import { BrowserRouter, Route, Switch, Router } from 'react-router-dom';
 
 import './App.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
@@ -13,12 +13,10 @@ import { Provider } from 'react-redux' ;
 
 import RootRouter from './routers/RootRouter'
 import MyNavbar from './templates/MyNavbar'
-
 import { connect } from 'react-redux';
 import { logIn, regEmail } from './store/loginState';
-import SignIn from './pages/SignIn'
-import SignUp from './pages/SignUp'
-
+import Singin from './pages/SignIn'
+import Signup from './pages/SignUp'
 import Main from './pages/Main'
 import FundInfo from './pages/FundInfo'
 
@@ -38,20 +36,10 @@ class App extends Component {
         ?
             <MyNavbar/>
         :
-        <Fragment>
-            <Router>
-              <Route
-                exact
-                path='/'
-                component={SignIn}
-              />
-              <Route
-                exact
-                path='/signUp'
-                component={SignUp}
-              />
-            </Router>
-          </Fragment>      
+            <Switch>
+                <Route exact path="/"><Singin/></Route>
+                <Route path="/signup"><Signup/></Route>
+            </Switch>        
       }
        </BrowserRouter>
     )

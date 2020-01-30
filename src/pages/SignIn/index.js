@@ -5,6 +5,7 @@ import './style.css'
 
 import { connect } from 'react-redux';
 import { logIn, regEmail } from '../../store/loginState';
+import { Link } from 'react-router-dom';
 
 class SignIn extends Component
 {
@@ -76,11 +77,9 @@ class SignIn extends Component
                 </div>
             </div>
 
-            {/* <button type="submit" className="btn btn-primary btn-block" onClick={this.handleSubmit}>Submit</button> */}
-            <button onClick={this.handleSubmit}> 로그인 </button>
-                <a href="http://localhost:3000/signUp">
-            <button style={{marginLeft:10}}> 회원가입 </button>
-            </a>
+            <button type="submit" className="btn btn-primary btn-block" onClick={this.handleSubmit}>Sign In</button>
+            <div style={{height:"7px"}}/>
+            <Link to="/signup"><button type="submit" className="btn btn-primary btn-block">Sign Up</button></Link>
             <p className="forgot-password text-right">
                 Forgot <a href="#">password?</a>
             </p>
