@@ -401,6 +401,47 @@ app.post('/realBalance', function(req, res){
 });
 
 
+/*
+    펀드 등록
+*/
+app.post('/fundInsert', function(req, res){
+    console.log("server post user insert");
+    var fundId = req.body.fundId;
+    var companyId = req.body.companyId;
+    var managerId = req.body.managerId;
+    var stage = req.body.stage;
+    var totalAmount = req.body.totalAmount;
+    var startDate = req.body.startDate;
+    var endDate = req.body.endDate;
+    var fundStyle = req.body.fundStyle;
+    var morningstarType = req.body.morningstarType;
+
+    var sql = "INSERT INTO FUNDS VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+    connection.query(sql,[
+        fundId,
+        managerId,
+        stage,
+        totalAmount,
+        0, // 초기 등록이므로 current_amount는 0임
+        0, // profit_rate
+        companyId,
+        startDate,
+        endDate,
+        fundStyle,
+        morningstarType
+        ], function(err, result){
+        if(err){
+            console.dir(result)
+            console.error(err);
+            throw err;
+        }
+        else {
+            res.json(1);
+        }
+    })
+});
+
+
 
 /*
     HTTP REQ, RES 처리
