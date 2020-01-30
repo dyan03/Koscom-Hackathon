@@ -24,7 +24,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   cookie: {
-    maxAge: 1 * 60 * 1000// 쿠키 유효기간 min
+    maxAge: 15 * 60 * 1000// 쿠키 유효기간 min
   },
   store : new FileStore()
 }));
@@ -70,30 +70,48 @@ app.post("/login", async function(req,res,next){
     console.log('body', body);
     if(!body) return;
 
-    if(req.session.islogin===true){
-        console.log("session alive");
-        res.send("done");
-        return;
-    }
-    else{
-        const userEmail = body.userEmail;
-        const inputPassword = body.userPassword;
-        const passwdSql = "select pwd from user where email = (?)";
+    // if(req.session.islogin===true){
+    //     console.log("session alive");
+    //     res.send("done");
+    //     return;
+    // }
+    // else{
+    //     const userEmail = body.userEmail;
+    //     const inputPassword = body.userPassword;
+    //     const passwdSql = "select pwd from user where email = (?)";
         
-        connection.query(passwdSql, [userEmail], function(err, results, field){
-            if(results[0].pwd === inputPassword){
-                console.log("비밀번호 일치");
-                // 세션 설정
-                req.session.userEmail = body.userEmail;
-                req.session.islogin = true;
-                res.json({status:'success'});
-            }
-            else{
-                console.log("비밀번호 불일치");
-                res.json({status:'fail'});
-            }
-        });        
-    }
+    //     connection.query(passwdSql, [userEmail], function(err, results, field){
+    //         if(results[0].pwd === inputPassword){
+    //             console.log("비밀번호 일치");
+    //             // 세션 설정
+    //             req.session.userEmail = body.userEmail;
+    //             req.session.islogin = true;
+    //             res.json({status:'success'});
+    //         }
+    //         else{
+    //             console.log("비밀번호 불일치");
+    //             res.json({status:'fail'});
+    //         }
+    //     });        
+    // }
+
+    const userEmail = body.userEmail;
+    const inputPassword = body.userPassword;
+    const passwdSql = "select pwd from user where email = (?)";
+    
+    connection.query(passwdSql, [userEmail], function(err, results, field){
+        if(results[0].pwd === inputPassword){
+            console.log("비밀번호 일치");
+            // 세션 설정
+            //req.session.userEmail = body.userEmail;
+            //req.session.islogin = true;
+            res.json({status:'success'});
+        }
+        else{
+            console.log("비밀번호 불일치");
+            res.json({status:'fail'});
+        }
+    });        
 });
 
 /*
@@ -168,11 +186,7 @@ app.post('/myFund', function(req, res){
     // console.log('fundStage : ', fundStage);
 
     var sql = "SELECT * FROM funds WHERE fund_id in (SELECT fund_id FROM funds_ongoing WHERE invest_email = (?))";
-<<<<<<< HEAD
     connection.query(sql, [userEmail, fundStage],
-=======
-    connection.query(sql, [userEmail],
->>>>>>> 8a2509af97eae4e1c633f64a7fb9634278be9dde
         function(err, result){
         if(err){
             console.error(err);
