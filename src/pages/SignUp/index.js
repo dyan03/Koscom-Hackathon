@@ -196,8 +196,11 @@ function SignUp(props) {
             method: 'POST',
             body: JSON.stringify(body_),
             headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},         
-            }).then(res => res.json())
-          .then(resJson => console.log(resJson.status));
+            }).then(res => {
+                if(res){
+                    window.location('/main')
+                }
+            })
 
     }
 

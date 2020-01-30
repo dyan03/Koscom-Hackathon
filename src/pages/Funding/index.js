@@ -5,7 +5,15 @@ class Funding extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            balance:''
+            fundId:'',
+            companyId:'',
+            managerId:'',
+            totalAmount:'',
+            currentAmount:'',
+            startDate:'',
+            endDate:'',
+            fundStyle:'',
+            morningstaType:'',
         }
     }
 
@@ -27,7 +35,7 @@ class Funding extends Component {
                 .then(res => res.json())
                 .then(resJson => {
                     if (resJson.status === 'success') {
-                        alert("펀드가 취소되었습니다.")
+                        alert("펀딩 되었습니다.")
                     }
                     else { // fail
                     }
@@ -36,6 +44,7 @@ class Funding extends Component {
             event.preventDefault();
         }
     }
+
 
     render() {
         return (
@@ -47,7 +56,7 @@ class Funding extends Component {
                             <label style={{ marginLeft: 20 }}>펀드 이름</label>
                             <li>
                                 <div class="btn btn-outline-secondary" style={{ width: 250 }}>
-                                    이름
+                                    {this.props.fundId}
                         </div>
                             </li>
                         </div>
@@ -55,7 +64,7 @@ class Funding extends Component {
                             <label style={{ marginLeft: 20 }}>신탁사</label>
                             <li>
                                 <div class="btn btn-outline-secondary" style={{ width: 250 }}>
-                                    이름
+                                    {this.props.companyId}
                         </div>
                             </li>
                         </div>
@@ -65,7 +74,7 @@ class Funding extends Component {
                             <label style={{ marginLeft: 20 }}>펀드 매니저</label>
                             <li>
                                 <div class="btn btn-outline-secondary" style={{ width: 250 }}>
-                                    이름
+                                    {this.props.managerId}
                         </div>
                             </li>
 
@@ -74,7 +83,7 @@ class Funding extends Component {
                             <label style={{ marginLeft: 20 }}>펀드 종류</label>
                             <li>
                                 <div class="btn btn-outline-secondary" style={{ width: 250 }}>
-                                    이름
+                                    {this.props.fundStyle}
                         </div>
                             </li>
 
@@ -86,7 +95,7 @@ class Funding extends Component {
                             <label style={{ marginLeft: 20 }}>시작일</label>
                             <li>
                                 <div class="btn btn-outline-secondary" style={{ width: 250 }}>
-                                    이름
+                                    {this.props.startDate}
                         </div>
                             </li>
                         </div>
@@ -94,7 +103,7 @@ class Funding extends Component {
                             <label style={{ marginLeft: 20 }}>마감일</label>
                             <li>
                                 <div class="btn btn-outline-secondary" style={{ width: 250 }}>
-                                    이름
+                                    {this.props.endDate}
                         </div>
                             </li>
                         </div>
@@ -105,7 +114,7 @@ class Funding extends Component {
                             <label style={{ marginLeft: 20 }}>운용 금액</label>
                             <li>
                                 <div class="btn btn-outline-secondary" style={{ width: 230 }}>
-                                    이름
+                                    {this.props.totalAmount}
                         </div>
                             </li>
                         </div>
@@ -116,7 +125,7 @@ class Funding extends Component {
                             <label style={{ marginLeft: 20 }}>투자자 잔고</label>
                             <li>
                                 <div class="btn btn-outline-secondary" style={{ width: 230 }}>
-                                    이름
+                                    {this.props.balance}
                         </div>
                             </li>
                         </div>
