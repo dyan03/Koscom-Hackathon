@@ -5,7 +5,7 @@ import './style.css'
 // import 'bootstrap/dist/js/bootstrap.min.css'
 
 import { connect } from 'react-redux';
-import { logIn, regEmail } from '../../store/loginState';
+import { logIn, regEmail, setUserType } from '../../store/loginState';
 import { Link } from 'react-router-dom';
 
 class SignIn extends Component
@@ -34,10 +34,12 @@ class SignIn extends Component
                 // user type receive too ?
                 this.props.logIn();
                 this.props.regEmail(this.state.userEmail);
+                this.props.setUserType(resJson.userType)
 
                 // go to main page
                 console.log('login', this.props.logedIn)
                 console.log('email', this.props.upperUserEmail)
+                console.log('usertype', this.props.upperUserType)
                 //window.location='/'   
             }
             else{ // fail
@@ -101,12 +103,15 @@ class SignIn extends Component
 const mapStateToProps = state => ({  //2
     logedIn : state.loginState.logedIn,
     upperUserEmail : state.loginState.userEmail,
+    upperUserType : state.loginState.userType,
 });
 
 const mapDispatchToProps = dispatch => {
     return {
       logIn : () => dispatch(logIn()),
       regEmail : email => dispatch(regEmail(email)),
+      setUserType : type => dispatch(setUserType(type)),
+
     }
 };
 

@@ -66,20 +66,19 @@ function isAuthenticated(req, res, next) {
 */
 app.post("/login", async function(req,res,next){
     let body = req.body;
-    console.log('body', body);
     if(!body) return;
 
     const userEmail = body.userEmail;
     const inputPassword = body.userPassword;
-    const passwdSql = "select pwd from user where email = (?)";
+    const passwdSql = "select pwd,user_type from user where email = (?)";
     
     connection.query(passwdSql, [userEmail], function(err, results, field){
         if(results[0].pwd === inputPassword){
-            console.log("비밀번호 일치");
+            console.log("비밀번호 일치", results[0].user_type);
             // 세션 설정
             //req.session.userEmail = body.userEmail;
             //req.session.islogin = true;
-            res.json({status:'success'});
+            res.json({status:'success', userType : results[0].user_type});
         }
         else{
             console.log("비밀번호 불일치");
@@ -157,24 +156,41 @@ app.post('/userCheck', function(req, res){
 */
 app.post('/myFund', function(req, res){
     var userEmail = req.body.userEmail;
-    // var fundStage = req.body.fundStage;
-    console.log('userEmail : ', userEmail);
-    // console.log('fundStage : ', fundStage);
+    var userType = req.body.userType;
 
-    var sql = "SELECT * FROM funds WHERE fund_id in (SELECT fund_id FROM matched_funds WHERE invest_email = (?))";
-    connection.query(sql, [userEmail],
-        function(err, result){
-        if(err){
-            console.error(err);
-            throw err;
-        }
-        else {
-            console.log('result',result);
-            res.json({
-                fundList : result
-            });
-        }
-    })
+    console.log('userEmail : ', userType);
+
+    if(userType === 0){
+        var sql = "SELECT * FROM funds WHERE fund_id in (SELECT fund_id FROM matched_funds WHERE invest_email = (?))";
+        connection.query(sql, [userEmail],
+            function(err, result){
+            if(err){
+                console.error(err);
+                throw err;
+            }
+            else {
+                res.json({
+                    fundList : result
+                });
+            }
+        })
+    }
+
+    else{
+        var sqlAdmin = "select * from funds where register_email = (?)"
+        connection.query(sqlAdmin, [userEmail],
+            function(err, result){
+            if(err){
+                console.error(err);
+                throw err;
+            }
+            else {
+                res.json({
+                    fundList : result
+                });
+            }
+        })
+    }
 })
 
 /*
@@ -514,7 +530,7 @@ app.post('/initialFunds', function(req, res){
             throw err;
         }
         else {
-            console.log('result',result);
+            //console.log('result',result);
             res.json({
                 data : result
             });
@@ -530,10 +546,10 @@ app.post('/InvestFunding', function(req, res){
     var userPriceAmount = req.body.fundingAmount;
     var fundId = req.body.fundId;
 
-    const sql = "insert into matched_funds values((?, ?, ?));"+ 
-                "update funds set current_amount = current_amount + (?) where fund_id = (?);"+
-                "update funds set stage = IF(current_amount > total_amount = true, 1, stage) where fund_id = (?);";
-    connection.query(sql, [userEmail, fundId, userPriceAmount, userPriceAmount, fundId, fundId],
+    const sql = "insert into matched_funds values(?, ?, ?);"+ 
+                "update funds set current_amount = current_amount + ? where fund_id = ?;"+
+                "update funds set stage = IF(current_amount > total_amount = true, 1, stage) where fund_id = ?;";
+    connection.query(sql, [fundId, userEmail, userPriceAmount, userPriceAmount, fundId, fundId],
         function(err, result){
         if(err){
             console.error(err);
@@ -555,11 +571,11 @@ app.post('/InvestFunding', function(req, res){
     HTTP REQ, RES 처리
 */
 //static 파일 요청이면 아래에서 끝남
-app.use(express.static(path.join(__dirname, '../build')));
+app.use(express.static(path.join(__dirname, '../../build')));
 
 //만약 그렇지않은 나머지의 경우는 index.html를 넘겨줌
-app.get('/', function(req, res){
-    res.sendFile(path.join(__dirname, '../build', 'index.html'));
+app.get('/*', function(req, res){
+    res.sendFile(path.join(__dirname, '../../build', 'index.html'));
 });
 
 

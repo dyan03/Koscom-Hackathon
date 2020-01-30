@@ -111,16 +111,14 @@ class FundInfo extends Component{
       <div>
       <div style={{display: 'flex'}}>
         <h4 style={{ textAlign: 'center', margin:'auto', marginTop: 20 }}>
-          {this.state.userType} {this.state.name}님이 투자한 펀드 목록입니다.
-          <a href="http://localhost:3000/registerFund">
           {
             this.props.upperUserType === 0
             ?
-            <div></div>
+            <div>{this.state.userType} {this.state.name}님이 투자한 펀드 목록입니다.</div>
             :
-            <div><button type="button" class="btn btn-dark"  style={{height: 40,width: 130, marginLeft: 20}}>새 펀드 등록</button></div>
+            // <div>{this.state.userType} {this.state.name}님이 투자한 펀드 목록입니다.<a href="http://localhost:3000/registerFund"><button type="button" class="btn btn-dark"  style={{height: 40,width: 130, marginLeft: 20}}>새 펀드 등록</button></a></div>
+            <div>{this.state.userType} {this.state.name}님이 투자한 펀드 목록입니다.<a href="http://localhost:8551/registerFund"><button type="button" class="btn btn-dark"  style={{height: 40,width: 130, marginLeft: 20}}>새 펀드 등록</button></a></div>
           }
-          </a>
         </h4>
       </div>
       <div style={{ margin: 'auto', marginTop: 30, width: 700 }}>

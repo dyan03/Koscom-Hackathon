@@ -76,7 +76,8 @@ function RegisterFund(props) {
         .then(resJson => {
             if(resJson.status === 'success'){
                 window.alert('good')
-                window.location.href = "http://localhost:3000/fundInfo"
+                // window.location.href = "http://localhost:3000/fundInfo"
+                window.location.href = "http://localhost:8551/fundInfo"
             }
             else{
 

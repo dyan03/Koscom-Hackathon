@@ -58,7 +58,6 @@ class MyNavbar extends Component{
             <RootRouter/>
             </Fragment>
             )
-
     }
 }
 
