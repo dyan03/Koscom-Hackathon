@@ -17,6 +17,32 @@ class FundInfo extends Component{
     }
   }
 
+  handlefundCancle= (event) =>{
+    console.log("submit")
+    var returnValue=window.confirm('펀드를 취소하시겠습니까?')
+    if(returnValue){
+    fetch("http://localhost:8551/fundDelete", {
+            method: 'POST',
+            body: JSON.stringify({
+                'userId':this.props.userId,
+                'type':1,
+            }),
+            headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},         
+        })
+        .then(res => res.json())
+        .then(resJson => {
+            if(resJson.status === 'success'){
+              alert("펀드가 취소되었습니다.")
+            }
+            else{ // fail
+            }
+        })
+        .then(resJson => console.log(resJson.status));
+      event.preventDefault();
+    }
+
+  }
+
   getInitialData = async () => {
     fetch("http://localhost:8551/myFund", {
       method: 'POST',
@@ -111,7 +137,7 @@ class FundInfo extends Component{
                     <p class="mb-1">현재 펀딩된 금액 : {fund.current_amount}</p>
                     <small class="text-muted">총 모집금액 : {fund.total_amount}</small>
                     <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,width:60, height:30, bottom: 10, left:400}}>관리</button>
-                    <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:410}}>펀드취소</button>
+                    <button class="btn btn-dark" onClick={this.handlefundCancle} style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:410}}>펀드취소</button>
                   </a>
                 );
               })
@@ -135,7 +161,7 @@ class FundInfo extends Component{
                     <p class="mb-1">현재 펀딩된 금액 : {fund.current_amount}</p>
                     <small class="text-muted">총 모집금액 : {fund.total_amount}</small>
                     <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,width:60, height:30, bottom: 10, left:400}}>관리</button>
-                    <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:410}}>펀드취소</button>
+                    <button class="btn btn-dark" onClick={this.handlefundCancle} style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:410}}>펀드취소</button>
                   </a>
                 );
               })
@@ -158,7 +184,7 @@ class FundInfo extends Component{
                     <p class="mb-1">현재 펀딩된 금액 : {fund.current_amount}</p>
                     <small class="text-muted">총 모집금액 : {fund.total_amount}</small>
                     <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,width:60, height:30, bottom: 10, left:400}}>관리</button>
-                    <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:410}}>펀드취소</button>
+                    <button class="btn btn-dark" onClick={this.handlefundCancle} style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:410}}>펀드취소</button>
                   </a>
                 );
               })
@@ -181,7 +207,7 @@ class FundInfo extends Component{
                     <p class="mb-1">현재 펀딩된 금액 : {fund.current_amount}</p>
                     <small class="text-muted">총 모집금액 : {fund.total_amount}</small>
                     <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,width:60, height:30, bottom: 10, left:400}}>관리</button>
-                    <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:410}}>펀드취소</button>
+                    <button class="btn btn-dark" onClick={this.handlefundCancle} style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:410}}>펀드취소</button>
                   </a>
                 );
               })

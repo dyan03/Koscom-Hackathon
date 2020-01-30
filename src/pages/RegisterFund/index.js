@@ -53,6 +53,8 @@ function RegisterFund(props) {
     }
 
     function handleSubmit(event) {
+
+        console.log("submit")
         fetch("http://localhost:8551/fundInsert", {
             method: 'POST',
             body: JSON.stringify({
@@ -64,7 +66,9 @@ function RegisterFund(props) {
                 'startDate' :startDate,
                 'endDate':endDate,
                 'fundStyle':fundStyle,
-                'morningstarType':morningstarType
+                'morningstarType':morningstarType,
+                'type':1,
+
             }),
             headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},         
         })
