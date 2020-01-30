@@ -11,7 +11,8 @@ function SignUp(props) {
     const [accountNumber, setAccountNumber] = useState();
     const [CI, setCI] = useState();
     const [bank, setBank] = useState(0);
-    
+    const [balance, setBalance] = useState();
+    const [token, setToken] = useState();
 
     const [agree, setAgree] = useState(false);
 
@@ -54,6 +55,73 @@ function SignUp(props) {
         setBank(e.target.value)
         console.log(bank)
     }
+
+    /*
+        Access Token 얻기
+    */
+    function handleGetToken(e){
+        var ret = window.open("https://sandbox-apigw.koscom.co.kr/auth/oauth/v2/authorize?response_type=code&state=authCode&client_id=l7xx2d23dc68d7364f2ba84f6a159870faae&scope=&redirect_uri=http://localhost:8551/AuthCallback","accessTokenPopup", "width=500, height=650");
+        console.log(ret);
+    }
+
+    /*
+        계좌 있는지 확인 (계좌 잔고 화인)
+        -필요 데이터 : bank, account, token, ci
+    */
+    function handleSubmitBalance(){
+        var tmpBank = document.getElementById("selectBank").value;
+        var tmpCi = document.getElementById("inputCi").value;
+        var tmpAcc = document.getElementById("inputAccount").value;
+        var tmpToken = document.getElementById("inputToken").value;
+        var result = 0;
+
+        if(tmpAcc === ''){
+            alert('Account number를 입력해주시기 바랍니다.');
+            return;
+        }
+
+        if(tmpCi === ''){
+            alert('CI를 입력해주시기 바랍니다.');
+            return;
+        }
+
+        if(tmpToken === ''){
+            alert('Token을 입력해주시기 바랍니다.');
+            return;
+        }
+
+        if(tmpBank === '다이아몬드 증권'){
+            tmpBank = 'diamond';
+        }else if(tmpBank === '사이버 증권'){
+            tmpBank = 'cyber';
+        }else if(tmpBank === '스타 증권'){
+            tmpBank = 'star';
+        }else{
+            tmpBank = '';
+        }
+
+        fetch("http://localhost:8551/balance",{
+            method: 'POST',
+            body: JSON.stringify({
+                "bank": tmpBank,
+                "ci": tmpCi,
+                "vtAccNo": tmpAcc,
+                "accessToken": tmpToken
+            }),
+            headers: {'Content-Type': 'application/json'},         
+            }).then(res => res.json())
+            .then(json => {
+                result = json;
+                if(!result){
+                    document.getElementById("bankStatus").value = "미확인";
+                    alert('계좌 확인이 불가합니다. 입력 내용을 확인해주시기 바랍니다.');
+                }else{
+                    document.getElementById("bankStatus").value = "확인 완료";
+                    alert('계좌 확인이 완료되었습니다.');
+                }
+            });
+    }
+    
 
     function handleCheckBox(e) {
         // setAgree(!agree)
@@ -126,7 +194,7 @@ function SignUp(props) {
 
                 <div style={{marginBottom: 15}} >
                     <label>증권사</label>
-                    <select class="form-control" onChange={handleSelectBank} >
+                    <select id = "selectBank" class="form-control" onChange={handleSelectBank} >
                         <option>다이아몬드 증권</option>
                         <option>사이버 증권</option>
                         <option>스타 증권</option>
@@ -135,12 +203,22 @@ function SignUp(props) {
 
                 <div className="form-group">
                     <label>Account number</label>
-                    <input className="form-control" placeholder="Enter account number" onChange={handleSubmitAccountNumber} />
+                    <input id = "inputAccount" className="form-control" placeholder="Enter account number" onChange={handleSubmitAccountNumber} />
+                </div>
+
+                <div className="form-group">
+                    <label>Account Status</label>
+                    <input id = "bankStatus" className="form-control" defaultValue="미확인" readOnly="readOnly" onChange={''} />
                 </div>
 
                 <div className="form-group">
                     <label>CI</label>
-                    <input className="form-control" placeholder="Enter CI number" onChange={handleSubmitCI} />
+                    <input id = "inputCi" className="form-control" placeholder="Enter CI number" onChange={handleSubmitCI} />
+                </div>
+
+                <div className="form-group">
+                    <label>Access Token</label>
+                    <input id = "inputToken" className="form-control" placeholder="아래 'Token 얻기' 버튼을 눌러 얻으십시오." onChange={''} />
                 </div>
 
                 <p className="forgot-password text-right">
@@ -151,6 +229,9 @@ function SignUp(props) {
                     <label className="custom-control-label" htmlFor="customCheck1">약관 동의</label>
                 </p>
 
+                <button className="btn btn-primary" type="button" style={{backgroundColor: "orange"}} onClick={handleGetToken}>Token 인증</button>
+                <button className="btn btn-primary" type="button" style={{backgroundColor: "orange"}} onClick={handleGetToken}>Token 저장</button>
+                <button className="btn btn-primary" type="button" onClick={handleSubmitBalance}>계좌 확인</button>
                 <button type="submit" className="btn btn-primary btn-block" onClick={handleCheckBox}>Submit</button>
 
             </form>
