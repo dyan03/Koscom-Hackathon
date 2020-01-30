@@ -58,18 +58,18 @@ function Main(props){
     return(
 
         <div>
-        <div style={{margin: '0px',}}>
-        <Banner/>
-        <div style={{marginLeft: 200, overflowY: 'scroll', height: 800}}>
+          <div style={{margin: '0px',}}>
+          <Banner/>
+            <div style={{marginLeft: 200, overflowY: 'scroll', height: 800}}>
 
-        {Item.map(I => {
-          return (
-              <div style={{margin: '20px'}}>
-                {<MyCard style={{alignItems:'center',margin: '10px'}} nameOfTrust={I.nameOfTrust} nameOfFund={I.nameOfFund} nameOfFM={I.nameOfFM} target={I.target} current={I.current}/>}
-              </div>
-          )
-          })}
-          </div>
+            {Item.map(I => {
+              return (
+                  <div style={{margin: '20px'}}>
+                    {<MyCard style={{alignItems:'center',margin: '10px'}} nameOfTrust={I.nameOfTrust} nameOfFund={I.nameOfFund} nameOfFM={I.nameOfFM} target={I.target} current={I.current}/>}
+                  </div>
+              )
+              })}
+            </div>
           </div>
         
       </div>

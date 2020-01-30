@@ -19,15 +19,16 @@ app.get('/*', function(req, res) {
 
 app.use(cookieParser());
 app.use(bodyParser.json())
-app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-    maxAge: 15 * 60 * 1000// 쿠키 유효기간 min
-  },
-  store : new FileStore()
-}));
+
+// app.use(session({
+//   secret: 'keyboard cat',
+//   resave: false,
+//   saveUninitialized: true,
+//   cookie: {
+//     maxAge: 15 * 60 * 1000// 쿠키 유효기간 min
+//   },
+//   store : new FileStore()
+// }));
 
 /*
     DB Connection 처리
