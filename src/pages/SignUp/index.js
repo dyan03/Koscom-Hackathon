@@ -10,7 +10,8 @@ function SignUp(props) {
     const [CI, setCI] = useState();
     const [bank, setBank] = useState(0);
     const [balance, setBalance] = useState(0);
-    const [userType,setUserType]=useState();
+    const [userType, setUserType]=useState();
+    const [userToken, setUserToken]=useState();
     const [agree, setAgree] = useState(false);
 
     function validateForm() {
@@ -42,6 +43,16 @@ function SignUp(props) {
         console.log(accountNumber)
     }
 
+    function handleSubmitAccountBalance(e) {
+        setBalance(e.target.value)
+        console.log(balance)
+    }
+
+    function handleSubmitAccessToken(e) {
+        setUserToken(e.target.value)
+        console.log(userToken);
+    }
+
     function handleSubmitCI(e) {
         setCI(e.target.value)
         console.log(CI)
@@ -70,7 +81,7 @@ function SignUp(props) {
         Access Token 얻기
     */
     function handleGetToken(){
-        var openURL = "https://sandbox-apigw.koscom.co.kr/auth/oauth/v2/authorize?response_type=code&state=authCode&client_id=l7xx2d23dc68d7364f2ba84f6a159870faae&scope=&redirect_uri=http://localhost:8551/AuthCallback";
+        var openURL = "https://sandbox-apigw.koscom.co.kr/auth/oauth/v2/authorize?response_type=code&state=authCode&client_id=l7xx2d23dc68d7364f2ba84f6a159870faae&scope=&redirect_uri=http://13.125.242.200:8551/AuthCallback";
         var option = "width=500, height=650"
         var windowName = "Access Token Popup";
         
@@ -81,7 +92,7 @@ function SignUp(props) {
         Access Token 입력폼에 저장
     */
    function handleSaveToken(){
-        fetch("http://localhost:8551/getAccessToken",{
+        fetch("http://13.125.242.200:8551/getAccessToken",{
             method: 'POST',
             body: JSON.stringify({
             }),
@@ -98,6 +109,7 @@ function SignUp(props) {
                     alert('Token 인증 버튼을 먼저 눌러주시기 바랍니다.');
                 }else{
                     document.getElementById("inputToken").value = inputTmpToken;
+                    setUserToken(inputTmpToken);
                     alert('Access Token이 입력 양식에 저장 완료되었습니다.');
                 }
 
@@ -141,7 +153,7 @@ function SignUp(props) {
             tmpBank = '';
         }
 
-        fetch("http://localhost:8551/realBalance",{
+        fetch("http://13.125.242.200:8551/realBalance",{
             method: 'POST',
             body: JSON.stringify({
                 "bank": tmpBank,
@@ -154,12 +166,14 @@ function SignUp(props) {
             .then(json => {
                 var cashBalance = json.cashBalance;
                 console.log(typeof cashBalance);
+                console.log('캐쉬밸런스 없냐? : ', cashBalance);
                 if(typeof cashBalance === 'undefined'){
                     document.getElementById("accountBalance").value = "0";
                     document.getElementById("bankStatus").value = "계좌 확인을 해주시기 바랍니다.";
                     alert('계좌 확인이 불가합니다. 입력 내용을 확인해주시기 바랍니다.');
                 }else{
                     document.getElementById("accountBalance").value = cashBalance;
+                    setBalance(cashBalance);
                     document.getElementById("bankStatus").value = "유효한 계좌번호 입니다.";
                     alert('계좌 확인이 완료되었습니다.');
                 }
@@ -182,6 +196,8 @@ function SignUp(props) {
             'userAccount': accountNumber,
             'userBalance': balance,
             'userCi': CI,
+            'userToken': userToken,
+            'userBank': bank
         }
 
         const obj = JSON.stringify({
@@ -190,9 +206,9 @@ function SignUp(props) {
             headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
         })
 
-        const URL = 'http://localhost:8551/userInsert';
+        const URL = 'http://13.125.242.200:8551/userInsert';
 
-        fetch("http://localhost:8551/userInsert",{
+        fetch("http://13.125.242.200:8551/userInsert",{
             method: 'POST',
             body: JSON.stringify(body_),
             headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},         
@@ -215,7 +231,7 @@ function SignUp(props) {
                     </div>
                     <div style={{marginBottom: 15}} >
                     <label>Type</label>
-                        <select id = "selectBank" class="form-control" onChange={handleSelectUser} >
+                        <select id = "userType" class="form-control" onChange={handleSelectUser} >
                             <option>투자자</option>
                             <option>신탁사</option>
                             <option>펀드매니저</option>
@@ -254,7 +270,7 @@ function SignUp(props) {
 
                 <div className="form-group">
                     <label>Account Balance</label>
-                    <input id = "accountBalance" className="form-control" defaultValue="0" readOnly="readOnly" onChange={''} />
+                    <input id = "accountBalance" className="form-control" defaultValue="0" readOnly="readOnly" onChange={handleSubmitAccountBalance} />
                 </div>
 
                 <div className="form-group">
@@ -269,7 +285,7 @@ function SignUp(props) {
 
                 <div className="form-group">
                     <label>Access Token</label>
-                    <input id = "inputToken" className="form-control" placeholder="아래 'Token 얻기' 버튼을 눌러 얻으십시오." readOnly="readOnly" onChange={''} />
+                    <input id = "inputToken" className="form-control" placeholder="아래 'Token 얻기' 버튼을 눌러 얻으십시오." readOnly="readOnly" onChange={handleSubmitAccessToken} />
                 </div>
 
                 <p className="forgot-password text-right">
