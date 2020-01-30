@@ -12,7 +12,7 @@ function Banner() {
             </ol>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img class="d-block w-100" style={{width: 1000, height: 200 }} src={require('../../static/images/banner1.jpg')} alt="First slide" />
+                    <img class="d-block w-100" style={{width: 1000, height: 200 }} src={require('../../static/images/new_banner1.png')} alt="First slide" />
                 </div>
                 <div class="carousel-item">
                     <img class="d-block w-100" style={{width: 1000, height: 200 }} src={require('../../static/images/banner2.jpg')} alt="Second slide" />
