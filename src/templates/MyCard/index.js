@@ -1,21 +1,26 @@
-import React from 'react'
+import React ,{useState} from 'react'
 import styles from './styles.css'
 
 function MyCard(props) {
+
+    const [fundId,setFundId]=useState();
+    const [companyId,setCompanyId]=useState();
+    const [managerId,setManagerId]=useState();
+    const [totalAmount,setTotalAmount]=useState();
+    const [startDate,setStartDate]=useState();
+    const [endDate,setEndDate]=useState();
+    const [fundStyle,setFundStyle]=useState();
+    const [morningstaType,setMorningstaType]=useState();
+    
+    var fundId_="신한"
+
+    // setFundId("신한")
+
     return (
         <div class="card text" style={{width: 700, height: 200, float: 'left', margin :'10px'}}>
             <div class="card-header">
                 <ul class="nav nav-tabs card-header-tabs">
-                    {/* <li class="nav-item">
-                        <a class="nav-link" href="#">Active</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Disabled</a>
-                    </li> */}
-                <h5 class="card-title">[{props.nameOfTrust}] {props.nameOfFund}</h5>
+                  <h5 class="card-title">[{companyId}] {fundId_}</h5>
 
                 </ul>
             </div>
@@ -31,7 +36,6 @@ function MyCard(props) {
             </div>
         </div>
     )
-
 }
 
 export default MyCard

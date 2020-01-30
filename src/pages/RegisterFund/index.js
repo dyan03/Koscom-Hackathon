@@ -10,12 +10,12 @@ function RegisterFund(props) {
     const [CI, setCI] = useState();
     const [bank, setBank] = useState(0);
     
-    var fund_id; var company_id;
-    var manager_id;
+    var fundId; var companyId;
+    var managerId;
     var stage;
-    var total_amount;
-    var start_date; var end_date;
-    var fund_style; var morningsta_type;
+    var totalAmount;
+    var startDate; var endDate;
+    var fundStyle; var morningstaType;
 
     const [agree, setAgree] = useState(false);
 
