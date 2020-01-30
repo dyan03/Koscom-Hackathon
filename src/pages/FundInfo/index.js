@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Popup from './popup'
 
 function FundInfo() {
   const [name, setName] = useState('아무개');
@@ -20,12 +19,8 @@ function FundInfo() {
   var fundListResult = [];
   var result;
 
-  const clickhandler = () => {
-    { console.log('popup!!!') }
+  function handleRegister(){
 
-    return (
-      <Popup />
-    )
   }
 
   function foo() {
@@ -52,20 +47,19 @@ function FundInfo() {
     }, 301);
   }
 
-
   return (
     <div>
-      <div >
-        <h4 style={{ textAlign: 'center', marginTop: 20 }}>
+      <div style={{ margin: 'auto'}}>
+        <h4 style={{textAlign: 'center'}}>
 
           {activate
             ?
-            <div>
-              정보를 불러오는 중입니다.
+            <div style={{display: 'flex'}}>
+                정보를 불러오는 중입니다. 
             </div>
             :
-            <div>
-              {userType} {name}님의 펀드 목록입니다.
+            <div style={{display: 'flex'}}>
+              {userType} {name}님의 펀드 목록입니다. <button type="submit" className="btn btn-primary btn-block" style={{width:100}} onClick={handleRegister}>펀드 등록</button>
             </div>
           }
         </h4>
@@ -79,7 +73,6 @@ function FundInfo() {
             대기중인 펀드<span class="badge badge-primary badge-pill" style={{ textAlign: 'right', backgroundColor: 'white', color: 'black' }}>6</span>
           </button>
           <div style={{ overflowY: 'scroll', height: 200 }}>
-
             {activate
               ?
               <div>

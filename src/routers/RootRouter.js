@@ -7,7 +7,7 @@ import Main from '../pages/Main';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import FundInfo from '../pages/FundInfo';
-
+import RegisterFund from '../pages/RegisterFund';
 
 function RootRouter() {
   return (
@@ -28,6 +28,11 @@ function RootRouter() {
           exact
           path='/fundInfo'
           component={FundInfo}
+        />
+        <Route
+          exact
+          path='/registerFund'
+          component={RegisterFund}
         />
       </Router>
     </Fragment>

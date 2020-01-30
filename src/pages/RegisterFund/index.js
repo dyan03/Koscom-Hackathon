@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './style.css'
 
-function SignUp(props) {
+function RegisterFund(props) {
     const [name, setName] = useState();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
@@ -12,11 +12,6 @@ function SignUp(props) {
     
 
     const [agree, setAgree] = useState(false);
-
-
-    function validateForm() {
-        //   return email.length > 0 && password.length > 0;
-    }
 
     function handleSubmitName(e) {
         setName(e.target.value)
@@ -54,7 +49,6 @@ function SignUp(props) {
     }
 
     function handleCheckBox(e) {
-        // setAgree(!agree)
 
         if (password != password_) {
             alert('패스워드를 확인하세요')
@@ -93,13 +87,12 @@ function SignUp(props) {
             headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},         
             }).then(res => res.json())
           .then(resJson => console.log(resJson.status));
-
     }
 
     return (
         <div className="layout">
             <form>
-                <h3>Sign Up</h3>
+                <h3>펀드 등록</h3>
                 <div style={{ display: 'flex' }}>
                     <div className="form-group">
                         <label>Your name</label>
@@ -156,4 +149,4 @@ function SignUp(props) {
     );
 }
 
-export default SignUp;
+export default RegisterFund;
