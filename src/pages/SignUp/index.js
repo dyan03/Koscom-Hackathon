@@ -98,7 +98,7 @@ function SignUp(props) {
         var tmpCi = document.getElementById("inputCi").value;
         var tmpAcc = document.getElementById("inputAccount").value;
         var tmpToken = document.getElementById("inputToken").value;
-        var result = 0;
+        var cashBalance = 0;
 
         if(tmpAcc === ''){
             alert('Account number를 입력해주시기 바랍니다.');
@@ -125,7 +125,7 @@ function SignUp(props) {
             tmpBank = '';
         }
 
-        fetch("http://localhost:8551/balance",{
+        fetch("http://localhost:8551/realBalance",{
             method: 'POST',
             body: JSON.stringify({
                 "bank": tmpBank,
@@ -136,12 +136,15 @@ function SignUp(props) {
             headers: {'Content-Type': 'application/json'},         
             }).then(res => res.json())
             .then(json => {
-                result = json;
-                if(!result){
-                    document.getElementById("bankStatus").value = "미확인";
+                var cashBalance = json.cashBalance;
+                console.log(typeof cashBalance);
+                if(typeof cashBalance === 'undefined'){
+                    document.getElementById("accountBalance").value = "0";
+                    document.getElementById("bankStatus").value = "계좌 확인을 해주시기 바랍니다.";
                     alert('계좌 확인이 불가합니다. 입력 내용을 확인해주시기 바랍니다.');
                 }else{
-                    document.getElementById("bankStatus").value = "확인 완료";
+                    document.getElementById("accountBalance").value = cashBalance;
+                    document.getElementById("bankStatus").value = "유효한 계좌번호 입니다.";
                     alert('계좌 확인이 완료되었습니다.');
                 }
             });
@@ -232,6 +235,11 @@ function SignUp(props) {
                 </div>
 
                 <div className="form-group">
+                    <label>Account Balance</label>
+                    <input id = "accountBalance" className="form-control" defaultValue="0" readOnly="readOnly" onChange={''} />
+                </div>
+
+                <div className="form-group">
                     <label>Account Status</label>
                     <input id = "bankStatus" className="form-control" defaultValue="미확인" readOnly="readOnly" onChange={''} />
                 </div>
@@ -243,7 +251,7 @@ function SignUp(props) {
 
                 <div className="form-group">
                     <label>Access Token</label>
-                    <input id = "inputToken" className="form-control" placeholder="아래 'Token 얻기' 버튼을 눌러 얻으십시오." onChange={''} />
+                    <input id = "inputToken" className="form-control" placeholder="아래 'Token 얻기' 버튼을 눌러 얻으십시오." readOnly="readOnly" onChange={''} />
                 </div>
 
                 <p className="forgot-password text-right">
