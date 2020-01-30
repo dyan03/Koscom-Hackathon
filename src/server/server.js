@@ -34,7 +34,7 @@ var connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: '8551',
+    password: 'root',
     database: 'db',
     multipleStatements: true
 });
@@ -518,6 +518,74 @@ app.post('/initialFunds', function(req, res){
     })
 })
 
+
+/*
+    로그인시(Sign In) 계좌잔고 API로 가져와서 DB Update함
+*/
+app.post('/balanceUpdate', function(req, res){
+    // 계좌은행 : 3개의 값만 가져와야함 {diamond, cyber, star}
+    var bank = req.body.bank;
+    // 2. 고객 CI
+    var ci = req.body.ci;
+    // 3. 고객 계좌번호
+    var vtAccNo = req.body.vtAccNo;
+    // 4. 고객 Token
+    var accessToken = req.body.accessToken;
+    // 5. 사용자 EMAIL
+    var email = req.body.email;
+
+    //고객 계좌잔고 정보 요청
+    option = {
+        url: 'https://sandbox-apigw.koscom.co.kr/v1/' + bank + '/account/balance/search',
+        body: '{"partner": {    "comId": "F9999",    "srvId": "999"  },  "commonHeader": {  "ci": "'+ ci +'",    "reqIdConsumer": "reqid-0001"  },  "devInfo": {    "ipAddr": "192168010001",    "macAddr": "1866DA0D99D6"  },  "accInfo": {	"vtAccNo": "'+ vtAccNo +'"  },  "balanceRequestBody": {	"queryType": {      "assetType": "ALL",      "count": 0,      "page": "null"    }  }}',
+        headers: { 'Content-Type':'application/json', 'Authorization':'Bearer ' + accessToken + '', 'Content-Type':'application/json'  },
+        method: 'POST'
+    }
+
+    var cashBalance = '';
+    request(option, function (error, response, body) {
+        if(error){
+            console.log(err);
+            throw new Error(error);
+        }
+
+        
+        //var notDoUpdate = 0;
+
+        cashBalance = JSON.parse(body).balanceList.balance.summary.cashBalance;
+        // try{
+        //     cashBalance = JSON.parse(body).balanceList.balance.summary.cashBalance;
+        //     console.log('성공함');
+        //     console(typeof cashBalance);
+        //     console.log('cashBalance : ', cashBalance);
+        // }catch(e){
+        //     console.log('에러 발생');
+        //     console.log(JSON.parse(body));
+        //     notDoUpdate = 1;
+        // }
+
+
+    });
+
+    var sql = "UPDATE USER SET BALANCE = ? WHERE email = ?;";
+    console.log(sql);
+    connection.query(sql, [
+            cashBalance,
+            email
+    ], function(err, result){
+    if(err){
+            console.error(err);
+            throw err;
+        }
+        else {
+                console.log("USER 계좌잔고 업데이트 완료");
+            }
+    })
+    res.json(1);
+
+});
+
+
 /*
     HTTP REQ, RES 처리
 */
@@ -528,6 +596,5 @@ app.use(express.static(path.join(__dirname, '../build')));
 app.get('/', function(req, res){
     res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
-
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
