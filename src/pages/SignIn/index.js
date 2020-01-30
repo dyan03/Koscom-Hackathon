@@ -19,7 +19,7 @@ class SignIn extends Component
 
     handleSubmit = (e) => {
         if(this.state.userEmail === "" || this.state.password === "") return;
-        fetch("http://localhost:8551/login", {
+        fetch("http://13.125.242.200:8551/login", {
             method: 'POST',
             body: JSON.stringify({
                 'userEmail':this.state.userEmail,
@@ -115,7 +115,7 @@ export default connect(
 //     }
   
 //     function handleSubmit(event) {
-//         fetch("http://localhost:8551/login", {
+//         fetch("http://13.125.242.200:8551/login", {
 //             method: 'POST',
 //             body: JSON.stringify({
 //                 'userEmail':email,

@@ -24,7 +24,7 @@ class Funding extends Component {
         console.log("금액",this.state.balance)
         var returnValue = window.confirm('펀딩 하시겠습니까?')
         if (returnValue) {
-            fetch("http://localhost:8551/fundDelete", {
+            fetch("http://13.125.242.200:8551/fundDelete", {
                 method: 'POST',
                 body: JSON.stringify({
                     'userId': this.props.userId,

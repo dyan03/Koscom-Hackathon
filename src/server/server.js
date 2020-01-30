@@ -31,7 +31,7 @@ app.use(bodyParser.json())
     DB Connection 처리
 */
 var connection = mysql.createConnection({
-    host: 'localhost',
+    host: '13.125.242.200',
     port: 3306,
     user: 'root',
     password: 'root',
