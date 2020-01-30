@@ -42,7 +42,7 @@ function MyCard(props) {
             </div>
             <div  class="card-body" style={{textAlign: 'right'}} >
 
-            <Popup trigger={<button> Trigger</button>} position="left center">
+            <Popup trigger={<button> 펀딩하기</button>} position="left center">
                 <div ><Funding fundId={fundId} companyId={companyId} managerId={managerId} currentAmount={currentAmount} startDate={startDate} endDate={endDate} fundStyle={fundStyle} morningstaType={morningstaType}/></div>
              </Popup>
             </div>

@@ -32,13 +32,12 @@ class Funding extends Component {
                 }),
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
             })
-                .then(res => res.json())
-                .then(resJson => {
-                    if (resJson.status === 'success') {
-                        alert("펀딩 되었습니다.")
+                .then(res => {
+                    if(res){
+                        window.alert("펀딩되었습니다.")
+                        window.location('/main')
                     }
-                    else { // fail
-                    }
+                
                 })
                 .then(resJson => console.log(resJson.status));
             event.preventDefault();
@@ -48,9 +47,9 @@ class Funding extends Component {
 
     render() {
         return (
-            <div className="layout" style={{ width: 700, marginTop: 30 }}>
+            <div className="layout" style={{ width: 600, marginTop: 30 }}>
                 <form>
-                    <h3>펀딩</h3>
+                    <h3 style={{textAlign:"right"}}>펀딩</h3>
                     <div style={{ display: 'flex', marginTop: 20 }}>
                         <div className="form-group" style={{ width: 250 }}>
                             <label style={{ marginLeft: 20 }}>펀드 이름</label>
