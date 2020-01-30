@@ -87,7 +87,6 @@ class FundInfo extends Component{
           {this.state.userType} {this.state.name}님이 투자한 펀드 목록입니다.
           <a href="http://localhost:3000/registerFund">
           <button type="button" class="btn btn-dark"  style={{height: 40,width: 130, marginLeft: 20}}>새 펀드 등록</button>
-
           </a>
         </h4>
       </div>
@@ -104,14 +103,15 @@ class FundInfo extends Component{
             {
               this.state.fundWaitList.filter(fund => fund.stage === 0).map(fund => {
                 return(
-                  <a class="list-group-item list-group-item-action flex-column align-items-start">
+                  <a class="list-group-item list-group-item-action flex-column align-items-start" style={{height:106}}>
                     <div class="d-flex w-100 justify-content-between">
                       <h5 class="mb-1">{fund.fund_id}</h5>
                       <small class="text-muted">등록자 : {fund.register_email}</small>
                     </div>
                     <p class="mb-1">현재 펀딩된 금액 : {fund.current_amount}</p>
                     <small class="text-muted">총 모집금액 : {fund.total_amount}</small>
-                    <button>withdraw</button>
+                    <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,width:60, height:30, bottom: 10, left:400}}>관리</button>
+                    <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:410}}>펀드취소</button>
                   </a>
                 );
               })
@@ -127,13 +127,15 @@ class FundInfo extends Component{
           {
               this.state.fundWaitList.filter(fund => fund.stage === 1).map(fund => {
                 return(
-                  <a class="list-group-item list-group-item-action flex-column align-items-start">
+                  <a class="list-group-item list-group-item-action flex-column align-items-start"  style={{height:106}}>
                     <div class="d-flex w-100 justify-content-between">
                       <h5 class="mb-1">{fund.fund_id}</h5>
                       <small class="text-muted">등록자 : {fund.register_email}</small>
                     </div>
                     <p class="mb-1">현재 펀딩된 금액 : {fund.current_amount}</p>
                     <small class="text-muted">총 모집금액 : {fund.total_amount}</small>
+                    <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,width:60, height:30, bottom: 10, left:400}}>관리</button>
+                    <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:410}}>펀드취소</button>
                   </a>
                 );
               })
@@ -148,13 +150,15 @@ class FundInfo extends Component{
           {
               this.state.fundWaitList.filter(fund => fund.stage === 2).map(fund => {
                 return(
-                  <a class="list-group-item list-group-item-action flex-column align-items-start">
+                  <a class="list-group-item list-group-item-action flex-column align-items-start"  style={{height:106}}>
                     <div class="d-flex w-100 justify-content-between">
                       <h5 class="mb-1">{fund.fund_id}</h5>
                       <small class="text-muted">등록자 : {fund.register_email}</small>
                     </div>
                     <p class="mb-1">현재 펀딩된 금액 : {fund.current_amount}</p>
                     <small class="text-muted">총 모집금액 : {fund.total_amount}</small>
+                    <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,width:60, height:30, bottom: 10, left:400}}>관리</button>
+                    <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:410}}>펀드취소</button>
                   </a>
                 );
               })
@@ -169,13 +173,15 @@ class FundInfo extends Component{
           {
               this.state.fundWaitList.filter(fund => fund.stage === 3).map(fund => {
                 return(
-                  <a class="list-group-item list-group-item-action flex-column align-items-start">
+                  <a class="list-group-item list-group-item-action flex-column align-items-start"  style={{height:106}}>
                     <div class="d-flex w-100 justify-content-between">
                       <h5 class="mb-1">{fund.fund_id}</h5>
                       <small class="text-muted">등록자 : {fund.register_email}</small>
                     </div>
                     <p class="mb-1">현재 펀딩된 금액 : {fund.current_amount}</p>
                     <small class="text-muted">총 모집금액 : {fund.total_amount}</small>
+                    <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,width:60, height:30, bottom: 10, left:400}}>관리</button>
+                    <button class="btn btn-dark" style={{position:'relative', fontSize:12 ,height:30,bottom: 10, left:410}}>펀드취소</button>
                   </a>
                 );
               })
