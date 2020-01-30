@@ -97,7 +97,17 @@ class Main extends Component{
             {this.state.fundList.map(I => {
               return (
                   <div style={{margin: '20px'}}>
-                    {<MyCard style={{alignItems:'center',margin: '10px'}} companyId={I.name} fundId={I.fund_id} managerId={I.name} totalAmount={I.total_amount} currentAmount={I.current_amount}/>}
+                    {<MyCard style={{alignItems:'center',margin: '10px'}} 
+                    companyId={I.name} fundId={I.fund_id} 
+                    managerId={I.name} 
+                    totalAmount={I.total_amount} 
+                    currentAmount={I.current_amount}
+                    startDate={I.start_date} 
+                    endDate={I.end_date} 
+                    fundStyle={I.fund_style} 
+                    morningstaType={I.moringstar_type} 
+
+                    />}
                   </div>
               )
               })}

@@ -449,7 +449,8 @@ app.post('/fundInsert', function(req, res){
 app.post('/initialFunds', function(req, res){
     console.log('initialFunds');
 
-    var sql = "select * from funds, user where funds.stage = '0' and funds.register_email = user.email order by (current_amount/total_amount) desc;";
+    //var sql = "select * from funds, user where funds.stage = '0' and funds.register_email = user.email order by (current_amount/total_amount) desc;";
+    var sql = "select * from funds, user where funds.stage = '0' order by (current_amount/total_amount) desc;";
     connection.query(sql,
         function(err, result){
         if(err){

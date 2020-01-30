@@ -68,30 +68,20 @@ function RegisterFund(props) {
                 'fundStyle':fundStyle,
                 'morningstarType':morningstarType,
                 'type':1,
-
             }),
             headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},         
         })
         .then(res => res.json())
         .then(resJson => {
             if(resJson.status === 'success'){
-                // localStorage => login : true
-                // => localStorage.email = email
-                // go to main page
             }
-            else{ // fail
-                //<Popup>login fail!</Popup>
+            else{
             }
         })
         .then(resJson => console.log(resJson.status));
       event.preventDefault();
     }
-<<<<<<< HEAD
     console.log("registerFund")
-=======
-
-
->>>>>>> 6b169f6f278c6194370f4e62c3bc1015075cf063
     return (
         <div className="layout" style={{width:700, marginTop:30}}>
             <form>
