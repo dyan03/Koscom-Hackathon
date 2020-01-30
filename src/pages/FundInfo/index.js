@@ -29,7 +29,7 @@ class FundInfo extends Component{
             method: 'POST',
             body: JSON.stringify({
                 'userId':this.props.userId,
-                'type':1,
+                'type':this.userType,
             }),
             headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},         
         })

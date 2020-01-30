@@ -1,5 +1,9 @@
 import React ,{useState} from 'react'
 import styles from './styles.css'
+import Funding from '../../pages/Funding'
+// import { Link } from 'react-router-dom';
+import Popup from "reactjs-popup";
+
 
 function MyCard(props) {
 
@@ -13,8 +17,6 @@ function MyCard(props) {
     var fundStyle=props.fundStyle;
     var morningstaType=props.morningstaType;
     
-    // setFundId("신한")
-
     return (
         <div class="card text" style={{width: 700, height: 200, float: 'left', margin :'10px'}}>
             <div class="card-header">
@@ -24,13 +26,11 @@ function MyCard(props) {
             </div>
             <div style={{display: 'flex'}}>
             <div class="card-body" style={{display: 'flex'}}>
-
                     <div>
                         <p class={styles.cardList} >Fund Manager {managerId}</p>
                         <p class={styles.cardList} > 펀드 스타일 {fundStyle}</p>
                         <p class={styles.cardList} > 모닝스타 타입 {morningstaType}</p>
                     </div>
-
                     <div style={{ marginLeft: 100 }}>
                         <p class={styles.cardList} > 시작 일자 {startDate}</p>
                         <p class={styles.cardList} > 마감 일자 {endDate}</p>
@@ -41,7 +41,10 @@ function MyCard(props) {
                     </div>
             </div>
             <div  class="card-body" style={{textAlign: 'right'}} >
-                    <a href="/funding" class="btn btn-primary"  >펀딩</a>
+
+            <Popup trigger={<button> Trigger</button>} position="left center">
+                <div ><Funding fundId={fundId} companyId={companyId} managerId={managerId} currentAmount={currentAmount} startDate={startDate} endDate={endDate} fundStyle={fundStyle} morningstaType={morningstaType}/></div>
+             </Popup>
             </div>
             </div>
         </div>

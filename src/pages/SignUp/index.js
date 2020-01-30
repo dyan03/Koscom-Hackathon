@@ -9,6 +9,8 @@ function SignUp(props) {
     const [accountNumber, setAccountNumber] = useState();
     const [CI, setCI] = useState();
     const [bank, setBank] = useState(0);
+    const [balance, setBalance] = useState(0);
+    const [userType,setUserType]=useState();
     const [agree, setAgree] = useState(false);
 
     function validateForm() {
@@ -48,6 +50,20 @@ function SignUp(props) {
     function handleSelectBank(e){
         setBank(e.target.value)
         console.log(bank)
+    }
+
+    
+    function handleSelectUser(e){
+        var user_=e.target.value
+        if(user_==="투자자"){
+            setUserType(0)
+        }else if(user_==="신탁사"){
+            setUserType(1)
+        }
+        else{
+            setUserType(2)
+        }
+        console.log(userType)
     }
 
     /*
@@ -161,11 +177,11 @@ function SignUp(props) {
         const body_ = {
             'userEmail': email,
             'userName': name,
-            'userbalance': 0,
-            'userType': 0,
+            'userType': userType,
             'userPassword': password,
-            'userAccount': '01020',
-            'userCi': 30012,
+            'userAccount': accountNumber,
+            'userBalance': balance,
+            'userCi': CI,
         }
 
         const obj = JSON.stringify({
@@ -178,19 +194,13 @@ function SignUp(props) {
 
         fetch("http://localhost:8551/userInsert",{
             method: 'POST',
-            body: JSON.stringify({
-                'userEmail': email,
-                'userName': name,
-                'userbalance': 0,
-                'userType': 0,
-                'userPassword': password,
-                'userAccount': '01020',
-                'userCi': 30012,
-                'userBank': bank,
-            }),
+            body: JSON.stringify(body_),
             headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},         
-            }).then(res => res.json())
-          .then(resJson => console.log(resJson.status));
+            }).then(res => {
+                if(res){
+                    window.location('/main')
+                }
+            })
 
     }
 
@@ -202,6 +212,14 @@ function SignUp(props) {
                     <div className="form-group">
                         <label>Your name</label>
                         <input type="name" className="form-control" placeholder="Enter name" onChange={handleSubmitName} />
+                    </div>
+                    <div style={{marginBottom: 15}} >
+                    <label>Type</label>
+                        <select id = "selectBank" class="form-control" onChange={handleSelectUser} >
+                            <option>투자자</option>
+                            <option>신탁사</option>
+                            <option>펀드매니저</option>
+                        </select>
                     </div>
                 </div>
 

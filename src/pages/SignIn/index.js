@@ -1,5 +1,4 @@
 import React, {useState, Component}from 'react'
-import Popup from 'react-popup'
 // import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import './style.css'
 // import 'bootstrap/dist/js/bootstrap.min.css'
@@ -54,14 +53,6 @@ class SignIn extends Component
     handlePasswdEdit = (e) => {
         this.setState({password : e.target.value})
     }
-  
-    // handleSubmitEmail(e) {
-    //     this.setState({userEmail : e.target.value})
-    // }   
-
-    // handleSubmitPwd(e) {
-    //     this.setState({password : e.target.value})
-    // }
 
     render(){
         return (

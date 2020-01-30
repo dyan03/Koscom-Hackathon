@@ -71,14 +71,16 @@ function RegisterFund(props) {
             }),
             headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},         
         })
-        .then(res => res.json())
-        .then(resJson => {
-            if(resJson.status === 'success'){
-            }
-            else{
+        .then(res => {
+            console.log(res)
+            if (res===1){
+                window.alert("펀드가 등록되었습니다.")
+                window.location('/fundInfo')
+            }else{
+                window.alert("펀드 등록에 실패했습니다.")
             }
         })
-        .then(resJson => console.log(resJson.status));
+
       event.preventDefault();
     }
     console.log("registerFund")
@@ -101,13 +103,11 @@ function RegisterFund(props) {
                 <div style={{display: 'flex'}}>
                     <div className="form-group" style={{width:300}}>
                         <label>펀드 매니저</label>
-                        <input type="email" className="form-control" placeholder="계정 이메일을 입력해주세요" onChange={handleSubmitManagerId} />
-                        
+                        <input type="name" className="form-control" placeholder="이름을 입력해주세요" onChange={handleSubmitManagerId} />
                     </div>
-                        <div className="form-group" style={{width:180, marginLeft:30}}>    
+                    <div className="form-group" style={{width:180, marginLeft:30}}>    
                         <label>운용 금액</label>
                         <input className="form-control" onChange={handleSubmitTotalAmount}/>
-
                     </div>
                     <div style={{marginTop: 40, marginLeft: 10}}>
                         원
