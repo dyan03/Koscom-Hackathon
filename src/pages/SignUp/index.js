@@ -10,7 +10,8 @@ function SignUp(props) {
     const [CI, setCI] = useState();
     const [bank, setBank] = useState(0);
     const [balance, setBalance] = useState(0);
-    const [userType,setUserType]=useState();
+    const [userType, setUserType]=useState();
+    const [userToken, setUserToken]=useState();
     const [agree, setAgree] = useState(false);
 
     function validateForm() {
@@ -40,6 +41,16 @@ function SignUp(props) {
     function handleSubmitAccountNumber(e) {
         setAccountNumber(e.target.value)
         console.log(accountNumber)
+    }
+
+    function handleSubmitAccountBalance(e) {
+        setBalance(e.target.value)
+        console.log(balance)
+    }
+
+    function handleSubmitAccessToken(e) {
+        setUserToken(e.target.value)
+        console.log(userToken);
     }
 
     function handleSubmitCI(e) {
@@ -98,6 +109,7 @@ function SignUp(props) {
                     alert('Token 인증 버튼을 먼저 눌러주시기 바랍니다.');
                 }else{
                     document.getElementById("inputToken").value = inputTmpToken;
+                    setUserToken(inputTmpToken);
                     alert('Access Token이 입력 양식에 저장 완료되었습니다.');
                 }
 
@@ -154,12 +166,14 @@ function SignUp(props) {
             .then(json => {
                 var cashBalance = json.cashBalance;
                 console.log(typeof cashBalance);
+                console.log('캐쉬밸런스 없냐? : ', cashBalance);
                 if(typeof cashBalance === 'undefined'){
                     document.getElementById("accountBalance").value = "0";
                     document.getElementById("bankStatus").value = "계좌 확인을 해주시기 바랍니다.";
                     alert('계좌 확인이 불가합니다. 입력 내용을 확인해주시기 바랍니다.');
                 }else{
                     document.getElementById("accountBalance").value = cashBalance;
+                    setBalance(cashBalance);
                     document.getElementById("bankStatus").value = "유효한 계좌번호 입니다.";
                     alert('계좌 확인이 완료되었습니다.');
                 }
@@ -182,6 +196,8 @@ function SignUp(props) {
             'userAccount': accountNumber,
             'userBalance': balance,
             'userCi': CI,
+            'userToken': userToken,
+            'userBank': bank
         }
 
         const obj = JSON.stringify({
@@ -215,7 +231,7 @@ function SignUp(props) {
                     </div>
                     <div style={{marginBottom: 15}} >
                     <label>Type</label>
-                        <select id = "selectBank" class="form-control" onChange={handleSelectUser} >
+                        <select id = "userType" class="form-control" onChange={handleSelectUser} >
                             <option>투자자</option>
                             <option>신탁사</option>
                             <option>펀드매니저</option>
@@ -254,7 +270,7 @@ function SignUp(props) {
 
                 <div className="form-group">
                     <label>Account Balance</label>
-                    <input id = "accountBalance" className="form-control" defaultValue="0" readOnly="readOnly" onChange={''} />
+                    <input id = "accountBalance" className="form-control" defaultValue="0" readOnly="readOnly" onChange={handleSubmitAccountBalance} />
                 </div>
 
                 <div className="form-group">
@@ -269,7 +285,7 @@ function SignUp(props) {
 
                 <div className="form-group">
                     <label>Access Token</label>
-                    <input id = "inputToken" className="form-control" placeholder="아래 'Token 얻기' 버튼을 눌러 얻으십시오." readOnly="readOnly" onChange={''} />
+                    <input id = "inputToken" className="form-control" placeholder="아래 'Token 얻기' 버튼을 눌러 얻으십시오." readOnly="readOnly" onChange={handleSubmitAccessToken} />
                 </div>
 
                 <p className="forgot-password text-right">
