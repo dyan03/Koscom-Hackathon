@@ -52,3 +52,11 @@
     transform: rotate(360deg);
   }
 }
+
+
+
+.header-location{
+  position: absolute;
+  left: 220px;
+  top:11px;
+}

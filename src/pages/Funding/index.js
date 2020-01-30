@@ -5,13 +5,16 @@ class Funding extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            balance:''
         }
     }
 
+
     handleSubmit = (event) => {
         console.log("submit")
-        var returnValue = window.confirm('펀드를 취소하시겠습니까?')
+        this.setState({balance:event.target.value})
+        console.log("금액",this.state.balance)
+        var returnValue = window.confirm('펀딩 취소하시겠습니까?')
         if (returnValue) {
             fetch("http://localhost:8551/fundDelete", {
                 method: 'POST',

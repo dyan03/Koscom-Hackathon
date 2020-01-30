@@ -35,7 +35,8 @@ var connection = mysql.createConnection({
     port: 3306,
     user: 'root',
     password: 'root',
-    database: 'db'
+    database: 'db',
+    multipleStatements: true
 });
 
 connection.connect(function (error) {
@@ -405,7 +406,7 @@ app.post('/realBalance', function(req, res){
     펀드 등록
 */
 app.post('/fundInsert', function(req, res){
-    console.log("server post user insert");
+    console.log("server post fund insert");
     var fundId = req.body.fundId;
     var companyId = req.body.companyId;
     var managerId = req.body.managerId;
@@ -441,7 +442,81 @@ app.post('/fundInsert', function(req, res){
     })
 });
 
+/*
+    펀드 취소
+    type == 1 : matched_funds 삭제 => funds의 current_amount 감소
+    type == 2 : funds의 state 변경
+*/
+app.post('/fundDelete', function(req, res){
+    console.log("server post fund delete");
 
+    var fundId = req.body.fundId;
+    var userId = req.body.userId;
+    var type = req.body.type;
+    var sql1, sql2 = "";
+
+    //matched_funds 삭제 => funds의 current_amount 감소
+    if(type === '1'){
+        var curAmt = '', myAmt = '', updateAmt = '';
+
+        sql1 = "UPDATE FUNDS SET CURRENT_AMOUNT = CURRENT_AMOUNT - (SELECT INVEST_AMOUNT FROM MATCHED_FUNDS WHERE FUND_ID = ? AND INVEST_EMAIL = ?) WHERE FUND_ID = ?;";
+        sql2 = "DELETE FROM MATCHED_FUNDS WHERE FUND_ID = ? AND INVEST_EMAIL = ?;";
+        connection.query(sql1 + sql2, [fundId, userId, fundId, fundId, userId], function(err, result){
+            if(err){
+                console.dir(result)
+                console.error(err);
+                throw err;
+            }
+            else {
+                console.log("funds 테이블의 current_amount 업데이트 완료");
+                console.log("matched_funds 삭제 완료");
+                res.json(1);
+            }
+        })
+
+    //funds의 state 변경 [펀드 취소]
+    }else if(type === '2'){
+        
+        sql1 = "UPDATE FUNDS SET STAGE = '3' WHERE FUND_ID = ?;";
+        connection.query(sql1, [fundId], function(err, result){
+            if(err){
+                console.dir(result)
+                console.error(err);
+                throw err;
+            }
+            else {
+                console.log("funds 테이블의 STAGE = 3 업데이트 완료");
+                res.json(1);
+            }
+        })
+    }
+    
+});
+
+
+
+/*
+    initialFunds => data : ~~ -> json send
+*/
+app.post('/initialFunds', function(req, res){
+    console.log('initialFunds');
+
+    //var sql = "select * from funds, user where funds.stage = '0' and funds.register_email = user.email order by (current_amount/total_amount) desc;";
+    var sql = "select * from funds, user where funds.stage = '0' order by (current_amount/total_amount) desc;";
+    connection.query(sql,
+        function(err, result){
+        if(err){
+            console.error(err);
+            throw err;
+        }
+        else {
+            console.log('result',result);
+            res.json({
+                data : result
+            });
+        }
+    })
+})
 
 /*
     HTTP REQ, RES 처리

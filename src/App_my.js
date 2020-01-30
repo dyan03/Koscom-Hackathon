@@ -1,5 +1,5 @@
-import React, { Component,Fragment } from 'react';
-import { BrowserRouter, Route,Router } from 'react-router-dom';
+import React, { Component } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import './App.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
@@ -16,9 +16,7 @@ import MyNavbar from './templates/MyNavbar'
 
 import { connect } from 'react-redux';
 import { logIn, regEmail } from './store/loginState';
-import SignIn from './pages/SignIn'
-import SignUp from './pages/SignUp'
-
+import Singin from './pages/SignIn'
 import Main from './pages/Main'
 import FundInfo from './pages/FundInfo'
 
@@ -32,26 +30,26 @@ class App extends Component {
 
   render() {
       return (
-      <BrowserRouter>
+      <BrowserRouter basename={process.env.REACT_APP_ROUTER_BASE || ''}>
       { 
         this.props.logedIn
         ?
-            <MyNavbar/>
+        <div>
+            <div className = "header-location" color = "red"><MyNavbar/></div>
+            <div className = "main">
+                <RootRouter/>
+                {/* <Switch>
+                    <Route path="/" component={Main}/>
+                    <Route path="/"><Main/></Route>
+                    <Route path="/FundInfo" component={FundInfo}/>
+                    <Route path="/FundInfo"><FundInfo/></Route>
+                </Switch> */}
+            </div>
+        </div>
         :
-        <Fragment>
-            <Router>
-              <Route
-                exact
-                path='/'
-                component={SignIn}
-              />
-              <Route
-                exact
-                path='/signUp'
-                component={SignUp}
-              />
-            </Router>
-          </Fragment>      
+        <Switch>
+          <Route path="/"><div className="singin"><Singin/></div></Route>
+        </Switch>        
       }
        </BrowserRouter>
     )
