@@ -64,7 +64,7 @@ function Main(props){
         {Item.map(I => {
           return (
               <div style={{margin: '20px'}}>
-                {<MyCard style={{alignItems:'center', margin: '10px'}} nameOfTrust={I.nameOfTrust} nameOfFund={I.nameOfFund} nameOfFM={I.nameOfFM} target={I.target} current={I.current}/>}
+                {<MyCard style={{alignItems:'center', margin: '10px'}}  fundId="신한"/>}
               </div>
           )
           })}

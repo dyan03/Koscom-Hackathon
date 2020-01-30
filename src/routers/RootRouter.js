@@ -8,6 +8,7 @@ import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import FundInfo from '../pages/FundInfo';
 import RegisterFund from '../pages/RegisterFund';
+import Funding from '../pages/Funding';
 
 function RootRouter() {
   return (
@@ -33,6 +34,11 @@ function RootRouter() {
           exact
           path='/registerFund'
           component={RegisterFund}
+        />
+        <Route
+          exact
+          path='/funding'
+          component={Funding}
         />
       </Router>
     </Fragment>
