@@ -12,13 +12,8 @@ const request = require('request');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session)
 
-var myToken = '';
+var myToken = "";
 const myFundStageNumberRouter = require('./nodeRouter/myFundStageNumber')
-
-app.use(express.static(path.join(__dirname, '../../build')))
-app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname, '../../build', 'index.html'));
-})
 
 app.use(cookieParser());
 app.use(bodyParser.json())
@@ -280,19 +275,11 @@ app.get('/authResult', function (req, res) {
         else {
             var accessTokenObj = JSON.parse(body);
             console.log('accessTokenObj : ', accessTokenObj);
-            res.send(accessTokenObj);
+            
             myToken = accessTokenObj;
             console.log('myToken : ', myToken);
 
-            // res.redirect(302, url.format({
-            //     pathname: "http://localhost:3000/signUp",
-            //     query: {
-            //         data : accessTokenObj
-            //     }
-            // }
-            
-            // ));
-            //res.render('SignUp', {data : accessTokenObj});
+            res.send('Token 인증이 완료되었습니다. <br> 게속해서 Token 저장 버튼을 눌러주시기 바랍니다.');
         }
     });
 
@@ -348,6 +335,19 @@ app.post('/balance', function(req, res){
 
     });
 });
+
+
+/*
+    Access Token을 요청올 시 저장된 Token 주기 (myToken)
+*/
+app.post('/getAccessToken', function(req, res){
+    //res.send(JSON.parse(body).access_token);
+    res.send({myToken : myToken});
+
+    //서버가 Open되있으면 계속해서 동일하게 저장된 Token을 가져오므로, 저장하면 입력Form을 초기화 시킴
+    myToken = "";
+});
+
 
 /*
     HTTP REQ, RES 처리
