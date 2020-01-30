@@ -84,6 +84,8 @@ function RegisterFund(props) {
       event.preventDefault();
     }
     console.log("registerFund")
+
+
     return (
         <div className="layout" style={{width:700, marginTop:30}}>
             <form>

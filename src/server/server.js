@@ -391,10 +391,10 @@ app.post('/realBalance', function(req, res){
         var cashBalance = '';
         try{
             cashBalance = JSON.parse(body).balanceList.balance.summary.cashBalance;
-            console.log('cashBalance : ', cashBalance);
+            console.log(cashBalance);
             res.send({cashBalance : cashBalance});
         }catch(e){
-            console.log(e);
+            console.log(cashBalance);
             res.send({cashBalance : cashBalance});
         }
 
