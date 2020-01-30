@@ -9,11 +9,7 @@ function SignUp(props) {
     const [accountNumber, setAccountNumber] = useState();
     const [CI, setCI] = useState();
     const [bank, setBank] = useState(0);
-    const [balance, setBalance] = useState();
-    const [token, setToken] = useState();
-
     const [agree, setAgree] = useState(false);
-
 
     function validateForm() {
         //   return email.length > 0 && password.length > 0;
@@ -57,10 +53,41 @@ function SignUp(props) {
     /*
         Access Token 얻기
     */
-    function handleGetToken(e){
-        var ret = window.open("https://sandbox-apigw.koscom.co.kr/auth/oauth/v2/authorize?response_type=code&state=authCode&client_id=l7xx2d23dc68d7364f2ba84f6a159870faae&scope=&redirect_uri=http://localhost:8551/AuthCallback","accessTokenPopup", "width=500, height=650");
-        console.log(ret);
+    function handleGetToken(){
+        var openURL = "https://sandbox-apigw.koscom.co.kr/auth/oauth/v2/authorize?response_type=code&state=authCode&client_id=l7xx2d23dc68d7364f2ba84f6a159870faae&scope=&redirect_uri=http://localhost:8551/AuthCallback";
+        var option = "width=500, height=650"
+        var windowName = "Access Token Popup";
+        
+        window.open(openURL, windowName, option);
     }
+
+    /*
+        Access Token 입력폼에 저장
+    */
+   function handleSaveToken(){
+        fetch("http://localhost:8551/getAccessToken",{
+            method: 'POST',
+            body: JSON.stringify({
+            }),
+            headers: {},         
+          }).then(res => res.json())
+            .then(json => {
+                var inputTmpToken;
+                inputTmpToken = json.myToken.access_token;
+                
+                console.log('얻은 myToken : ', inputTmpToken);
+                
+                if(typeof inputTmpToken === 'undefined'){
+                    document.getElementById("inputToken").value = '';
+                    alert('Token 인증 버튼을 먼저 눌러주시기 바랍니다.');
+                }else{
+                    document.getElementById("inputToken").value = inputTmpToken;
+                    alert('Access Token이 입력 양식에 저장 완료되었습니다.');
+                }
+
+                
+            });
+   }
 
     /*
         계좌 있는지 확인 (계좌 잔고 화인)
@@ -227,9 +254,9 @@ function SignUp(props) {
                     <label className="custom-control-label" htmlFor="customCheck1">약관 동의</label>
                 </p>
 
-                <button className="btn btn-primary" type="button" style={{backgroundColor: "orange"}} onClick={handleGetToken}>Token 인증</button>
-                <button className="btn btn-primary" type="button" style={{backgroundColor: "orange"}} onClick={handleGetToken}>Token 저장</button>
-                <button className="btn btn-primary" type="button" onClick={handleSubmitBalance}>계좌 확인</button>
+                <button className="btn btn-primary btn-block" type="button" style={{backgroundColor: "darkorange", borderColor : "darkorange"}} onClick={handleGetToken}>Token 인증</button>
+                <button className="btn btn-primary btn-block" type="button" style={{backgroundColor: "darkorange", borderColor : "darkorange"}} onClick={handleSaveToken}>Token 저장</button>
+                <button className="btn btn-primary btn-block" type="button" style={{backgroundColor: "green", borderColor : "green"}} onClick={handleSubmitBalance}>계좌 확인</button>
                 <button type="submit" className="btn btn-primary btn-block" onClick={handleCheckBox}>Submit</button>
 
             </form>
