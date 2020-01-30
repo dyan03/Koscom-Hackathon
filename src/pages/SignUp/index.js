@@ -61,20 +61,20 @@ function SignUp(props) {
         }
 
         const body_ = {
-            userEmail: email,
-            userName: name,
-            userbalance: 0,
-            userType: 0,
-            userPassword: password,
-            userAccount: '01020',
-            userCi: 30012,
-            userBank: bank,
+            'userEmail': email,
+            'userName': name,
+            'userbalance': 0,
+            'userType': 0,
+            'userPassword': password,
+            'userAccount': '01020',
+            'userCi': 30012,
         }
 
-        const obj = {
+        const obj = JSON.stringify({
             method: 'POST',
             body: body_,
-        }
+            headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
+        })
 
         const URL = 'http://localhost:8551/userInsert';
 
@@ -97,7 +97,7 @@ function SignUp(props) {
     }
 
     return (
-        <div className="layout">
+        <div className="layout" style={{marginTop:30}}>
             <form>
                 <h3>Sign Up</h3>
                 <div style={{ display: 'flex' }}>
@@ -145,7 +145,7 @@ function SignUp(props) {
                     <a href="#"> 약관 확인</a>
                 </p>
                 <p className="forgot-password text-right">
-                    <input type="checkbox" className="custom-control-input" id="customCheck1" checked={agree} />
+                    <input type="checkbox" className="custom-control-input" id="customCheck1" checked={agree}/>
                     <label className="custom-control-label" htmlFor="customCheck1">약관 동의</label>
                 </p>
 

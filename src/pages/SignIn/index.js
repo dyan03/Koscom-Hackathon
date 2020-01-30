@@ -11,7 +11,6 @@ function SignIn(props) {
     }
   
     function handleSubmit(event) {
-        console.log("submit email", email);
         fetch("http://localhost:8551/login", {
             method: 'POST',
             body: JSON.stringify({
@@ -21,6 +20,16 @@ function SignIn(props) {
             headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},         
         })
         .then(res => res.json())
+        .then(resJson => {
+            if(resJson.status === 'success'){
+                // localStorage => login : true
+                // => localStorage.email = email
+                // go to main page
+            }
+            else{ // fail
+                //<Popup>login fail!</Popup>
+            }
+        })
         .then(resJson => console.log(resJson.status));
       event.preventDefault();
     }

@@ -10,6 +10,8 @@ const mysql = require('mysql');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session)
 
+const myFundStageNumberRouter = require('./nodeRouter/myFundStageNumber')
+
 app.use(express.static(path.join(__dirname, '../../build')))
 app.get('/*', function(req, res) {
     res.sendFile(path.join(__dirname, '../../build', 'index.html'));
@@ -22,7 +24,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   cookie: {
-    maxAge: 1 * 60 * 1000// 쿠키 유효기간 min
+    maxAge: 15 * 60 * 1000// 쿠키 유효기간 min
   },
   store : new FileStore()
 }));
@@ -68,36 +70,30 @@ app.post("/login", async function(req,res,next){
     console.log('body', body);
     if(!body) return;
 
-    if(req.session.islogin===true){
-        console.log("session alive");
-        res.send("done");
-        return;
-    }
-    else{
-        const userEmail = body.userEmail;
-        const inputPassword = body.userPassword;
-        const passwdSql = "select pwd from user where email = (?)";
-        
-        connection.query(passwdSql, [userEmail], function(err, results, field){
-            if(results[0].pwd === inputPassword){
-                console.log("비밀번호 일치");
-                // 세션 설정
-                req.session.userEmail = body.userEmail;
-                req.session.islogin = true;
-                res.json({status:'success'});
-            }
-            else{
-                console.log("비밀번호 불일치");
-                res.json({status:'fail'});
-            }
-        });        
-    }
+    const userEmail = body.userEmail;
+    const inputPassword = body.userPassword;
+    const passwdSql = "select pwd from user where email = (?)";
+    
+    connection.query(passwdSql, [userEmail], function(err, results, field){
+        if(results[0].pwd === inputPassword){
+            console.log("비밀번호 일치");
+            // 세션 설정
+            //req.session.userEmail = body.userEmail;
+            //req.session.islogin = true;
+            res.json({status:'success'});
+        }
+        else{
+            console.log("비밀번호 불일치");
+            res.json({status:'fail'});
+        }
+    });        
 });
 
 /*
     회원가입시 사용자 정보 등록
 */
 app.post('/userInsert', function(req, res){
+    console.log("server post user insert");
     var userEmail = req.body.userEmail;
     var userPassword = req.body.userPassword;
     var userName = req.body.userName;
@@ -180,5 +176,50 @@ app.post('/myFund', function(req, res){
     })
 })
 
+/*
+    내 펀드 stage number 가져오기
+*/
+app.post('/myFundStageNumber', function(req, res){
+    var userEmail = req.body.userEmail;
+    console.log('userEmail : ', userEmail);
+
+    var sql = "select stage,count(*) as count from funds_ongoing, funds where funds_ongoing.fund_id = funds.fund_id and invest_email = (?) group by stage;";
+    connection.query(sql, [userEmail],
+        function(err, result){
+        if(err){
+            console.error(err);
+            throw err;
+        }
+        else {
+            console.log('result',result);
+            res.json({
+                data : result
+            });
+        }
+    })
+})
+
+/*
+    user info 가져오기
+*/
+app.post('/userInfo', function(req, res){
+    var userEmail = req.body.userEmail;
+    console.log('userEmail : ', userEmail);
+
+    var sql = "select * from user where email = (?);";
+    connection.query(sql, [userEmail],
+        function(err, result){
+        if(err){
+            console.error(err);
+            throw err;
+        }
+        else {
+            console.log('result',result);
+            res.json({
+                data : result
+            });
+        }
+    })
+})
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
