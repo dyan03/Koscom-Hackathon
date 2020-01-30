@@ -86,8 +86,12 @@ function RegisterFund(props) {
         .then(resJson => console.log(resJson.status));
       event.preventDefault();
     }
+<<<<<<< HEAD
+    console.log("registerFund")
+=======
 
 
+>>>>>>> 6b169f6f278c6194370f4e62c3bc1015075cf063
     return (
         <div className="layout" style={{width:700, marginTop:30}}>
             <form>

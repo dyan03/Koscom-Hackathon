@@ -496,6 +496,28 @@ app.post('/fundDelete', function(req, res){
 
 
 /*
+    initialFunds => data : ~~ -> json send
+*/
+app.post('/initialFunds', function(req, res){
+    console.log('initialFunds');
+
+    var sql = "select * from funds, user where funds.stage = '0' and funds.register_email = user.email order by (current_amount/total_amount) desc;";
+    connection.query(sql,
+        function(err, result){
+        if(err){
+            console.error(err);
+            throw err;
+        }
+        else {
+            console.log('result',result);
+            res.json({
+                data : result
+            });
+        }
+    })
+})
+
+/*
     HTTP REQ, RES 처리
 */
 //static 파일 요청이면 아래에서 끝남

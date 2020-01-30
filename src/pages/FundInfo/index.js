@@ -1,4 +1,8 @@
 import React, { useState, useEffect, Component } from 'react';
+import { connect } from 'react-redux';
+import { logIn, regEmail } from '../../store/loginState';
+
+
 
 console.log("once")
 
@@ -47,7 +51,7 @@ class FundInfo extends Component{
     fetch("http://localhost:8551/myFund", {
       method: 'POST',
       body: JSON.stringify({
-        'userEmail': "123@123",
+        'userEmail': this.props.upperUserEmail,
     }),
     headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
     })
@@ -68,7 +72,7 @@ class FundInfo extends Component{
     fetch("http://localhost:8551/myFundStageNumber", {
       method: 'POST',
       body: JSON.stringify({
-        'userEmail': "123@123",
+        'userEmail': this.props.upperUserEmail,
     }),
     headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
     })
@@ -83,11 +87,11 @@ class FundInfo extends Component{
     })
   }
 
-  getInitialPersonalInfo = async (userId) => {
+  getInitialPersonalInfo = async () => {
     fetch("http://localhost:8551/userInfo", {
       method: 'POST',
       body: JSON.stringify({
-        'userEmail': "123@123",
+        'userEmail': this.props.upperUserEmail,
     }),
     headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
     })
@@ -99,13 +103,13 @@ class FundInfo extends Component{
   }
 
   componentDidMount(){
-    this.getInitialPersonalInfo('123@123');
+    this.getInitialPersonalInfo();
     this.getInitialData();
     this.getInitialData_number();
   }
 
   render(){
-    if(this.state.loading == true) return (<div/>)
+    if(this.state.loading === true) return (<div/>)
     return(
       <div>
       <div style={{display: 'flex'}}>
@@ -121,13 +125,13 @@ class FundInfo extends Component{
         <div class="list-group" >
           <div style={{display:'flex', height: 50}}>
           <button type="button" class="list-group-item list-group-item-action active" >
-            모집중인 펀드
+            모집중인 펀드&nbsp;
             <span class="badge badge-primary badge-pill" style={{ textAlign: 'right', backgroundColor: 'white', color: 'black' }}>{this.state.fundstagenumber[0]}</span>
           </button>
           </div>
           <div style={{ overflowY: 'scroll', height: 200 }}>
             {
-              this.state.fundWaitList.filter(fund => fund.stage === 0).map(fund => {
+              this.state.fundWaitList.filter(fund => fund.stage === '0').map(fund => {
                 return(
                   <a class="list-group-item list-group-item-action flex-column align-items-start" style={{height:106}}>
                     <div class="d-flex w-100 justify-content-between">
@@ -147,11 +151,11 @@ class FundInfo extends Component{
 
         <div class="list-group">
           <button type="button" class="list-group-item list-group-item-action active">
-            운용중인 펀드<span class="badge badge-primary badge-pill" style={{ textAlign: 'right', backgroundColor: 'white', color: 'black' }}>{this.state.fundstagenumber[1]}</span>
+            운용중인 펀드&nbsp;<span class="badge badge-primary badge-pill" style={{ textAlign: 'right', backgroundColor: 'white', color: 'black' }}>{this.state.fundstagenumber[1]}</span>
           </button>
           <div style={{ overflowY: 'scroll', height: 200 }}>
           {
-              this.state.fundWaitList.filter(fund => fund.stage === 1).map(fund => {
+              this.state.fundWaitList.filter(fund => fund.stage === '1').map(fund => {
                 return(
                   <a class="list-group-item list-group-item-action flex-column align-items-start"  style={{height:106}}>
                     <div class="d-flex w-100 justify-content-between">
@@ -171,10 +175,10 @@ class FundInfo extends Component{
 
         <div class="list-group">
           <button type="button" class="list-group-item list-group-item-action active">
-            운용마감된 펀드<span class="badge badge-primary badge-pill" style={{ textAlign: 'right', backgroundColor: 'white', color: 'black' }}>{this.state.fundstagenumber[2]}</span>
+            운용마감된 펀드&nbsp;<span class="badge badge-primary badge-pill" style={{ textAlign: 'right', backgroundColor: 'white', color: 'black' }}>{this.state.fundstagenumber[2]}</span>
           </button>
           {
-              this.state.fundWaitList.filter(fund => fund.stage === 2).map(fund => {
+              this.state.fundWaitList.filter(fund => fund.stage === '2').map(fund => {
                 return(
                   <a class="list-group-item list-group-item-action flex-column align-items-start"  style={{height:106}}>
                     <div class="d-flex w-100 justify-content-between">
@@ -193,7 +197,7 @@ class FundInfo extends Component{
 
         <div class="list-group">
           <button type="button" class="list-group-item list-group-item-action active">
-            취소된 펀드<span class="badge badge-primary badge-pill" style={{ textAlign: 'right', backgroundColor: 'white', color: 'black' }}>{this.state.fundstagenumber[3]}</span>
+            취소된 펀드&nbsp;<span class="badge badge-primary badge-pill" style={{ textAlign: 'right', backgroundColor: 'white', color: 'black' }}>{this.state.fundstagenumber[3]}</span>
           </button>
           <div style={{ overflowY: 'scroll', height: 200 }}>
           {
@@ -222,4 +226,18 @@ class FundInfo extends Component{
   }
 }
 
-export default FundInfo;
+const mapStateToProps = state => ({  //2
+  logedIn : state.loginState.logedIn,
+  upperUserEmail : state.loginState.userEmail,
+});
+
+const mapDispatchToProps = dispatch => {
+  return {
+    logIn : () => dispatch(logIn()),
+    regEmail : email => dispatch(regEmail(email)),
+  }
+};
+
+export default connect(
+  mapStateToProps, mapDispatchToProps
+)(FundInfo);

@@ -34,11 +34,22 @@ class App extends Component {
       { 
         this.props.logedIn
         ?
-            <MyNavbar/>
+        <div>
+            <div className = "header-location" color = "red"><MyNavbar/></div>
+            <div className = "main">
+                <RootRouter/>
+                {/* <Switch>
+                    <Route path="/" component={Main}/>
+                    <Route path="/"><Main/></Route>
+                    <Route path="/FundInfo" component={FundInfo}/>
+                    <Route path="/FundInfo"><FundInfo/></Route>
+                </Switch> */}
+            </div>
+        </div>
         :
-            <Switch>
-            <Route path="/"><div className="singin"><Singin/></div></Route>
-            </Switch>        
+        <Switch>
+          <Route path="/"><div className="singin"><Singin/></div></Route>
+        </Switch>        
       }
        </BrowserRouter>
     )
