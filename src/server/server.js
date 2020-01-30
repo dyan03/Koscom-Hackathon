@@ -286,7 +286,7 @@ app.get('/authResult', function (req, res) {
 });
 
 /*
-    Access Token을 사용하여 통장 잔고 얻기
+    Access Token을 사용하여 유효한 계좌인지 확인
 */
 app.post('/balance', function(req, res){
 
@@ -347,6 +347,59 @@ app.post('/getAccessToken', function(req, res){
     //서버가 Open되있으면 계속해서 동일하게 저장된 Token을 가져오므로, 저장하면 입력Form을 초기화 시킴
     myToken = "";
 });
+
+
+/*
+    Access Token을 사용하여 계좌 잔고 확인
+*/
+app.post('/realBalance', function(req, res){
+
+    /*1. 잔고조회 API URL
+        1.다이아몬드증권 : https://sandbox-apigw.koscom.co.kr/v1/diamond/account/balance/search
+        2.사이버증권 : https://sandbox-apigw.koscom.co.kr/v1/cyber/account/balance/search
+        3.스타증권 : https://sandbox-apigw.koscom.co.kr/v1/star/account/balance/search
+
+    */
+    //var url = req.body.url;
+
+    // 계좌은행 : 3개의 값만 가져와야함 {diamond, cyber, star}
+    var bank = req.body.bank;
+    // 2. 고객 CI
+    var ci = req.body.ci;
+    // 3. 고객 계좌번호
+    var vtAccNo = req.body.vtAccNo;
+    // 4. 고객 Token
+    var accessToken = req.body.accessToken;
+    
+    //고객 계좌잔고 정보 요청
+    option = {
+        url: 'https://sandbox-apigw.koscom.co.kr/v1/' + bank + '/account/balance/search',
+        body: '{"partner": {    "comId": "F9999",    "srvId": "999"  },  "commonHeader": {  "ci": "'+ ci +'",    "reqIdConsumer": "reqid-0001"  },  "devInfo": {    "ipAddr": "192168010001",    "macAddr": "1866DA0D99D6"  },  "accInfo": {	"vtAccNo": "'+ vtAccNo +'"  },  "balanceRequestBody": {	"queryType": {      "assetType": "ALL",      "count": 0,      "page": "null"    }  }}',
+        headers: { 'Content-Type':'application/json', 'Authorization':'Bearer ' + accessToken + '', 'Content-Type':'application/json'  },
+        method: 'POST'
+    }
+
+    request(option, function (error, response, body) {
+        //console.log('Reponse received', body);
+
+        if(error){
+            console.log(err);
+            throw new Error(error);
+        }
+
+        var cashBalance = '';
+        try{
+            cashBalance = JSON.parse(body).balanceList.balance.summary.cashBalance;
+            console.log('cashBalance : ', cashBalance);
+            res.send({cashBalance : cashBalance});
+        }catch(e){
+            console.log(e);
+            res.send({cashBalance : cashBalance});
+        }
+
+    });
+});
+
 
 
 /*
