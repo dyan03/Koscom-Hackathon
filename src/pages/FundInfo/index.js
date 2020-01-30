@@ -1,166 +1,193 @@
-import React, { useState, useEffect } from 'react';
-import Popup from './popup'
+import React, { useState, useEffect, Component } from 'react';
 
-function FundInfo() {
-  const [name, setName] = useState('아무개');
-  const [userType, setUserType] = useState('투자자');
-  const [fund, setFund]=useState();
-  const [activate,setActivate]=useState(true);
+console.log("once")
 
-  //로그인된 유저 id로 DB에서 보유펀드정보 불러옴
-  const fundWait = {
+const userTypeName = ['Investor', 'Trust', 'Fund Manager']
 
-  }
-  const fundIng = {}
-  const fundEnd = {}
-  const fundCanceled = {}
-
-  const email = "123@123";
-  const fundStage = [0, 1, 2, 3];
-  var fundListResult = [];
-  var result;
-
-  const clickhandler = () => {
-    { console.log('popup!!!') }
-
-    return (
-      <Popup />
-    )
+class FundInfo extends Component{
+  
+  constructor(props){
+    super(props);
+    this.state = {
+      userType : "",
+      name : "",
+      fundWaitList : [],
+      fundstagenumber : [0,0,0,0], // 인덱스0 => 상태0의 숫자 그대로 매칭
+      loading : true
+    }
   }
 
-  function foo(){
+  getInitialData = async () => {
     fetch("http://localhost:8551/myFund", {
       method: 'POST',
       body: JSON.stringify({
-        'userEmail': email,
-        // 'fundStage': stage,
-      }),
-      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        'userEmail': "123@123",
+    }),
+    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+    })
+    .then(res => (res.json()))
+    .then(resJ => {
+      //console.log('resJ.fundList', resJ.fundList, typeof(resJ.fundList))
+      resJ.fundList.map(ele => {
+        //console.log('ele', typeof(ele), ele);
+        this.setState({fundWaitList : this.state.fundWaitList.concat(ele)});
       })
-      .then((res) => (console.dir(res.json().then(data => {
-        console.log("현재 타입",data.fundList); 
-        result=data.fundList
-        setFund(result)
-        setActivate(!activate)
-      }))))
+    })
+    .then(() => this.setState({loading : false}))
+    .then(tmp => console.log('state check', this.state.fundWaitList, typeof(this.state.fundWaitList)))
   }
 
-  return (
+  getInitialData_number = async () => {
+    console.log('number stage')
+    fetch("http://localhost:8551/myFundStageNumber", {
+      method: 'POST',
+      body: JSON.stringify({
+        'userEmail': "123@123",
+    }),
+    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+    })
+    .then(res => res.json())
+    .then(resJ => {
+      console.log(resJ)
+      const tmp = []
+      resJ.data.map(x => {
+        tmp.push(x.count)
+      })
+      this.setState({fundstagenumber : tmp})
+    })
+  }
 
-    <div>
-      <div >
-        <h4 style={{ textAlign: 'center', marginTop: 20 }}>
-          {userType} {name}님의 펀드 목록입니다. 
+  getInitialPersonalInfo = async (userId) => {
+    fetch("http://localhost:8551/userInfo", {
+      method: 'POST',
+      body: JSON.stringify({
+        'userEmail': "123@123",
+    }),
+    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+    })
+    .then(res => res.json())
+    .then(resJ => {
+      console.log(resJ)
+      this.setState({name : resJ.data[0].name, userType : userTypeName[resJ.data[0].user_type]})
+    })
+  }
+
+  componentDidMount(){
+    this.getInitialPersonalInfo('123@123');
+    this.getInitialData();
+    this.getInitialData_number();
+  }
+
+  render(){
+    if(this.state.loading == true) return (<div/>)
+    return(
+      <div>
+      <div style={{display: 'flex'}}>
+        <h4 style={{ textAlign: 'center', margin:'auto', marginTop: 20 }}>
+          {this.state.userType} {this.state.name}님이 투자한 펀드 목록입니다.
+          <a href="http://localhost:3000/registerFund">
+          <button type="button" class="btn btn-dark"  style={{height: 40,width: 130, marginLeft: 20}}>새 펀드 등록</button>
+
+          </a>
         </h4>
-        <button type="button" class="list-group-item list-group-item-action active" onClick={foo}>
-            정보불러오기<span class="badge badge-primary badge-pill" style={{ textAlign: 'right', backgroundColor: 'white', color: 'black' }}>6</span>
-        </button>
       </div>
       <div style={{ margin: 'auto', marginTop: 30, width: 700 }}>
+        
         <div class="list-group" >
-          <button type="button" class="list-group-item list-group-item-action active">
-            대기중인 펀드<span class="badge badge-primary badge-pill" style={{ textAlign: 'right', backgroundColor: 'white', color: 'black' }}>6</span>
+          <div style={{display:'flex', height: 50}}>
+          <button type="button" class="list-group-item list-group-item-action active" >
+            모집중인 펀드
+            <span class="badge badge-primary badge-pill" style={{ textAlign: 'right', backgroundColor: 'white', color: 'black' }}>{this.state.fundstagenumber[0]}</span>
           </button>
+          </div>
           <div style={{ overflowY: 'scroll', height: 200 }}>
-
-            {activate
-            ?            
-            <div>
-              정보를 불러와주세요
-            </div>
-            :
-            <div>
-            {fund.fund_id}
-            {fund.map(obj=>{
-              return (
-                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">{obj.fund_id} </h5>
-                  <small class="text-muted">3 days ago</small>
-                </div>
-                <p class="mb-1">{obj.register_email} {obj.stage} {obj.total_amount} {obj.current_amount}</p>
-              </a>
-                )
-            })}
-            </div>
-            
+            {
+              this.state.fundWaitList.filter(fund => fund.stage === 0).map(fund => {
+                return(
+                  <a class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">{fund.fund_id}</h5>
+                      <small class="text-muted">등록자 : {fund.register_email}</small>
+                    </div>
+                    <p class="mb-1">현재 펀딩된 금액 : {fund.current_amount}</p>
+                    <small class="text-muted">총 모집금액 : {fund.total_amount}</small>
+                    <button>withdraw</button>
+                  </a>
+                );
+              })
             }
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">List group item heading</h5>
-                <small class="text-muted">3 days ago</small>
-              </div>
-              <p class="mb-1">Donec id elit non mi porta gravida at eget metus.</p>
-              <small class="text-muted">Donec id elit non mi porta.</small>
-            </a>
           </div>
-
         </div>
+
         <div class="list-group">
           <button type="button" class="list-group-item list-group-item-action active">
-            운용중인 펀드<span class="badge badge-primary badge-pill" style={{ textAlign: 'right', backgroundColor: 'white', color: 'black' }}>6</span>
+            운용중인 펀드<span class="badge badge-primary badge-pill" style={{ textAlign: 'right', backgroundColor: 'white', color: 'black' }}>{this.state.fundstagenumber[1]}</span>
           </button>
           <div style={{ overflowY: 'scroll', height: 200 }}>
-            <button type="button" class="list-group-item list-group-item-action">펀드 1호</button>
-            <button type="button" class="list-group-item list-group-item-action">펀드 2호</button>
-            <button type="button" class="list-group-item list-group-item-action">펀드 3호</button>
-            <button type="button" class="list-group-item list-group-item-action">펀드 4호</button>
-            <button type="button" class="list-group-item list-group-item-action">펀드 4호</button>
-            <button type="button" class="list-group-item list-group-item-action">펀드 4호</button>
+          {
+              this.state.fundWaitList.filter(fund => fund.stage === 1).map(fund => {
+                return(
+                  <a class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">{fund.fund_id}</h5>
+                      <small class="text-muted">등록자 : {fund.register_email}</small>
+                    </div>
+                    <p class="mb-1">현재 펀딩된 금액 : {fund.current_amount}</p>
+                    <small class="text-muted">총 모집금액 : {fund.total_amount}</small>
+                  </a>
+                );
+              })
+            }
           </div>
+        </div>
 
-        </div>
         <div class="list-group">
           <button type="button" class="list-group-item list-group-item-action active">
-            운용마감된 펀드<span class="badge badge-primary badge-pill" style={{ textAlign: 'right', backgroundColor: 'white', color: 'black' }}>1</span>
+            운용마감된 펀드<span class="badge badge-primary badge-pill" style={{ textAlign: 'right', backgroundColor: 'white', color: 'black' }}>{this.state.fundstagenumber[2]}</span>
           </button>
-          <button type="button" class="list-group-item list-group-item-action">펀드 1호</button>
+          {
+              this.state.fundWaitList.filter(fund => fund.stage === 2).map(fund => {
+                return(
+                  <a class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">{fund.fund_id}</h5>
+                      <small class="text-muted">등록자 : {fund.register_email}</small>
+                    </div>
+                    <p class="mb-1">현재 펀딩된 금액 : {fund.current_amount}</p>
+                    <small class="text-muted">총 모집금액 : {fund.total_amount}</small>
+                  </a>
+                );
+              })
+            }
         </div>
+
         <div class="list-group">
           <button type="button" class="list-group-item list-group-item-action active">
-            취소된 펀드<span class="badge badge-primary badge-pill" style={{ textAlign: 'right', backgroundColor: 'white', color: 'black' }}>6</span>
+            취소된 펀드<span class="badge badge-primary badge-pill" style={{ textAlign: 'right', backgroundColor: 'white', color: 'black' }}>{this.state.fundstagenumber[3]}</span>
           </button>
           <div style={{ overflowY: 'scroll', height: 200 }}>
-            <button type="button" class="list-group-item list-group-item-action">펀드 1호</button>
-            <button type="button" class="list-group-item list-group-item-action">펀드 2호</button>
-            <button type="button" class="list-group-item list-group-item-action">펀드 3호</button>
-            <button type="button" class="list-group-item list-group-item-action">펀드 4호</button>
+          {
+              this.state.fundWaitList.filter(fund => fund.stage === 3).map(fund => {
+                return(
+                  <a class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">{fund.fund_id}</h5>
+                      <small class="text-muted">등록자 : {fund.register_email}</small>
+                    </div>
+                    <p class="mb-1">현재 펀딩된 금액 : {fund.current_amount}</p>
+                    <small class="text-muted">총 모집금액 : {fund.total_amount}</small>
+                  </a>
+                );
+              })
+            }
           </div>
         </div>
+
       </div>
+
     </div>
-  )
+    )
+  }
 }
-
-
-
-{/* <div class="list-group">
-  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
-    <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">List group item heading</h5>
-      <small>3 days ago</small>
-    </div>
-    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-    <small>Donec id elit non mi porta.</small>
-  </a>
-  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-    <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">List group item heading</h5>
-      <small class="text-muted">3 days ago</small>
-    </div>
-    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-    <small class="text-muted">Donec id elit non mi porta.</small>
-  </a>
-  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-    <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">List group item heading</h5>
-      <small class="text-muted">3 days ago</small>
-    </div>
-    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-    <small class="text-muted">Donec id elit non mi porta.</small>
-  </a>
-</div> */}
-
-
 
 export default FundInfo;

@@ -5,13 +5,12 @@ import './style.css'
 function SignIn(props) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-  
+
     function validateForm() {
       return email.length > 0 && password.length > 0;
     }
   
     function handleSubmit(event) {
-        console.log("submit email", email);
         fetch("http://localhost:8551/login", {
             method: 'POST',
             body: JSON.stringify({
@@ -21,14 +20,18 @@ function SignIn(props) {
             headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},         
         })
         .then(res => res.json())
+        .then(resJson => {
+            if(resJson.status === 'success'){
+                // localStorage => login : true
+                // => localStorage.email = email
+                // go to main page
+            }
+            else{ // fail
+                //<Popup>login fail!</Popup>
+            }
+        })
         .then(resJson => console.log(resJson.status));
-       
       event.preventDefault();
-    }
-
-    function handleSubmitPwd(e) {
-        setPassword(e.target.value);
-        console.log(password)
     }
 
     function handleEmailEdit(e) {
@@ -40,11 +43,6 @@ function SignIn(props) {
         setPassword(e.target.value);
         console.log(password)
     }
-  
-    function handleSubmitEmail(e) {
-        setEmail(e.target.value);
-        console.log(email)
-    }    
 
     return (
         <div className="layout">
@@ -67,7 +65,6 @@ function SignIn(props) {
                 <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
             </div>
         </div>
-
         <button type="submit" className="btn btn-primary btn-block" onClick={handleSubmit}>Submit</button>
         <p className="forgot-password text-right">
             Forgot <a href="#">password?</a>

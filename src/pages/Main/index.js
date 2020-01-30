@@ -51,7 +51,6 @@ const Item = [
     target: "30억원",
     current: "20억원"
   },
-
 ]
 
 function Main(props){
