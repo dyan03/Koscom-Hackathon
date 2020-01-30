@@ -32,12 +32,13 @@ class Funding extends Component {
                 }),
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
             })
-                .then(res => {
-                    if(res){
-                        window.alert("펀딩되었습니다.")
-                        window.location('/main')
+                .then(res => res.json())
+                .then(resJson => {
+                    if (resJson.status === 'success') {
+                        alert("펀딩 되었습니다.")
                     }
-                
+                    else { // fail
+                    }
                 })
                 .then(resJson => console.log(resJson.status));
             event.preventDefault();
@@ -47,22 +48,24 @@ class Funding extends Component {
 
     render() {
         return (
-            <div className="layout" style={{ width: 600, marginTop: 30 }}>
+            <div className="layout" style={{ width: 700, marginTop: 30 }}>
                 <form>
-                    <h3 style={{textAlign:"right"}}>펀딩</h3>
+                    <h3>펀딩</h3>
                     <div style={{ display: 'flex', marginTop: 20 }}>
                         <div className="form-group" style={{ width: 250 }}>
                             <label style={{ marginLeft: 20 }}>펀드 이름</label>
                             <li>
                                 <div class="btn btn-outline-secondary" style={{ width: 250 }}>
                                     {this.props.fundId}
+                                    {/* {1231225} */}
                         </div>
                             </li>
                         </div>
-                        <div className="form-group" style={{ marginLeft: 30, width: 150 }}>
+                        <div className="form-group" style={{ marginLeft: 30, width: 250 }}>
                             <label style={{ marginLeft: 20 }}>신탁사</label>
                             <li>
                                 <div class="btn btn-outline-secondary" style={{ width: 250 }}>
+                                    {/* {1231225} */}
                                     {this.props.companyId}
                         </div>
                             </li>
@@ -73,15 +76,17 @@ class Funding extends Component {
                             <label style={{ marginLeft: 20 }}>펀드 매니저</label>
                             <li>
                                 <div class="btn btn-outline-secondary" style={{ width: 250 }}>
+                                    {/* {1231225} */}
                                     {this.props.managerId}
                         </div>
                             </li>
 
                         </div>
-                        <div className="form-group" style={{ width: 180, marginLeft: 30 }}>
+                        <div className="form-group" style={{ width: 250, marginLeft: 30 }}>
                             <label style={{ marginLeft: 20 }}>펀드 종류</label>
                             <li>
                                 <div class="btn btn-outline-secondary" style={{ width: 250 }}>
+                                    {/* {1231225} */}
                                     {this.props.fundStyle}
                         </div>
                             </li>
@@ -94,6 +99,7 @@ class Funding extends Component {
                             <label style={{ marginLeft: 20 }}>시작일</label>
                             <li>
                                 <div class="btn btn-outline-secondary" style={{ width: 250 }}>
+                                    {/* {1231225} */}
                                     {this.props.startDate}
                         </div>
                             </li>
@@ -102,6 +108,7 @@ class Funding extends Component {
                             <label style={{ marginLeft: 20 }}>마감일</label>
                             <li>
                                 <div class="btn btn-outline-secondary" style={{ width: 250 }}>
+                                    {/* {1231225} */}
                                     {this.props.endDate}
                         </div>
                             </li>
@@ -112,38 +119,49 @@ class Funding extends Component {
                         <div style={{ marginBottom: 15, width: 250 }} >
                             <label style={{ marginLeft: 20 }}>운용 금액</label>
                             <li>
-                                <div class="btn btn-outline-secondary" style={{ width: 230 }}>
+                                <div class="btn btn-outline-secondary" style={{ width: 250 }}>
+                                    {/* {1231225} */}
                                     {this.props.totalAmount}
-                        </div>
+                                </div>
                             </li>
-                        </div>
-                        <div style={{ marginTop: 40, marginLeft: 5 }}>
-                            원
+                        </div> 
+
+                    <div style={{ marginTop: 40, marginLeft: 5 }}>
                     </div>
-                        <div className="form-group" style={{ width: 180, marginLeft: 10 }}>
-                            <label style={{ marginLeft: 20 }}>투자자 잔고</label>
+                        <div className="form-group" style={{ width: 250, marginLeft: 25 }}>
+                            <label style={{ marginLeft: 20 }}>현재 금액</label>
                             <li>
-                                <div class="btn btn-outline-secondary" style={{ width: 230 }}>
+                                <div class="btn btn-outline-secondary" style={{ width: 250 }}>
+                                    {/* {1231225} */}
                                     {this.props.balance}
-                        </div>
+                                </div>
                             </li>
                         </div>
-                        <div style={{ marginTop: 40, marginLeft: 75 }}>
-                            원
+                    <div style={{ marginTop: 40, marginLeft: 75 }}>
                     </div>
 
                     </div>
 
                     <div>
-                        <label style={{ marginLeft: 40, color: 'red', fontWeight: 'bold' }}>투자 금액</label>
-                        <div className="form-group" style={{ display: 'flex', width: 180, marginLeft: 30 }}>
-                            <input style={{ borderColor: "red" }} style={{ width: 400 }} className="form-control" />
+                        <label style={{ position: 'relative', right: 500, color: 'red', fontWeight: 'bold' }}>잔고</label>
+                        <div className="form-group" style={{ display: 'flex', width: 250}}>
+                        <div class="btn btn-outline-secondary" style={{ width: 250 }}>
+                                    {23650319627}
+                                    {/* {this.props.balance} */}
+                                </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label style={{ position: 'relative', right: 500, color: 'red', fontWeight: 'bold' }}>투자 금액</label>
+                        <div className="form-group" style={{ display: 'flex', width: 250}}>
+                            <input placeholder="금액 입력" style={{ borderColor: "red" }} style={{ width: 400 }} className="form-control" />
                             <div style={{ marginTop: 5 }}>
                                 원
+                            </div>
                         </div>
-                        </div>
-
                     </div>
+
+
                     <p className="forgot-password text-right">
                         <a href="#"> 약관 확인</a>
                     </p>
